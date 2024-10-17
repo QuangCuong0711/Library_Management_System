@@ -27,15 +27,6 @@ public class Ticket {
         this.quantity = quantity;
     }
 
-    public Ticket(String ticketID, String documentID, String userID, LocalDate borrowedDate, int quantity) {
-        this.ticketID = ticketID;
-        this.documentID = documentID;
-        this.userID = userID;
-        this.borrowedDate = borrowedDate;
-        this.returnedDate = null;
-        this.quantity = quantity;
-    }
-
     public String getTicketID() {
         return ticketID;
     }

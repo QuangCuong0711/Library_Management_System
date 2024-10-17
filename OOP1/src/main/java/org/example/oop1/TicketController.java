@@ -64,11 +64,11 @@ public class TicketController extends MenuController implements Initializable {
         ticketsList = FXCollections.observableArrayList(
                 new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),1), // 20/10/2005
                 new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),3), // 21/10/2005
-                new Ticket(("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),2)  // 10/05/2010
+                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),2)  // 10/05/2010
         );
-        idticket.setCellValueFactory(new PropertyValueFactory<>("id"));
-        userId.setCellValueFactory(new PropertyValueFactory<>("userId"));
-        documentId.setCellValueFactory(new PropertyValueFactory<>("documentId"));
+        idticket.setCellValueFactory(new PropertyValueFactory<>("ticketID"));
+        userId.setCellValueFactory(new PropertyValueFactory<>("userID"));
+        documentId.setCellValueFactory(new PropertyValueFactory<>("documentID"));
         borrowedDate.setCellValueFactory(new PropertyValueFactory<>("borrowedDate"));
         returnedDate.setCellValueFactory(new PropertyValueFactory<>("returnedDate"));
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));

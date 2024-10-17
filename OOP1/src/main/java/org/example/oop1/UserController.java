@@ -67,6 +67,7 @@ public class UserController extends MenuController implements Initializable {
 
     private ObservableList<User> userList;
 
+    // Cài đặt thuộc tính vào TableView
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userList = FXCollections.observableArrayList(
@@ -83,6 +84,7 @@ public class UserController extends MenuController implements Initializable {
         table.setItems(userList);
     }
 
+    //Thêm thông tin
     public void add (ActionEvent event) {
         if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || addressTextField.getText().isEmpty()|| phoneTextField.getText().isEmpty()|| dateTextField.getText().isEmpty()|| genderTextField.getText().isEmpty()|| phoneTextField.getText().isEmpty() ){
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -104,7 +106,6 @@ public class UserController extends MenuController implements Initializable {
         }
 
     }
-
 
 
     public void delete(ActionEvent event) {

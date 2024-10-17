@@ -12,6 +12,7 @@ public class WelcomeApplication extends Application {
         launch(args);
     }
 
+    // Chạy chương trình
     @Override
     public void start(Stage primaryStage) {
         try{

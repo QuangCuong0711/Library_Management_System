@@ -28,8 +28,9 @@ public class WelcomeController {
     private TextField password;
 
 
-
+    // Màn hình đăng nhập
     public void Login (ActionEvent event) {
+        // Check nhập đầy đủ thông tin hay chưa
         if(username.getText().isEmpty() || password.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -38,6 +39,8 @@ public class WelcomeController {
             alert.showAndWait();
         }
         else {
+            // Đăng nhập thành công
+            // Cải tiến sẽ đọc dữ liệu tài khoản từ file ngoài xem có đúng tk ko
             try {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Đăng nhập");
