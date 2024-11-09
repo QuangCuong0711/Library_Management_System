@@ -10,6 +10,8 @@ module sourceCode {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.net.http;
+    requires com.google.gson;
 
     opens sourceCode to javafx.fxml;
     exports sourceCode;
