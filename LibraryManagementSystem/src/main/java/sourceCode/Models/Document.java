@@ -4,61 +4,49 @@ import java.time.LocalDate;
 
 public class Document {
 
-    private String id;
-    private String imageUrl;
+    private String ISBN;
     private String title;
-    private String authors;
-    private int quantity;
-    private String location;
+    private String author;
+    private String genre;
+    private String publisher;
     private LocalDate publicationDate;
-    private double price;
-
-    public Document(String id, String title, int quantity, double price) {
-        this.id = id;
-        this.title = title;
-        this.quantity = quantity;
-        this.imageUrl = "";
-        this.location = "";
-        this.authors = "";
-        this.price = price;
-    }
+    private String language;
+    private int pageNumber;
+    private String imageUrl;
+    private String description;
 
     public Document() {
-        this.id = "";
-        this.imageUrl = "";
-        this.title = "";
-        this.quantity = 0;
-        this.location = "";
-        this.authors = "";
-        this.price = 0;
+        ISBN = "";
+        title = "";
+        author = "";
+        genre = "";
+        publisher = "";
+        publicationDate = LocalDate.of(2000, 1, 1);
+        language = "";
+        pageNumber = 0;
+        imageUrl = "";
     }
 
-    public Document(String id, String title, int quantity, String location, String author,
-            double price, LocalDate publicationDate) {
-        this.id = id;
+    public Document(String ISBN, String title, String author, String genre, String publisher,
+            LocalDate publicationDate, String language, int pageNumber, String imageUrl, String description) {
+        this.ISBN = ISBN;
         this.title = title;
-        this.quantity = quantity;
-        this.location = location;
-        this.authors = author;
-        this.price = price;
-        this.imageUrl = "";
+        this.author = author;
+        this.genre = genre;
+        this.publisher = publisher;
         this.publicationDate = publicationDate;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
+        this.language = language;
+        this.pageNumber = pageNumber;
         this.imageUrl = imageUrl;
+        this.description = description;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
 
     public String getTitle() {
@@ -69,28 +57,28 @@ public class Document {
         this.title = title;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getLocation() {
-        return location;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
-    public String getAuthors() {
-        return authors;
+    public String getPublisher() {
+        return publisher;
     }
 
-    public void setAuthors(String author) {
-        this.authors = author;
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public LocalDate getPublicationDate() {
@@ -101,11 +89,35 @@ public class Document {
         this.publicationDate = publicationDate;
     }
 
-    public double getPrice() {
-        return price;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public int getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(int pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -12,6 +12,7 @@ module sourceCode {
     requires com.almasb.fxgl.all;
     requires java.net.http;
     requires com.google.gson;
+    requires java.desktop;
 
     opens sourceCode to javafx.fxml;
     exports sourceCode;

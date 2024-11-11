@@ -1,89 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.input.KeyCodeCombination?>
-<?import javafx.scene.image.Image?>
-<AnchorPane fx:id="ap" prefHeight="466.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.UserController">
-    <children>
-        <TableView fx:id="table" layoutY="251.0" prefHeight="214.0" prefWidth="601.0">
-            <columns>
-                <TableColumn fx:id="id" minWidth="7.33331298828125" prefWidth="51.333343505859375" text="Id" />
-                <TableColumn fx:id="name" prefWidth="122.66665649414062" text="Name" />
-                <TableColumn fx:id="date" minWidth="0.0" prefWidth="70.66668701171875" text="Date" />
-                <TableColumn fx:id="address" prefWidth="90.6666259765625" text="Adress" />
-                <TableColumn fx:id="gender" prefWidth="54.66668701171875" text="Gender" />
-                <TableColumn fx:id="phone" prefWidth="92.0" text="Phone" />
-                <TableColumn fx:id="CCCD" prefWidth="114.66668701171875" text="CCCD" />
-            </columns>
-        </TableView>
-        <Label layoutX="16.0" layoutY="54.0" text="ID" />
-        <Label layoutX="6.0" layoutY="90.0" text="Name" />
-        <Label layoutX="9.0" layoutY="130.0" text="Date" />
-        <Label layoutX="4.0" layoutY="167.0" text="Adress" />
-        <Label layoutX="346.0" layoutY="54.0" text="Gender" />
-        <Label layoutX="345.0" layoutY="90.0" text="Phone" />
-        <Label layoutX="346.0" layoutY="130.0" text="CCCD" />
-        <TextField fx:id="idTextField" layoutX="46.0" layoutY="50.0" />
-        <TextField fx:id="nameTextField" layoutX="46.0" layoutY="86.0" />
-        <TextField fx:id="dateTextField" layoutX="46.0" layoutY="126.0" />
-        <TextField fx:id="addressTextField" layoutX="46.0" layoutY="163.0" />
-        <TextField fx:id="genderTextField" layoutX="394.0" layoutY="50.0" />
-        <TextField fx:id="phoneTextField" layoutX="394.0" layoutY="86.0" />
-        <TextField fx:id="CCCDTextField" layoutX="394.0" layoutY="126.0" />
-        <Button layoutX="83.0" layoutY="209.0" mnemonicParsing="false" onAction="#add" text="Add" />
-        <Button layoutX="336.0" layoutY="209.0" mnemonicParsing="false" onAction="#delete" text="Cancel" />
-      <Button layoutX="208.0" layoutY="209.0" mnemonicParsing="false" onAction="#edit" text="Edit" />
-      <Button layoutX="475.0" layoutY="209.0" mnemonicParsing="false" onAction="#display" text="Display" />
-        <MenuBar layoutX="24.0" layoutY="1.0" prefHeight="25.0" prefWidth="575.0">
-            <menus>
-                <Menu mnemonicParsing="false" text="Quản lí sách">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#Documentmanagement" text="Quản lí">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                    </items></Menu>
-                <Menu mnemonicParsing="false" text="Quản lí độc giả">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#Readermanagement" text="Quản lí">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="B" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                    </items></Menu>
-                <Menu mnemonicParsing="false" text="Quản lí trả mượn">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#Ticketmanagement" text="Quản lí">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                    </items></Menu>
-                <Menu mnemonicParsing="false" text="Thoát">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#exit" text="Thoát">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                    </items></Menu>
-            </menus>
-        </MenuBar>
-        <ImageView fitHeight="25.0" fitWidth="39.0" layoutX="2.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../../../../../../../../QuangCuong/Downloads/310703790_3265465857040692_4426367069833760132_n.jpg" />
-            </image>
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/Menu.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.UserController">
+  <children>
+    <Pane prefHeight="800.0" prefWidth="252.0" style="-fx-background-color: #8282cd; -fx-background-radius: 0 50 50 0;">
+      <children>
+        <Button fx:id="menu" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="200.0" mnemonicParsing="false" onAction="#switchMenu" prefHeight="45.0" prefWidth="226.0" stylesheets="@css/Menu.css" text="Menu">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button fx:id="document" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="270.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" text="Document">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button fx:id="user" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="340.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" text="User">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button alignment="BASELINE_LEFT" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" text="Help">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button alignment="BASELINE_LEFT" layoutX="25.0" layoutY="480.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" text="Setting">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button fx:id="ticket" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="410.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" stylesheets="@css/Menu.css" text="Ticket">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <ImageView fitHeight="158.0" fitWidth="179.0" layoutX="42.0" layoutY="642.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="@image/2.png" />
+          </image>
         </ImageView>
-    </children>
+        <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="693.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="57.0" style="-fx-background-color: transparent;">
+          <font>
+            <Font name="DankMono-Regular" size="28.0" />
+          </font>
+        </Button>
+        <Label layoutX="25.0" layoutY="59.0" text="Lifebrary">
+          <font>
+            <Font name="Bernard MT Condensed" size="58.0" />
+          </font>
+          <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+              <stops>
+                <Stop>
+                  <color>
+                    <Color red="1.0" green="1.0" blue="1.0" />
+                  </color>
+                </Stop>
+                <Stop offset="1.0">
+                  <color>
+                    <Color red="1.0" green="1.0" blue="1.0" />
+                  </color>
+                </Stop>
+              </stops>
+            </LinearGradient>
+          </textFill>
+          <effect>
+            <Glow level="0.57" />
+          </effect>
+        </Label>
+      </children>
+      <effect>
+        <DropShadow radius="18.060000000000002" width="53.24">
+          <color>
+            <Color red="0.4992266595363617" green="0.426800012588501" blue="0.9700000286102295" />
+          </color>
+        </DropShadow>
+      </effect>
+    </Pane>
+      <TextField layoutX="301.0" layoutY="81.0" prefHeight="38.0" prefWidth="663.0" promptText="Search by" style="-fx-background-color: pink; -fx-background-radius: 10;">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </TextField>
+      <ChoiceBox layoutX="980.0" layoutY="81.0" prefHeight="38.0" prefWidth="195.0" style="-fx-background-color: pink; -fx-background-radius: 10;" />
+      <TableView layoutX="301.0" layoutY="143.0" prefHeight="610.0" prefWidth="582.0">
+        <columns>
+          <TableColumn prefWidth="47.0" text="ID" />
+          <TableColumn minWidth="0.0" prefWidth="77.0" text="Name" />
+            <TableColumn prefWidth="68.0" text="Age" />
+            <TableColumn prefWidth="69.0" text="Gender" />
+            <TableColumn prefWidth="125.0" text="PhoneNumber" />
+            <TableColumn prefWidth="110.0" text="IndentityCard" />
+            <TableColumn prefWidth="85.0" text="Address" />
+        </columns>
+      </TableView>
+      <TitledPane animated="false" layoutX="903.0" layoutY="143.0" prefHeight="415.0" prefWidth="269.0" style="-fx-background-radius: 30;" text="Add User">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="340.0" prefWidth="267.0" style="-fx-background-radius: 30;">
+               <children>
+                  <Label layoutX="26.0" layoutY="43.0" />
+                  <TextField layoutX="8.0" layoutY="17.0" prefHeight="48.0" prefWidth="252.0" promptText="Name" />
+                  <TextField layoutX="8.0" layoutY="77.0" prefHeight="38.0" prefWidth="252.0" promptText="PhoneNumber" />
+                  <TextField layoutX="8.0" layoutY="131.0" prefHeight="48.0" prefWidth="252.0" promptText="IndentityNumber" />
+                  <DatePicker layoutX="8.0" layoutY="195.0" prefHeight="25.0" prefWidth="186.0" promptText="Birthday" />
+                  <ChoiceBox layoutX="203.0" layoutY="195.0" prefHeight="25.0" prefWidth="57.0" />
+                  <TextField layoutX="8.0" layoutY="243.0" prefHeight="56.0" prefWidth="252.0" promptText="Address" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="319.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="243.0" stylesheets="@css/Button.css" text="ADD USER" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="903.0" layoutY="574.0" prefHeight="179.0" prefWidth="269.0" style="-fx-background-radius: 30;" text="Remove User">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="161.0" prefWidth="267.0" style="-fx-background-radius: 30;">
+               <children>
+                  <Label layoutX="26.0" layoutY="43.0" />
+                  <TextField layoutX="8.0" layoutY="27.0" prefHeight="38.0" prefWidth="252.0" promptText="UserID" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="86.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="243.0" stylesheets="@css/Button.css" text="REMOVE USER" textAlignment="CENTER" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+  </children>
 </AnchorPane>

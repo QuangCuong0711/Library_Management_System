@@ -1,0 +1,31 @@
+.button {
+    -fx-text-fill: #5D18DCFF;
+    -fx-padding: 17px 40px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-background-color: white;
+    -fx-box-shadow: rgb(0, 0, 0) 0 0 8px;
+    -fx-letter-spacing: 2px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-transition: all 2s ease;
+    -fx-font-family: "Cambria Math";
+}
+
+.button:hover {
+    -fx-transition: all 3s ease;
+    -fx-letter-spacing: 3px;
+    -fx-background-color: #5D18DCFF;
+    -fx-text-fill: white;
+    -fx-box-shadow: #5D18DC7F 0px 7px 29px 0px;
+}
+
+.button:pressed {
+    -fx-letter-spacing: 3px;
+    -fx-background-color: #5D18DCFF;
+    -fx-text-fill: white;
+    -fx-box-shadow: #5D18DC7F 0px 0px 0px 0px;
+    -fx-translate-y: 3px;
+    -fx-transition: 1s ease;
+}

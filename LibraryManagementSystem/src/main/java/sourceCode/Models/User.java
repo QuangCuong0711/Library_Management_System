@@ -6,11 +6,11 @@ public class User {
 
     private String id;
 
-    private String date;
+    private String birthDate;
 
     private String phoneNumber;
 
-    private String CCCD;
+    private String indentityCard;
 
     private String address;
 
@@ -19,32 +19,32 @@ public class User {
     public User() {
         name = "";
         id = "";
-        date = "";
+        birthDate = "";
         phoneNumber = "";
-        CCCD = "";
+        indentityCard = "";
         address = "";
         gender = "";
     }
 
-    public User(String name, String id, String date, String phoneNumber, String CCCD,
+    public User(String name, String id, String birthDate, String phoneNumber, String indentityCard,
             String address, String gender) {
         this.name = name;
         this.id = id;
-        this.date = date;
         this.phoneNumber = phoneNumber;
-        this.CCCD = CCCD;
+        this.indentityCard = indentityCard;
         this.address = address;
         this.gender = gender;
+        this.birthDate = birthDate;
     }
 
-    User(User s) {
-        this.name = s.name;
-        this.id = s.id;
-        this.date = s.date;
-        this.phoneNumber = s.phoneNumber;
-        this.CCCD = s.CCCD;
-        this.address = s.address;
-        this.gender = s.gender;
+    User(User other) {
+        this.name = other.name;
+        this.id = other.id;
+        this.birthDate = other.birthDate;
+        this.phoneNumber = other.phoneNumber;
+        this.indentityCard = other.indentityCard;
+        this.address = other.address;
+        this.gender = other.gender;
     }
 
     public String getName() {
@@ -63,12 +63,12 @@ public class User {
         this.id = id;
     }
 
-    public String getDate() {
-        return date;
+    public String getbirthDate() {
+        return birthDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setbirthDate(String date) {
+        this.birthDate = date;
     }
 
     public String getPhoneNumber() {
@@ -79,12 +79,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getCCCD() {
-        return CCCD;
+    public String getindentityCard() {
+        return indentityCard;
     }
 
-    public void setCCCD(String CCCD) {
-        this.CCCD = CCCD;
+    public void setindentityCard(String indentityCard) {
+        this.indentityCard = indentityCard;
     }
 
     public String getGender() {

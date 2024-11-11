@@ -14,19 +14,21 @@ import java.nio.charset.StandardCharsets;
 
 public class GoogleBooksService {
 
-    private static final String API_KEY = "AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE";
-    // Đây là key api của bạn mọi người xem nếu không chạy được thì thay api key của mình vào - Quang Cuong
     private static final String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
+    private static final String API_KEY = "AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg";
+    // Quang Cuong : AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE
+    // Thanh Hai : AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg
+    // Manh Hung :
 
-    // Hàm này để tìm kiếm sách theo API của Google Books
+    /**
+     * Search books by query and return a JsonArray with Google Books API.
+     */
     public JsonArray searchBooks(String query) throws IOException, InterruptedException {
         try {
-            String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
+            String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
             String url = BASE_URL + "?q=" + encodedQuery + "&key=" + API_KEY;
-
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
-
             HttpResponse<String> response = client.send(request,
                     HttpResponse.BodyHandlers.ofString());
 
@@ -38,8 +40,7 @@ public class GoogleBooksService {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new IOException("Lỗi URL hoặc gửi yêu cầu", e);
+            throw new IOException("URL errors or can't send request", e);
         }
     }
-
 }

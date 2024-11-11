@@ -1,5 +1,6 @@
 package sourceCode.Controllers;
 
+import java.util.Objects;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,6 +22,8 @@ public class WelcomeController {
     private PasswordField password;
     @FXML
     private Label alert;
+    @FXML
+    private Button loginButton;
 
     public void Login(ActionEvent event) {
         if (!username.getText().equals("admin") || !password.getText().equals("admin")) {
@@ -36,9 +39,13 @@ public class WelcomeController {
             pause.setOnFinished(e -> {
                 try {
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    Parent root = FXMLLoader.load(getClass().getResource("/sourceCode/Menu.fxml"));
+                    Parent root = FXMLLoader.load(Objects.requireNonNull(
+                            getClass().getResource("/sourceCode/Menu.fxml")));
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
+                    stage.setTitle("Library Management System");
+                    stage.setResizable(false);
+                    stage.centerOnScreen();
                     stage.show();
                 } catch (IOException ex) {
                     ex.printStackTrace();

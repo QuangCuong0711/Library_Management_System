@@ -1,0 +1,16 @@
+/* Định dạng chung cho các button */
+.button {
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-background-radius: 0;
+    -fx-text-fill: #000000;
+    -fx-alignment: BASELINE_LEFT;
+    -fx-font-size: 28px;
+    -fx-font-family: "Dank Mono", "Courier New", monospace;
+    -fx-font-weight: bold;
+}
+
+/* Hiệu ứng phát sáng khi di chuyển chuột qua */
+.button:hover {
+    -fx-text-fill: white; /* Màu chữ trắng khi di chuyển chuột qua */
+    -fx-font-size: 30px;
+}
