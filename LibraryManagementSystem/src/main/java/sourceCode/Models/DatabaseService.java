@@ -3,6 +3,7 @@ package sourceCode.Models;
 import java.sql.*;
 
 public class DatabaseService {
+
     private static final String DB_URL = "jdbc:mysql://localhost:3306/library_db";
     // Điền tên và mật khẩu của database của máy
     private static final String USER = "";
@@ -18,7 +19,7 @@ public class DatabaseService {
         String sql = "INSERT INTO books (id, imageUrl, title, authors, quantity, location, publicationDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, newBook.getId());
             pstmt.setString(2, newBook.getImageUrl());

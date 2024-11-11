@@ -15,49 +15,49 @@ import java.util.ResourceBundle;
 public class UserController extends MenuController implements Initializable {
 
     @FXML
-    private TableView<User> table ;
+    private TableView<User> table;
 
     @FXML
     private TableColumn<User, String> id;
 
     @FXML
-    private TableColumn<User, String> name ;
+    private TableColumn<User, String> name;
 
     @FXML
-    private TableColumn<User, String> address ;
+    private TableColumn<User, String> address;
 
     @FXML
-    private TableColumn<User, String> phone ;
+    private TableColumn<User, String> phone;
 
     @FXML
-    private TableColumn<User, String> date ;
+    private TableColumn<User, String> date;
 
     @FXML
-    private TableColumn<User, String> gender ;
+    private TableColumn<User, String> gender;
 
     @FXML
-    private TableColumn<User, String> CCCD ;
+    private TableColumn<User, String> CCCD;
 
     @FXML
-    private TextField idTextField ;
+    private TextField idTextField;
 
     @FXML
-    private TextField nameTextField ;
+    private TextField nameTextField;
 
     @FXML
-    private TextField addressTextField ;
+    private TextField addressTextField;
 
     @FXML
-    private TextField phoneTextField ;
+    private TextField phoneTextField;
 
     @FXML
-    private TextField dateTextField ;
+    private TextField dateTextField;
 
     @FXML
-    private TextField genderTextField ;
+    private TextField genderTextField;
 
     @FXML
-    private TextField CCCDTextField ;
+    private TextField CCCDTextField;
 
     private ObservableList<User> userList;
 
@@ -65,8 +65,9 @@ public class UserController extends MenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userList = FXCollections.observableArrayList(
-                new User("Cuong", "23021484", "07/11/2005", "0357989017", "026205007140", "Tân Phong", "Nam"),
-                new User("Hung","23021567","","","","","")
+                new User("Cuong", "23021484", "07/11/2005", "0357989017", "026205007140",
+                        "Tân Phong", "Nam"),
+                new User("Hung", "23021567", "", "", "", "", "")
         );
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -79,14 +80,16 @@ public class UserController extends MenuController implements Initializable {
     }
 
     //Thêm thông tin
-    public void add (ActionEvent event) {
-        if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || addressTextField.getText().isEmpty()|| phoneTextField.getText().isEmpty()|| dateTextField.getText().isEmpty()|| genderTextField.getText().isEmpty()|| phoneTextField.getText().isEmpty() ){
+    public void add(ActionEvent event) {
+        if (idTextField.getText().isEmpty() || nameTextField.getText().isEmpty()
+                || addressTextField.getText().isEmpty() || phoneTextField.getText().isEmpty()
+                || dateTextField.getText().isEmpty() || genderTextField.getText().isEmpty()
+                || phoneTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("Please fill all the fields");
             alert.showAndWait();
-            return;
         } else {
             User user = new User();
             user.setId(idTextField.getText());

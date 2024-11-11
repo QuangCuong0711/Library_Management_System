@@ -61,9 +61,12 @@ public class TicketController extends MenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ticketsList = FXCollections.observableArrayList(
-                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),1), // 20/10/2005
-                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),3), // 21/10/2005
-                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21),LocalDate.of(2005, 10, 22),2)  // 10/05/2010
+                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21), LocalDate.of(2005, 10, 22),
+                        1), // 20/10/2005
+                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21), LocalDate.of(2005, 10, 22),
+                        3), // 21/10/2005
+                new Ticket("A1", "B2", "C3", LocalDate.of(2005, 10, 21), LocalDate.of(2005, 10, 22),
+                        2)  // 10/05/2010
         );
         idticket.setCellValueFactory(new PropertyValueFactory<>("ticketID"));
         userId.setCellValueFactory(new PropertyValueFactory<>("userID"));
@@ -74,8 +77,11 @@ public class TicketController extends MenuController implements Initializable {
         table.setItems(ticketsList);
     }
 
-    public void borrowed (ActionEvent event) {
-        if (idTicketTextField.getText().isEmpty() || userIdTextField.getText().isEmpty() || quantityTextField.getText().isEmpty()|| documentIdTextField.getText().isEmpty()|| borrowedDate.getText().isEmpty() || returnedDate.getText().isEmpty() || quantity.getText().isEmpty()  ) {
+    public void borrowed(ActionEvent event) {
+        if (idTicketTextField.getText().isEmpty() || userIdTextField.getText().isEmpty()
+                || quantityTextField.getText().isEmpty() || documentIdTextField.getText().isEmpty()
+                || borrowedDate.getText().isEmpty() || returnedDate.getText().isEmpty()
+                || quantity.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);

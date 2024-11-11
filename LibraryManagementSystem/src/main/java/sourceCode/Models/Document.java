@@ -13,7 +13,7 @@ public class Document {
     private LocalDate publicationDate;
     private double price;
 
-    public Document(String id,String title, int quantity , double price) {
+    public Document(String id, String title, int quantity, double price) {
         this.id = id;
         this.title = title;
         this.quantity = quantity;
@@ -21,6 +21,28 @@ public class Document {
         this.location = "";
         this.authors = "";
         this.price = price;
+    }
+
+    public Document() {
+        this.id = "";
+        this.imageUrl = "";
+        this.title = "";
+        this.quantity = 0;
+        this.location = "";
+        this.authors = "";
+        this.price = 0;
+    }
+
+    public Document(String id, String title, int quantity, String location, String author,
+            double price, LocalDate publicationDate) {
+        this.id = id;
+        this.title = title;
+        this.quantity = quantity;
+        this.location = location;
+        this.authors = author;
+        this.price = price;
+        this.imageUrl = "";
+        this.publicationDate = publicationDate;
     }
 
     public String getId() {
@@ -63,22 +85,12 @@ public class Document {
         this.location = location;
     }
 
-    public void setAuthors (String author) {
-        this.authors = author;
-    }
-
     public String getAuthors() {
         return authors;
     }
 
-    public Document() {
-        this.id = "";
-        this.imageUrl = "";
-        this.title = "";
-        this.quantity = 0;
-        this.location = "";
-        this.authors = "";
-        this.price = 0;
+    public void setAuthors(String author) {
+        this.authors = author;
     }
 
     public LocalDate getPublicationDate() {
@@ -95,16 +107,5 @@ public class Document {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public Document(String id, String title, int quantity, String location, String author, double price, LocalDate publicationDate) {
-        this.id = id;
-        this.title = title;
-        this.quantity = quantity;
-        this.location = location;
-        this.authors = author;
-        this.price = price;
-        this.imageUrl = "";
-        this.publicationDate = publicationDate;
     }
 }

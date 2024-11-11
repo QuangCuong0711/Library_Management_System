@@ -3,6 +3,7 @@ package sourceCode.Models;
 import java.time.LocalDate;
 
 public class Ticket {
+
     private String ticketID;
     private String documentID;
     private String userID;
@@ -18,7 +19,9 @@ public class Ticket {
         this.returnedDate = null;
         this.quantity = 0;
     }
-    public Ticket(String ticketID, String documentID, String userID, LocalDate borrowedDate, LocalDate returnedDate, int quantity) {
+
+    public Ticket(String ticketID, String documentID, String userID, LocalDate borrowedDate,
+            LocalDate returnedDate, int quantity) {
         this.ticketID = ticketID;
         this.documentID = documentID;
         this.userID = userID;

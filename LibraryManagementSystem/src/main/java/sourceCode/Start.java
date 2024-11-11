@@ -13,7 +13,7 @@ public class Start extends Application {
         launch(args);
     }
 
-    // Chạy chương trình
+    // This method is called when the application is started
     @Override
     public void start(Stage primaryStage) {
 //        LibraryManager libraryManager = new LibraryManager();
@@ -21,6 +21,7 @@ public class Start extends Application {
 //        libraryManager.addBooksToLibrary(query);
 //        primaryStage.close();
         try {
+            // Load the Welcome.fxml file
             Parent root = FXMLLoader.load(this.getClass().getResource("Welcome.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
