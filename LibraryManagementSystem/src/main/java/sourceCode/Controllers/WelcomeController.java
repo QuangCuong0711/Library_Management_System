@@ -25,15 +25,15 @@ public class WelcomeController {
     @FXML
     private Button loginButton;
 
-    public void Login(ActionEvent event) {
+    public void login(ActionEvent event) {
         if (!username.getText().equals("admin") || !password.getText().equals("admin")) {
             // Checking if the username and password are correct
             alert.setText("Password or username is incorrect");
             alert.setStyle("-fx-text-fill: red");
             password.setText("");
         } else {
-            // Login successful
-            alert.setText("Login successful");
+            // login successful
+            alert.setText("login successful");
             alert.setStyle("-fx-text-fill: green");
             PauseTransition pause = new PauseTransition(Duration.millis(500));
             pause.setOnFinished(e -> {

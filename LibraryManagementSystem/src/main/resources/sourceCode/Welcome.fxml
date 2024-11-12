@@ -52,7 +52,7 @@
       </Label>
       <TextField fx:id="username" layoutX="77.0" layoutY="218.0" prefHeight="46.0" prefWidth="246.0" promptText="Username" style="-fx-background-radius: 10;" />
       <PasswordField fx:id="password" layoutX="77.0" layoutY="280.0" prefHeight="46.0" prefWidth="246.0" promptText="Password" style="-fx-background-radius: 10;" />
-      <Button fx:id="loginButton" contentDisplay="CENTER" layoutX="115.0" layoutY="369.0" mnemonicParsing="false" onAction="#Login" prefHeight="55.0" prefWidth="171.0" stylesheets="@css/Button.css" text="LOG IN" textAlignment="CENTER" textFill="#f2f2f2">
+      <Button fx:id="loginButton" contentDisplay="CENTER" layoutX="115.0" layoutY="369.0" mnemonicParsing="false" onAction="#login" prefHeight="55.0" prefWidth="171.0" stylesheets="@css/Button.css" text="LOG IN" textAlignment="CENTER" textFill="#f2f2f2">
          <font>
             <Font name="Cambria Math" size="17.0" />
          </font></Button>

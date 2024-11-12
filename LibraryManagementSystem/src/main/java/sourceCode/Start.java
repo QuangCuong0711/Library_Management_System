@@ -21,7 +21,7 @@ public class Start extends Application {
         try {
             // Load the Welcome.fxml file
             Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(this.getClass().getResource("Menu.fxml")));
+                    Objects.requireNonNull(this.getClass().getResource("Welcome.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Library Management System");
