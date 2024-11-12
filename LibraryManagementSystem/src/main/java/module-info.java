@@ -13,6 +13,7 @@ module sourceCode {
     requires java.net.http;
     requires com.google.gson;
     requires java.desktop;
+    requires commons.logging;
 
     opens sourceCode to javafx.fxml;
     exports sourceCode;

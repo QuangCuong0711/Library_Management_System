@@ -1,7 +1,5 @@
 package sourceCode.Models;
 
-import java.time.LocalDate;
-
 public class Document {
 
     private String ISBN;
@@ -9,7 +7,7 @@ public class Document {
     private String author;
     private String genre;
     private String publisher;
-    private LocalDate publicationDate;
+    private String publicationDate;
     private String language;
     private int pageNumber;
     private String imageUrl;
@@ -21,14 +19,15 @@ public class Document {
         author = "";
         genre = "";
         publisher = "";
-        publicationDate = LocalDate.of(2000, 1, 1);
+        publicationDate = "";
         language = "";
         pageNumber = 0;
         imageUrl = "";
     }
 
     public Document(String ISBN, String title, String author, String genre, String publisher,
-            LocalDate publicationDate, String language, int pageNumber, String imageUrl, String description) {
+            String publicationDate, String language, int pageNumber, String imageUrl,
+            String description) {
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
@@ -81,11 +80,11 @@ public class Document {
         this.publisher = publisher;
     }
 
-    public LocalDate getPublicationDate() {
+    public String getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(LocalDate publicationDate) {
+    public void setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
     }
 

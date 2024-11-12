@@ -63,11 +63,11 @@ public class User {
         this.id = id;
     }
 
-    public String getbirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setbirthDate(String date) {
+    public void setBirthDate(String date) {
         this.birthDate = date;
     }
 
@@ -79,11 +79,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getindentityCard() {
+    public String getIndentityCard() {
         return indentityCard;
     }
 
-    public void setindentityCard(String indentityCard) {
+    public void setIndentityCard(String indentityCard) {
         this.indentityCard = indentityCard;
     }
 

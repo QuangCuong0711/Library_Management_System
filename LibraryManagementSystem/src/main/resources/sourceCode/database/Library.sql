@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Book (
     author VARCHAR(255) NOT NULL,
     genre VARCHAR(100),
     publisher VARCHAR(255),
-    publicationDate DATE,
+    publicationDate VARCHAR(20),
     language VARCHAR(50),
     pageNumber INT,
     imageUrl VARCHAR(255),
@@ -21,3 +21,5 @@ CREATE TABLE IF NOT EXISTS User (
     address VARCHAR(255),
     gender VARCHAR(10)
 );
+DROP TABLE IF EXISTS BOOK;
+DROP TABLE IF EXISTS USER;
