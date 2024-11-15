@@ -4,47 +4,71 @@ public class User {
 
     private String name;
 
-    private String id;
+    private String userId;
 
-    private String birthDate;
+    private String identityNumber;
 
-    private String phoneNumber;
-
-    private String indentityCard;
-
-    private String address;
+    private String birth;
 
     private String gender;
 
+    private String phoneNumber;
+
+    private String email;
+
+    private String address;
+
+
     public User() {
         name = "";
-        id = "";
-        birthDate = "";
+        userId = "";
+        birth = "";
         phoneNumber = "";
-        indentityCard = "";
+        identityNumber = "";
         address = "";
         gender = "";
     }
 
-    public User(String name, String id, String birthDate, String phoneNumber, String indentityCard,
+    public User(String name, String userId, String birth, String phoneNumber, String identityNumber,
             String address, String gender) {
         this.name = name;
-        this.id = id;
+        this.userId = userId;
         this.phoneNumber = phoneNumber;
-        this.indentityCard = indentityCard;
+        this.identityNumber = identityNumber;
         this.address = address;
         this.gender = gender;
-        this.birthDate = birthDate;
+        this.birth = birth;
     }
 
-    User(User other) {
+    public User(User other) {
         this.name = other.name;
-        this.id = other.id;
-        this.birthDate = other.birthDate;
+        this.userId = other.userId;
+        this.birth = other.birth;
         this.phoneNumber = other.phoneNumber;
-        this.indentityCard = other.indentityCard;
+        this.identityNumber = other.identityNumber;
         this.address = other.address;
         this.gender = other.gender;
+        this.email = other.email;
+    }
+
+    public User(String name, String userId, String identityNumber, String birth, Object o1, Object o2,
+            Object o3, Object o4) {
+        this.name = name;
+        this.userId = userId;
+        this.identityNumber = identityNumber;
+        this.birth = birth;
+        o1 = null;
+        o2 = null;
+        o3 = null;
+        o4 = null;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -55,20 +79,20 @@ public class User {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getBirth() {
+        return birth;
     }
 
-    public void setBirthDate(String date) {
-        this.birthDate = date;
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
     public String getPhoneNumber() {
@@ -79,12 +103,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getIndentityCard() {
-        return indentityCard;
+    public String getIdentityNumber() {
+        return identityNumber;
     }
 
-    public void setIndentityCard(String indentityCard) {
-        this.indentityCard = indentityCard;
+    public void setIdentityNumber(String identityNumber) {
+        this.identityNumber = identityNumber;
     }
 
     public String getGender() {

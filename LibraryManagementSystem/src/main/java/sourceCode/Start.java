@@ -19,11 +19,9 @@ public class Start extends Application {
 
     @Override
     public void start(Stage primaryStage) throws SQLException {
-        Management management = new Management();
-        management.searchBook("cpp");
         try {
             Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(this.getClass().getResource("Welcome.fxml")));
+                    Objects.requireNonNull(this.getClass().getResource("User.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Library Management System");

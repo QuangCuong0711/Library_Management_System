@@ -17,24 +17,24 @@ import javafx.util.Duration;
 public class WelcomeController {
 
     @FXML
-    private TextField username;
+    private TextField usernameField;
     @FXML
-    private PasswordField password;
+    private PasswordField passwordField;
     @FXML
-    private Label alert;
+    private Label alertLabel;
     @FXML
     private Button loginButton;
 
     public void login(ActionEvent event) {
-        if (!username.getText().equals("admin") || !password.getText().equals("admin")) {
-            // Checking if the username and password are correct
-            alert.setText("Password or username is incorrect");
-            alert.setStyle("-fx-text-fill: red");
-            password.setText("");
+        if (!usernameField.getText().equals("admin") || !passwordField.getText().equals("admin")) {
+            // Checking if the usernameField and passwordField are correct
+            alertLabel.setText("Password or usernameField is incorrect");
+            alertLabel.setStyle("-fx-text-fill: #d39090");
+            passwordField.setText("");
         } else {
             // login successful
-            alert.setText("login successful");
-            alert.setStyle("-fx-text-fill: green");
+            alertLabel.setText("Login successful");
+            alertLabel.setStyle("-fx-text-fill: #9be3a2");
             PauseTransition pause = new PauseTransition(Duration.millis(500));
             pause.setOnFinished(e -> {
                 try {

@@ -1,0 +1,150 @@
+.button {
+    -fx-background-color: WHITE;
+    -fx-text-fill: #424874;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-font-size: 28px;
+    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
+    -fx-font-weight: bold;
+    -fx-background-radius: 15px;
+}
+
+.button:hover {
+    -fx-text-fill: WHITE;
+    -fx-background-color: #424874;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+.button:pressed {
+    -fx-background-color: #424874;
+    -fx-text-fill: WHITE;
+    -fx-translate-y: 3px;
+}
+
+#currentButton {
+    -fx-text-fill: WHITE;
+    -fx-background-color: #424874;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+#showUserButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 20 0 0 0;
+    -fx-background-radius: 20 0 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
+}
+
+#editUserButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
+}
+
+#removeUserButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 0 20 0 0;
+    -fx-background-radius: 0 20 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
+}
+
+#searchBar {
+    -fx-background-color: #a6b1e1;
+    -fx-background-radius: 10 0 0 0;
+    -fx-border-color: #424874;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 10 0 0 0;
+    -fx-prompt-text-fill: #424874;
+    -fx-font-size: 20px;
+    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10px;
+    -fx-background-insets: 0;
+    -fx-faint-focus-color: transparent;
+}
+
+#searchBar:hover {
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+#choiceButton {
+    -fx-background-color: #a6b1e1;
+    -fx-background-radius: 0 10 0 0;
+    -fx-border-color: #424874;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 0 10 0 0;
+    -fx-font-size: 14px;
+    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
+    -fx-font-weight: bold;
+    -fx-text-fill: #424874;
+    -fx-padding: 10px;
+    -fx-background-insets: 0;
+}
+
+#choiceButton:hover {
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+#userTableView:hover {
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+#userTableView {
+    -fx-background-color: #dcd6f7;
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-color: #424874;
+    -fx-border-radius: 0 0 0 0;
+    -fx-border-width: 1;
+}
+
+#userTableView .column-header {
+    -fx-background-color: #a6b1e1;
+}
+
+#userTableView .column-header .label {
+    -fx-background-color: #a6b1e1;
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-width: 0;
+    -fx-text-fill: #424874;
+    -fx-font-size: 25px;
+    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+
+#userTableView .cell {
+    -fx-background-color: #dcd6f7;
+    -fx-border-width: 0;
+    -fx-font-size: 18px;
+    -fx-text-fill: #424874;
+    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-weight: lighter;
+    -fx-padding: 5px;
+}
+#userTableView .cell:hover {
+    -fx-font-weight: bold;
+}
+
+#userTableView .cell:selected {
+    -fx-background-color: #a7d8a4;
+}
+.scroll-bar .thumb {
+    -fx-background-color: #424874;
+    -fx-background-radius: 20px;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #a6b1e1;
+    -fx-background-radius: 20px;
+}
+
+.table-view .placeholder {
+    -fx-text-fill: #888888;
+    -fx-font-style: italic;
+    -fx-text: "Can't find any User in Database";
+}

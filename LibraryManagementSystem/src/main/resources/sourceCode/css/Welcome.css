@@ -1,0 +1,49 @@
+.button {
+    -fx-text-fill: #5D18DCFF;
+    -fx-padding: 17px 40px;
+    -fx-background-radius: 20px;
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-background-color: white;
+    -fx-letter-spacing: 2px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-transition: all 2s ease;
+    -fx-font-family: "Cambria Math";
+    -fx-effect: dropshadow(three-pass-box, rgba(160, 101, 172, 0.8), 10, 0, 0, 0);
+}
+
+.button:hover {
+    -fx-transition: all 3s ease;
+    -fx-letter-spacing: 3px;
+    -fx-background-color: #5D18DCFF;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+
+.button:pressed {
+    -fx-transition: 300ms ease;
+    -fx-letter-spacing: 3px;
+    -fx-background-color: #5D18DCFF;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+    -fx-translate-y: 3px;
+}
+
+#form {
+    -fx-background-color: #5D18DCFF;
+    -fx-arc-width: 50px;
+    -fx-arc-height: 50px;
+    -fx-padding: 20px;
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgb(130, 130, 205), 10, 0, 0, 0);
+}
+
+#welcome {
+    -fx-alignment: center;
+    -fx-text-fill: #5D18DCFF;
+    -fx-font-size: 50px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Cambria Math";
+}

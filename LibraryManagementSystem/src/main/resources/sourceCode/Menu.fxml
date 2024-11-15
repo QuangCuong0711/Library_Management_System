@@ -13,53 +13,48 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/Menu.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.MenuController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@css/Menu.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.MenuController">
    <children>
-      <Pane prefHeight="800.0" prefWidth="252.0" style="-fx-background-color: #8282cd; -fx-background-radius: 0 50 50 0;">
+      <Pane layoutY="25.0" prefHeight="750.0" prefWidth="200.0" style="-fx-background-color: rgb(166, 177, 225); -fx-background-radius: 0 30 30 0;">
          <children>
-            <Button fx:id="home" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="200.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" stylesheets="@css/Menu.css" text="Menu">
+            <Button id="currentButton" fx:id="menuButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Menu">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button fx:id="document" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchDocumentManagement" prefHeight="45.0" prefWidth="226.0" text="Document">
+            <Button fx:id="documentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Document">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button fx:id="user" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="340.0" mnemonicParsing="false" onAction="#switchUserManagement" prefHeight="45.0" prefWidth="226.0" text="User">
+            <Button fx:id="userButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchUser" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="User">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" text="Help">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Help">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="25.0" layoutY="480.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" text="Setting">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Setting">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button fx:id="ticket" alignment="BASELINE_LEFT" layoutX="25.0" layoutY="410.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="226.0" stylesheets="@css/Menu.css" text="Ticket">
+            <Button fx:id="ticketButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Ticket">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <ImageView fitHeight="158.0" fitWidth="179.0" layoutX="42.0" layoutY="642.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@image/2.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="logout" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="693.0" mnemonicParsing="false" onAction="#logout" prefHeight="56.0" prefWidth="57.0" style="-fx-background-color: transparent;">
+            <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="681.0" mnemonicParsing="false" onAction="#logout" prefHeight="56.0" prefWidth="57.0" style="-fx-background-color: transparent;">
                <font>
                   <Font name="DankMono-Regular" size="28.0" />
                </font>
             </Button>
-            <Label layoutX="25.0" layoutY="59.0" text="Lifebrary">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="53.0" prefHeight="51.0" prefWidth="150.0" text="LIFEBRARY">
                <font>
-                  <Font name="Bernard MT Condensed" size="58.0" />
+                  <Font name="Bernard MT Condensed" size="35.0" />
                </font>
                <textFill>
                   <LinearGradient endX="1.0" endY="1.0">
@@ -81,11 +76,21 @@
                   <Glow level="0.57" />
                </effect>
             </Label>
+            <ImageView fitHeight="101.0" fitWidth="112.0" layoutX="-5.0" layoutY="658.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@image/2.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="77.0" layoutY="682.0" prefHeight="52.0" prefWidth="75.0" text="LOG OUT" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="30.0" />
+               </font>
+            </Label>
          </children>
          <effect>
-            <DropShadow radius="18.060000000000002" width="53.24">
+            <DropShadow height="51.23" radius="25.6175" width="53.24">
                <color>
-                  <Color red="0.4992266595363617" green="0.426800012588501" blue="0.9700000286102295" />
+                  <Color red="0.7622685432434082" green="0.6342592835426331" blue="1.0" />
                </color>
             </DropShadow>
          </effect>

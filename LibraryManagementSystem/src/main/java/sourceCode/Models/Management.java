@@ -13,7 +13,7 @@ public class Management {
     private static final Service service = new Service();
 
     public void addBook(Document newBook) {
-        String query = "INSERT INTO book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = Service.getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -72,27 +72,6 @@ public class Management {
                 addBook(newBook);
             }
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addUser(User newUser) {
-        String query = "INSERT INTO user (name, id, birthDate, phoneNumber, indentityCard, address, gender) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = Service.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setString(1, newUser.getName());
-                stmt.setString(2, newUser.getId());
-                stmt.setDate(3, Date.valueOf(newUser.getBirthDate()));
-                stmt.setString(4, newUser.getPhoneNumber());
-                stmt.setString(5, newUser.getIndentityCard());
-                stmt.setString(6, newUser.getAddress());
-                stmt.setString(7, newUser.getGender());
-                stmt.executeUpdate();
-                System.out.println("User added successfully");
-            }
-        } catch (SQLException e) {
-            System.out.println("User adding failed");
             e.printStackTrace();
         }
     }

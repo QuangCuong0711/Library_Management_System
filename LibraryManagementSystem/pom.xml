@@ -151,7 +151,7 @@
                 <executions>
                     <execution>
                         <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
+                        <userId>default-cli</userId>
                         <configuration>
                             <mainClass>org.example.oop1/sourceCode.Start</mainClass>
                             <launcher>app</launcher>

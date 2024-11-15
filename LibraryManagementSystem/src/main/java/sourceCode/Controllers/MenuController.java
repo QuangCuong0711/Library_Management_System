@@ -12,23 +12,21 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
-import javax.swing.text.html.ImageView;
 
 public class MenuController {
 
     @FXML
-    private Button menu;
+    private Button menuButton;
     @FXML
-    private Button document;
+    private Button documentButton;
     @FXML
-    private Button user;
+    private Button userButton;
     @FXML
-    private Button ticket;
+    private Button ticketButton;
     @FXML
-    private Button logout;
+    private Button logoutButton;
 
-
-    public void switchDocumentManagement(ActionEvent event) {
+    public void switchDocument(ActionEvent event) {
         try {
             Button button = (Button) event.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
@@ -42,7 +40,7 @@ public class MenuController {
         }
     }
 
-    public void switchUserManagement(ActionEvent event) {
+    public void switchUser(ActionEvent event) {
         try {
             Button button = (Button) event.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
@@ -56,7 +54,7 @@ public class MenuController {
         }
     }
 
-    public void switchTicketManagement(ActionEvent event) {
+    public void switchTicket(ActionEvent event) {
         try {
             Button button = (Button) event.getSource();
             Stage stage = (Stage) button.getScene().getWindow();
@@ -92,7 +90,6 @@ public class MenuController {
         }
 
     }
-
 
     public void exit() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
