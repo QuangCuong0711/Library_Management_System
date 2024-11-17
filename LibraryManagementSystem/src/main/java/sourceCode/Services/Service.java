@@ -1,4 +1,4 @@
-package sourceCode.Models;
+package sourceCode.Services;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -24,7 +24,7 @@ public class Service {
 
     // Quang Cuong : AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE
     // Thanh Hai : AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg
-    // Manh Hung :
+    // Nguyen Cong Manh Hung :
 
     public static Connection getConnection() throws SQLException {
         try {

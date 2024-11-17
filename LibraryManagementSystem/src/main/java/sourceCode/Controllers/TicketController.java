@@ -80,7 +80,6 @@ public class TicketController extends MenuController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Please fill all the fields");
             alert.showAndWait();
-            return;
         } else {
             Ticket ticket = new Ticket();
             ticket.setTicketID(idTicketTextField.getText());

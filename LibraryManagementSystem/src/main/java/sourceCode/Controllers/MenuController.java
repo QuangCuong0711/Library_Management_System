@@ -79,7 +79,7 @@ public class MenuController {
                 Button button = (Button) event.getSource();
                 Stage stage = (Stage) button.getScene().getWindow();
                 Parent root = FXMLLoader.load(
-                        Objects.requireNonNull(getClass().getResource("/sourceCode/Welcome.fxml")));
+                        Objects.requireNonNull(getClass().getResource("/sourceCode/Login.fxml")));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.centerOnScreen();

@@ -25,7 +25,17 @@
     -fx-background-color: #424874;
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
-
+#searchUserButton {
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+}
+#addUserButton {
+    -fx-font-size: 20px;
+    -fx-border-radius: 40;
+    -fx-background-radius: 40;
+    -fx-border-color: #424874;
+    -fx-effect: none;
+}
 #showUserButton {
     -fx-rotate: 90;
     -fx-border-radius: 20 0 0 0;
@@ -60,7 +70,7 @@
     -fx-font-size: 20px;
     -fx-font-family: "Candara", "Courier New", monospace;
     -fx-font-weight: lighter;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #424874;
     -fx-padding: 10px;
     -fx-background-insets: 0;
     -fx-faint-focus-color: transparent;
@@ -76,11 +86,11 @@
     -fx-border-color: #424874;
     -fx-border-width: 0.5;
     -fx-border-radius: 0 10 0 0;
-    -fx-font-size: 14px;
-    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
-    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-weight: lighter;
     -fx-text-fill: #424874;
-    -fx-padding: 10px;
+    -fx-padding: 0px;
     -fx-background-insets: 0;
 }
 
@@ -89,7 +99,7 @@
 }
 
 #userTableView:hover {
-    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 5, 0, 0, 0);
 }
 
 #userTableView {
@@ -126,13 +136,17 @@
     -fx-font-weight: lighter;
     -fx-padding: 5px;
 }
+
 #userTableView .cell:hover {
     -fx-font-weight: bold;
 }
 
 #userTableView .cell:selected {
-    -fx-background-color: #a7d8a4;
+    -fx-background-color: #a6b1e1;
+    -fx-text-fill: #424874;
+    -fx-font-weight: bold;
 }
+
 .scroll-bar .thumb {
     -fx-background-color: #424874;
     -fx-background-radius: 20px;

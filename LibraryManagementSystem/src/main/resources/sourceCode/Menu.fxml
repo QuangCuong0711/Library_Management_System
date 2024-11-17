@@ -13,36 +13,36 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@css/Menu.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.MenuController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@Stylesheet/Menu.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.MenuController">
    <children>
       <Pane layoutY="25.0" prefHeight="750.0" prefWidth="200.0" style="-fx-background-color: rgb(166, 177, 225); -fx-background-radius: 0 30 30 0;">
          <children>
-            <Button id="currentButton" fx:id="menuButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Menu">
+            <Button id="currentButton" fx:id="menuButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/Menu.css" text="Menu">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button fx:id="documentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Document">
+            <Button fx:id="documentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/Menu.css" text="Document">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button fx:id="userButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchUser" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="User">
+            <Button fx:id="userButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchUser" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/Menu.css" text="User">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Help">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/Menu.css" text="Help">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Setting">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/Menu.css" text="Setting">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button fx:id="ticketButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@css/Menu.css" text="Ticket">
+            <Button fx:id="ticketButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/Menu.css" text="Ticket">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
@@ -78,7 +78,7 @@
             </Label>
             <ImageView fitHeight="101.0" fitWidth="112.0" layoutX="-5.0" layoutY="658.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@image/2.png" />
+                  <Image url="@Image/logoutIcon.png" />
                </image>
             </ImageView>
             <Label layoutX="77.0" layoutY="682.0" prefHeight="52.0" prefWidth="75.0" text="LOG OUT" textFill="WHITE">

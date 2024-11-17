@@ -21,30 +21,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import sourceCode.Models.Service;
+import javafx.stage.StageStyle;
+import sourceCode.Services.Service;
 import sourceCode.Models.User;
 
 public class UserController implements Initializable {
 
     ObservableList<User> userList = FXCollections.observableArrayList();
-    @FXML
-    private Button menuButton;
-    @FXML
-    private Button documentButton;
-    @FXML
-    private Button userButton;
-    @FXML
-    private Button ticketButton;
-    @FXML
-    private Button logoutButton;
-    @FXML
-    private Button addUserButton;
-    @FXML
-    private Button removeUserButton;
+    String[] choices = {"UserID", "Name", "IdentityNumber"};
     @FXML
     private TableView<User> userTableView;
     @FXML
@@ -55,23 +45,31 @@ public class UserController implements Initializable {
     private TableColumn<User, String> identitynumberColumn;
     @FXML
     private TableColumn<User, String> birthColumn;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private TextField searchBar;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String query = "SELECT userId, name, identityNumber, birth FROM library.User";
+        choiceBox.getItems().addAll(choices);
+        choiceBox.setValue("UserID");
+        userList.clear();
+        String query = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address FROM library.User";
         try (Connection conn = Service.getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
                     User user = new User(
-                            rs.getString("name"),
                             rs.getString("userId"),
+                            rs.getString("name"),
                             rs.getString("identityNumber"),
-                            rs.getString("birth"),
-                            null,
-                            null,
-                            null,
-                            null
+                            rs.getDate("birth").toLocalDate(),
+                            rs.getString("gender"),
+                            rs.getString("phoneNumber"),
+                            rs.getString("email"),
+                            rs.getString("address")
                     );
                     userList.add(user);
                 }
@@ -86,30 +84,66 @@ public class UserController implements Initializable {
         }
     }
 
-    public void addUser(ActionEvent event) {
-        User newUser = new User();
-        String query = "INSERT INTO library.user (userId, name, identityNumber, birth, gender, phoneNumber, email, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = Service.getConnection()) {
-            assert connection != null;
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setString(1, newUser.getUserId());
-                stmt.setString(2, newUser.getName());
-                stmt.setString(3, newUser.getIdentityNumber());
-                stmt.setString(4, newUser.getBirth());
-                stmt.setString(5, newUser.getGender());
-                stmt.setString(6, newUser.getPhoneNumber());
-                stmt.setString(7, newUser.getEmail());
-                stmt.setString(8, newUser.getAddress());
-                stmt.executeUpdate();
-                System.out.println("User added successfully");
+    public void searchUser() {
+        userList.clear();
+        String query =
+                "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address FROM library.User WHERE "
+                        + choiceBox.getValue() + " LIKE '%" + searchBar.getText() + "%'";
+        try (Connection conn = Service.getConnection()) {
+            assert conn != null;
+            try (Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query)) {
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getString("userId"),
+                            rs.getString("name"),
+                            rs.getString("identityNumber"),
+                            rs.getDate("birth").toLocalDate(),
+                            rs.getString("gender"),
+                            rs.getString("phoneNumber"),
+                            rs.getString("email"),
+                            rs.getString("address")
+                    );
+                    userList.add(user);
+                }
             }
+            useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
+            fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            identitynumberColumn.setCellValueFactory(new PropertyValueFactory<>("identityNumber"));
+            birthColumn.setCellValueFactory(new PropertyValueFactory<>("birth"));
+            userTableView.setItems(userList);
         } catch (SQLException e) {
-            System.out.println("User adding failed");
             e.printStackTrace();
         }
     }
 
-    public void removeUser(ActionEvent event) {
+    public void showUser() {
+        User user = userTableView.getSelectionModel().getSelectedItem();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/ShowUser.fxml"));
+            Parent root = loader.load();
+            ShowUserController showUserController = loader.getController();
+            showUserController.setUser(user);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("User Information");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeUser() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Remove User");
+        alert.setHeaderText("Can't restore this user after removing");
+        alert.setContentText("Do you want to remove this user ?");
+        Optional<ButtonType> a = alert.showAndWait();
+        if (a.isEmpty() || a.get() != ButtonType.OK) {
+            return;
+        }
         User user = userTableView.getSelectionModel().getSelectedItem();
         String query = "DELETE FROM library.user WHERE userId = ?";
         try (Connection connection = Service.getConnection()) {
@@ -127,7 +161,40 @@ public class UserController implements Initializable {
     }
 
     public void editUser() {
+        User user = userTableView.getSelectionModel().getSelectedItem();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/EditUser.fxml"));
+            Parent root = loader.load();
+            EditUserController editUserController = loader.getController();
+            editUserController.setUser(user);
+            editUserController.setUserController(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Edit User");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+
+    public void addUser() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AddUser.fxml"));
+            Parent root = loader.load();
+            AddUserController addUserController = loader.getController();
+            addUserController.setUserController(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add User");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void switchMenu(ActionEvent event) {
@@ -155,7 +222,7 @@ public class UserController implements Initializable {
                 Button button = (Button) event.getSource();
                 Stage stage = (Stage) button.getScene().getWindow();
                 Parent root = FXMLLoader.load(
-                        Objects.requireNonNull(getClass().getResource("/sourceCode/Welcome.fxml")));
+                        Objects.requireNonNull(getClass().getResource("/sourceCode/Login.fxml")));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.centerOnScreen();
@@ -163,18 +230,6 @@ public class UserController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
-    }
-
-    public void exit() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Thoát");
-        alert.setHeaderText(null);
-        alert.setContentText("Bạn có chắc chắn muốn thoát ?");
-        Optional<ButtonType> a = alert.showAndWait();
-        if (a.isPresent() && a.get() == ButtonType.OK) {
-            System.exit(0);
         }
     }
 }

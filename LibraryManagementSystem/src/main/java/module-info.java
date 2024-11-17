@@ -14,6 +14,8 @@ module sourceCode {
     requires com.google.gson;
     requires java.desktop;
     requires commons.logging;
+    requires annotations;
+    requires opencensus.api;
 
     opens sourceCode to javafx.fxml;
     exports sourceCode;
@@ -21,4 +23,6 @@ module sourceCode {
     opens sourceCode.Controllers to javafx.fxml;
     exports sourceCode.Models;
     opens sourceCode.Models to javafx.fxml;
+    exports sourceCode.Services;
+    opens sourceCode.Services to javafx.fxml;
 }

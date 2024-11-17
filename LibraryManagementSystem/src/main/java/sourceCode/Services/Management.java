@@ -1,12 +1,12 @@
-package sourceCode.Models;
+package sourceCode.Services;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import sourceCode.Models.Document;
 
 public class Management {
 

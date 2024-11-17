@@ -1,0 +1,42 @@
+#name {
+    -fx-font-size: 35;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "Cambria", "Courier New", monospace;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+#userID {
+    -fx-font-size: 20;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: "JetBrains Mono Light";
+}
+.label {
+    -fx-font-size: 12;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #081761;
+    -fx-font-family: "Candara", "Courier New", monospace;
+}
+.label:hover {
+    -fx-font-weight: bolder;
+}
+.button {
+    -fx-background-color: WHITE;
+    -fx-text-fill: #424874;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-font-size: 20px;
+    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
+    -fx-font-weight: bold;
+    -fx-background-radius: 15px;
+}
+
+.button:hover {
+    -fx-text-fill: WHITE;
+    -fx-background-color: #424874;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+.button:pressed {
+    -fx-background-color: #424874;
+    -fx-text-fill: WHITE;
+    -fx-translate-y: 3px;
+}

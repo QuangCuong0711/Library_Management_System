@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #F4EEFF;" stylesheets="@css/Welcome.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.WelcomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #F4EEFF;" stylesheets="@Stylesheet/Login.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.LoginController">
    <children>
       <Rectangle id="form" arcHeight="5.0" arcWidth="5.0" height="418.0" layoutX="44.0" layoutY="47.0" stroke="#8282cd" strokeLineCap="BUTT" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" width="314.0">
          <fill>
@@ -54,7 +54,7 @@
          </font></Button>
       <ImageView fitHeight="500.0" fitWidth="400.0" layoutX="400.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@image/Welcome.png" />
+            <Image url="@Image/Welcome.png" />
          </image>
       </ImageView>
       <Label alignment="CENTER" cache="true" cacheHint="QUALITY" contentDisplay="CENTER" depthTest="DISABLE" ellipsisString="" layoutX="55.0" layoutY="93.0" prefHeight="56.0" prefWidth="293.0" text="WELCOME" textAlignment="CENTER" textFill="#845cae">
