@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS BOOK
     language        VARCHAR(50),
     pageNumber      INT,
     imageUrl        VARCHAR(255),
-    description     TEXT
+    description     TEXT,
+    quantity        INT
 );
 CREATE TABLE IF NOT EXISTS USER
 (

@@ -1,5 +1,15 @@
 package sourceCode.Models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.cell.PropertyValueFactory;
+import sourceCode.Services.Service;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 public class Document {
 
     private String ISBN;
@@ -12,6 +22,7 @@ public class Document {
     private int pageNumber;
     private String imageUrl;
     private String description;
+    private int quantity;
 
     public Document() {
         ISBN = "";
@@ -23,11 +34,13 @@ public class Document {
         language = "";
         pageNumber = 0;
         imageUrl = "";
+        description = "";
+        quantity = 0;
     }
 
     public Document(String ISBN, String title, String author, String genre, String publisher,
             String publicationDate, String language, int pageNumber, String imageUrl,
-            String description) {
+            String description, int quantity) {
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
@@ -38,6 +51,7 @@ public class Document {
         this.pageNumber = pageNumber;
         this.imageUrl = imageUrl;
         this.description = description;
+        this.quantity = quantity;
     }
 
     public String getISBN() {
@@ -118,5 +132,13 @@ public class Document {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
