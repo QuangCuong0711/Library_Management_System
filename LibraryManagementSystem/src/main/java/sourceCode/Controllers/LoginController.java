@@ -1,5 +1,6 @@
 package sourceCode.Controllers;
 
+import java.sql.*;
 import java.util.Objects;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import sourceCode.Services.Service;
 
 public class LoginController {
 
@@ -25,17 +27,43 @@ public class LoginController {
     private Label alertLabel;
 
     public void login(ActionEvent event) {
-        if (!usernameField.getText().equals("admin") || !passwordField.getText().equals("admin")) {
-            // Checking if the usernameField and passwordField are correct
-            alertLabel.setText("Password or usernameField is incorrect");
-            alertLabel.setStyle("-fx-text-fill: #ff0000");
-            passwordField.setText("");
-        } else {
-            // login successful
-            alertLabel.setText("Login successful");
-            alertLabel.setStyle("-fx-text-fill: #00ff19");
-            PauseTransition pause = getPauseTransition(event);
-            pause.play();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        try (Connection connection = Service.getConnection()) {
+            String query = "SELECT * FROM ADMINACCOUNT WHERE nameAccount = ? AND passwordAccount = ?";
+            assert connection != null;
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                ResultSet resultSet = stmt.executeQuery();
+                if(resultSet.next()) {
+                    alertLabel.setText("Login successful");
+                    alertLabel.setStyle("-fx-text-fill: #00ff19");
+                    PauseTransition pause = getPauseTransition(event);
+                    pause.play();
+                } else {
+                    query = "SELECT * FROM USERACCOUNT WHERE nameAccount = ? AND passwordAccount = ?";;
+                    assert connection != null;
+                    try (PreparedStatement stmt2 = connection.prepareStatement(query)) {
+                        stmt2.setString(1, username);
+                        stmt2.setString(2, password);
+                        ResultSet resultSet2 = stmt2.executeQuery();
+                        if(resultSet2.next()) {
+                            alertLabel.setText("Login successful");
+                            alertLabel.setStyle("-fx-text-fill: #00ff19");
+                            PauseTransition pause = getPauseTransition(event);
+                            pause.play();
+                        } else {
+                            alertLabel.setText("Password or usernameField is incorrect");
+                            alertLabel.setStyle("-fx-text-fill: #ff0000");
+                            passwordField.setText("");
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Login in failed");
+            e.printStackTrace();
         }
     }
 

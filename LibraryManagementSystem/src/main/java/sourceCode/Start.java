@@ -18,8 +18,7 @@ public class Start extends Application {
     @Override
     public void start(Stage primaryStage) throws SQLException {
         try {
-            Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(this.getClass().getResource("User.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("Login.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Library Management System");
