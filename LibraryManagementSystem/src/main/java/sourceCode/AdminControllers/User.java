@@ -26,24 +26,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Services.Service;
-import sourceCode.Models.User;
 import sourceCode.Services.SwitchScene;
 
-public class UserController extends SwitchScene implements Initializable {
+public class User extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User";
-    private static final ObservableList<User> userList = FXCollections.observableArrayList();
+    private static final ObservableList<sourceCode.Models.User> userList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"UserID", "Name", "IdentityNumber"};
     @FXML
-    private TableView<User> userTableView;
+    private TableView<sourceCode.Models.User> userTableView;
     @FXML
-    private TableColumn<User, String> useridColumn;
+    private TableColumn<sourceCode.Models.User, String> useridColumn;
     @FXML
-    private TableColumn<User, String> fullnameColumn;
+    private TableColumn<sourceCode.Models.User, String> fullnameColumn;
     @FXML
-    private TableColumn<User, String> identitynumberColumn;
+    private TableColumn<sourceCode.Models.User, String> identitynumberColumn;
     @FXML
-    private TableColumn<User, String> birthColumn;
+    private TableColumn<sourceCode.Models.User, String> birthColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -68,7 +67,7 @@ public class UserController extends SwitchScene implements Initializable {
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
-                    User user = new User(
+                    sourceCode.Models.User user = new sourceCode.Models.User(
                             rs.getString("userId"),
                             rs.getString("name"),
                             rs.getString("identityNumber"),
@@ -97,9 +96,10 @@ public class UserController extends SwitchScene implements Initializable {
     }
 
     public void showUser() {
-        User user = userTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.User user = userTableView.getSelectionModel().getSelectedItem();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/ShowUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/sourceCode/AdminFXML/ShowUser.fxml"));
             Parent root = loader.load();
             ShowUser showUser = loader.getController();
             showUser.setUser(user);
@@ -123,7 +123,7 @@ public class UserController extends SwitchScene implements Initializable {
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;
         }
-        User user = userTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.User user = userTableView.getSelectionModel().getSelectedItem();
         if (user == null) {
             System.out.println("No user selected");
             return;
@@ -144,9 +144,10 @@ public class UserController extends SwitchScene implements Initializable {
     }
 
     public void editUser() {
-        User user = userTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.User user = userTableView.getSelectionModel().getSelectedItem();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/EditUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/sourceCode/AdminFXML/EditUser.fxml"));
             Parent root = loader.load();
             EditUser editUser = loader.getController();
             editUser.setUser(user);
@@ -164,7 +165,8 @@ public class UserController extends SwitchScene implements Initializable {
 
     public void addUser() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AddUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/sourceCode/AdminFXML/AddUser.fxml"));
             Parent root = loader.load();
             AddUser addUser = loader.getController();
             addUser.setUserController(this);

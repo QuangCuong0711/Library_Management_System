@@ -1,0 +1,26 @@
+.button {
+    -fx-background-color: WHITE;
+    -fx-text-fill: #424874;
+    -fx-alignment: BASELINE_CENTER;
+    -fx-font-size: 28px;
+    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
+    -fx-font-weight: bold;
+    -fx-background-radius: 15px;
+}
+
+.button:hover {
+    -fx-text-fill: WHITE;
+    -fx-background-color: #424874;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+.button:pressed {
+    -fx-background-color: #424874;
+    -fx-text-fill: WHITE;
+    -fx-translate-y: 3px;
+}
+#currentButton {
+    -fx-text-fill: WHITE;
+    -fx-background-color: #424874;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}

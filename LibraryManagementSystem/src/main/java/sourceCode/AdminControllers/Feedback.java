@@ -1,6 +1,6 @@
 package sourceCode.AdminControllers;
 
-public class FeedbackController {
+public class Feedback {
 
     public void addFeedback() {
         // TODO - implement FeedbackController.addFeedback

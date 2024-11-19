@@ -1,6 +1,6 @@
 package sourceCode.AdminControllers;
 
-public class TicketController {
+public class Ticket {
 
     public void addTicket() {
         // TODO - implement TicketController.addTicket

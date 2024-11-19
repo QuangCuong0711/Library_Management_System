@@ -27,26 +27,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.Models.Book;
 import sourceCode.Services.Service;
 import sourceCode.Services.SwitchScene;
 
-public class BookController extends SwitchScene implements Initializable {
+public class Book extends SwitchScene implements Initializable {
 
-    private static final Service service = new Service();
     private static final String selectAllQuery = "SELECT * FROM library.book";
-    private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private static final ObservableList<sourceCode.Models.Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Use GGAPI", "ISBN", "Title", "Author", "Publisher"};
     @FXML
-    private TableView<Book> bookTableView;
+    private TableView<sourceCode.Models.Book> bookTableView;
     @FXML
-    private TableColumn<Book, String> isbnColumn;
+    private TableColumn<sourceCode.Models.Book, String> isbnColumn;
     @FXML
-    private TableColumn<Book, String> authorColumn;
+    private TableColumn<sourceCode.Models.Book, String> authorColumn;
     @FXML
-    private TableColumn<Book, String> titleColumn;
+    private TableColumn<sourceCode.Models.Book, String> titleColumn;
     @FXML
-    private TableColumn<Book, String> publisherColumn;
+    private TableColumn<sourceCode.Models.Book, String> publisherColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -71,7 +69,7 @@ public class BookController extends SwitchScene implements Initializable {
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
-                    Book book = new Book(
+                    sourceCode.Models.Book book = new sourceCode.Models.Book(
                             rs.getString("ISBN"),
                             rs.getString("title"),
                             rs.getString("author"),
@@ -95,50 +93,19 @@ public class BookController extends SwitchScene implements Initializable {
     public void searchAPIBook(String keyword) {
         bookList.clear();
         try {
-            JsonArray books = service.getBook(keyword);
+            JsonArray books = Service.getBook(keyword);
             for (int i = 0; i < books.size(); i++) {
                 JsonObject book = books.get(i).getAsJsonObject();
-                bookList.add(createBookFromJson(book));
+                bookList.add(Service.createBookFromJson(book));
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private Book createBookFromJson(JsonObject book) {
-        JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
-        Book newBook = new Book();
-        newBook.setISBN(book.get("id") != null ? book.get("id").getAsString() : null);
-        newBook.setTitle(
-                volumeInfo.get("title") != null ? volumeInfo.get("title").getAsString() : null);
-        newBook.setAuthor(
-                volumeInfo.get("authors") != null ? volumeInfo.get("authors").getAsJsonArray()
-                        .get(0).getAsString() : null);
-        newBook.setGenre(
-                volumeInfo.get("categories") != null ? volumeInfo.get("categories").getAsJsonArray()
-                        .get(0).getAsString() : null);
-        newBook.setPublisher(
-                volumeInfo.get("publisher") != null ? volumeInfo.get("publisher").getAsString()
-                        : null);
-        newBook.setPublicationDate(
-                volumeInfo.get("publishedDate") != null ? volumeInfo.get("publishedDate")
-                        .getAsString() : null);
-        newBook.setLanguage(
-                volumeInfo.get("language") != null ? volumeInfo.get("language").getAsString()
-                        : null);
-        newBook.setPageNumber(
-                volumeInfo.get("pageCount") != null ? volumeInfo.get("pageCount").getAsInt() : 0);
-        newBook.setImageUrl(volumeInfo.getAsJsonObject("imageLinks") != null
-                && volumeInfo.getAsJsonObject("imageLinks").get("thumbnail") != null
-                ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString() : null);
-        newBook.setDescription(
-                volumeInfo.get("description") != null ? volumeInfo.get("description").getAsString()
-                        : null);
-        return newBook;
-    }
 
     public void addAPIBook() {
-        Book book = bookTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
         String query = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = Service.getConnection()) {
             assert connection != null;
@@ -180,9 +147,10 @@ public class BookController extends SwitchScene implements Initializable {
      * This method is used to show the information of a Document.
      */
     public void showBook() {
-        Book book = bookTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/ShowBook.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/sourceCode/AdminFXML/ShowBook.fxml"));
             Parent root = loader.load();
             ShowBook showBook = loader.getController();
             showBook.setBook(book);
@@ -209,7 +177,7 @@ public class BookController extends SwitchScene implements Initializable {
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;
         }
-        Book book = bookTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
         if (book == null) {
             System.out.println("No book selected");
             return;

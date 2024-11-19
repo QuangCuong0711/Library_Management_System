@@ -10,7 +10,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sourceCode.Models.User;
 import sourceCode.Services.Service;
 
 public class EditUser {
@@ -23,9 +22,9 @@ public class EditUser {
     public TextField phoneNumber;
     public TextField address;
     public DatePicker birth;
-    private UserController userController;
+    private User user;
 
-    public void setUser(User user) {
+    public void setUser(sourceCode.Models.User user) {
         name.setText(user.getName());
         userID.setText(user.getUserId());
         identityNumber.setText(user.getIdentityNumber());
@@ -36,8 +35,8 @@ public class EditUser {
         gender.setValue(user.getGender());
     }
 
-    public void setUserController(UserController userController) {
-        this.userController = userController;
+    public void setUserController(User user) {
+        this.user = user;
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
@@ -60,7 +59,7 @@ public class EditUser {
             System.out.println("Can't edit this user");
             e.printStackTrace();
         }
-        userController.initialize(null, null);
+        user.initialize(null, null);
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }

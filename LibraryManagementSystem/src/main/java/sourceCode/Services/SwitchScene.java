@@ -26,30 +26,42 @@ public class SwitchScene {
     }
 
     public void switchToHome(ActionEvent event) {
-        switchTo(event, "Home");
+        switchTo(event, "AdminFXML/Home");
     }
 
     public void switchToUser(ActionEvent event) {
-        switchTo(event, "User");
+        switchTo(event, "AdminFXML/User");
     }
 
     public void switchToBook(ActionEvent event) {
-        switchTo(event, "Book");
+        switchTo(event, "AdminFXML/Book");
     }
 
     public void switchToTicket(ActionEvent event) {
-        switchTo(event, "Ticket");
+        switchTo(event, "AdminFXML/Ticket");
     }
 
     public void switchToFeedback(ActionEvent event) {
-        switchTo(event, "Feedback");
+        switchTo(event, "AdminFXML/Feedback");
     }
 
     public void switchToSetting(ActionEvent event) {
-        switchTo(event, "Setting");
+        switchTo(event, "AdminFXML/Setting");
     }
 
     public void switchToLogin(ActionEvent event) {
         switchTo(event, "Login");
+    }
+
+    public void switchToBookcase(ActionEvent event) {
+        switchTo(event, "UserFXML/Bookcase");
+    }
+
+    public void switchToLibrary(ActionEvent event) {
+        switchTo(event, "UserFXML/Library");
+    }
+
+    public void switchToMenu(ActionEvent event) {
+        switchTo(event, "UserFXML/Menu");
     }
 }

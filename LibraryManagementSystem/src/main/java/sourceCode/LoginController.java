@@ -29,10 +29,10 @@ public class LoginController {
 
         if (checkBox.isSelected()) {
             query = "SELECT COUNT(*) FROM library.admin WHERE adminId = ? AND password = ?";
-            fxmlFile = "Home.fxml";
+            fxmlFile = "AdminFXML/Home.fxml";
         } else {
             query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ?";
-            fxmlFile = "UserHome.fxml";
+            fxmlFile = "UserFXML/Home.fxml";
         }
 
         try (Connection conn = Service.getConnection()) {

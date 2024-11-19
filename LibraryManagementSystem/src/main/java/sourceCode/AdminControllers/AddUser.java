@@ -25,10 +25,10 @@ public class AddUser implements Initializable {
     public TextField userID;
     public TextField mail;
     public DatePicker birth;
-    private UserController userController;
+    private User user;
 
-    public void setUserController(UserController userController) {
-        this.userController = userController;
+    public void setUserController(User user) {
+        this.user = user;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class AddUser implements Initializable {
             System.out.println("User adding failed");
             e.printStackTrace();
         }
-        userController.initialize(null, null);
+        user.initialize(null, null);
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }

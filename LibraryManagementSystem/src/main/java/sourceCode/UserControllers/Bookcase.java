@@ -1,5 +1,5 @@
 package sourceCode.UserControllers;
 
-public class LibraryController {
+public class Bookcase {
 
 }
