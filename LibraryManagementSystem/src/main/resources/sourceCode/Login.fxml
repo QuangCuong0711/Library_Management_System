@@ -1,66 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.RadialGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #F4EEFF;" stylesheets="@Stylesheet/Login.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #F4EEFF;" stylesheets="@Stylesheet/Login.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.LoginController">
    <children>
-      <Rectangle id="form" arcHeight="5.0" arcWidth="5.0" height="418.0" layoutX="44.0" layoutY="47.0" stroke="#8282cd" strokeLineCap="BUTT" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.0" width="314.0">
-         <fill>
-            <RadialGradient centerY="1.0" focusAngle="-160.2" focusDistance="-0.04597701149425282" radius="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.5979288220405579" green="0.2711988389492035" blue="0.6973684430122375" opacity="0.2199999988079071" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.7096266746520996" green="0.6624000072479248" blue="0.9200000166893005" opacity="0.8969465494155884" />
-                     </color>
-                  </Stop>
-               </stops>
-            </RadialGradient>
-         </fill>
-         <effect>
-            <DropShadow blurType="ONE_PASS_BOX" height="34.19" radius="17.695" width="38.59">
-               <color>
-                  <Color red="0.6926900744438171" green="0.6388888955116272" blue="0.9078947305679321" />
-               </color>
-            </DropShadow>
-         </effect>
-      </Rectangle>
-      <Label fx:id="alertLabel" alignment="CENTER" layoutX="55.0" layoutY="334.0" prefHeight="25.0" prefWidth="293.0" textAlignment="CENTER">
-         <font>
-            <Font name="Cambria" size="12.0" />
-         </font>
-      </Label>
-      <TextField fx:id="usernameField" layoutX="77.0" layoutY="218.0" prefHeight="46.0" prefWidth="246.0" promptText="Username" style="-fx-background-radius: 10;" />
-      <PasswordField fx:id="passwordField" layoutX="77.0" layoutY="280.0" prefHeight="46.0" prefWidth="246.0" promptText="Password" style="-fx-background-radius: 10;" />
-      <Button fx:id="loginButton" contentDisplay="CENTER" layoutX="115.0" layoutY="369.0" mnemonicParsing="false" onAction="#login" prefHeight="55.0" prefWidth="171.0" text="LOG IN" textAlignment="CENTER" textFill="#f2f2f2">
-         <font>
-            <Font name="Cambria Math" size="17.0" />
-         </font></Button>
       <ImageView fitHeight="500.0" fitWidth="400.0" layoutX="400.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Image/Welcome.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" cache="true" cacheHint="QUALITY" contentDisplay="CENTER" depthTest="DISABLE" ellipsisString="" layoutX="55.0" layoutY="93.0" prefHeight="56.0" prefWidth="293.0" text="WELCOME" textAlignment="CENTER" textFill="#845cae">
-         <font>
-            <Font name="JetBrains Mono ExtraBold" size="56.0" />
-         </font>
-      </Label>
+      <Pane id="myPane" layoutX="55.0" layoutY="35.0" prefHeight="430.0" prefWidth="300.0">
+         <children>
+            <TextField id="username" fx:id="usernameField" layoutX="30.0" layoutY="192.0" prefHeight="46.0" prefWidth="239.0" promptText="Username" />
+            <PasswordField id="password" fx:id="passwordField" layoutX="30.0" layoutY="246.0" prefHeight="46.0" prefWidth="239.0" promptText="Password" />
+            <Button id="login" fx:id="loginButton" contentDisplay="CENTER" layoutX="101.0" layoutY="348.0" mnemonicParsing="false" onAction="#login" prefHeight="35.0" prefWidth="96.0" text="LOG IN" textAlignment="CENTER" textFill="#f2f2f2">
+               <font>
+                  <Font name="Cambria Math" size="26.0" />
+               </font>
+            </Button>
+            <CheckBox id="admin" fx:id="checkBox" layoutX="50.0" layoutY="311.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="200.0" text="Is this an administrator account ?">
+               <font>
+                  <Font name="Cambria Math" size="12.0" />
+               </font>
+            </CheckBox>
+            <Label layoutX="62.0" layoutY="398.0" text="Dont have an account?" textFill="#424874">
+               <font>
+                  <Font name="Cambria Math" size="12.0" />
+               </font>
+            </Label>
+            <Button id="signup" layoutX="165.0" layoutY="394.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="66.0" text="Sign up" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="49.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="alertLabel" alignment="CENTER" layoutY="148.0" prefHeight="25.0" prefWidth="300.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Cambria" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>

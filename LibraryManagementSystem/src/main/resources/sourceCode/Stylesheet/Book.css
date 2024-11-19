@@ -25,18 +25,18 @@
     -fx-background-color: #424874;
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
-#searchUserButton {
+#searchBookButton {
     -fx-border-width: 0;
     -fx-background-color: transparent;
 }
-#addUserButton {
+#addBookButton {
     -fx-font-size: 20px;
     -fx-border-radius: 40;
     -fx-background-radius: 40;
     -fx-border-color: #424874;
     -fx-effect: none;
 }
-#showUserButton {
+#showBookButton {
     -fx-rotate: 90;
     -fx-border-radius: 20 0 0 0;
     -fx-background-radius: 20 0 0 0;
@@ -44,7 +44,7 @@
     -fx-effect: none;
 }
 
-#editUserButton {
+#editBookButton {
     -fx-rotate: 90;
     -fx-border-radius: 0 0 0 0;
     -fx-background-radius: 0 0 0 0;
@@ -52,7 +52,7 @@
     -fx-effect: none;
 }
 
-#removeUserButton {
+#removeBookButton {
     -fx-rotate: 90;
     -fx-border-radius: 0 20 0 0;
     -fx-background-radius: 0 20 0 0;
@@ -98,11 +98,11 @@
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
 
-#userTableView:hover {
+.table-view:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 5, 0, 0, 0);
 }
 
-#userTableView {
+.table-view {
     -fx-background-color: #dcd6f7;
     -fx-background-radius: 0 0 0 0;
     -fx-border-color: #424874;
@@ -110,7 +110,7 @@
     -fx-border-width: 1;
 }
 
-#userTableView .column-header {
+.table-view .column-header {
     -fx-background-color: #a6b1e1;
 }
 
@@ -137,11 +137,11 @@
     -fx-padding: 5px;
 }
 
-#userTableView .cell:hover {
+.table-view .cell:hover {
     -fx-font-weight: bold;
 }
 
-#userTableView .cell:selected {
+.table-view .cell:selected {
     -fx-background-color: #a6b1e1;
     -fx-text-fill: #424874;
     -fx-font-weight: bold;

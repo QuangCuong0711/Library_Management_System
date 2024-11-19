@@ -18,45 +18,10 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@Stylesheet/User.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.UserController">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@Stylesheet/User.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.UserController">
   <children>
     <Pane layoutY="25.0" prefHeight="750.0" prefWidth="200.0" style="-fx-background-color: rgb(166, 177, 225); -fx-background-radius: 0 30 30 0;">
       <children>
-        <Button fx:id="menuButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchMenu" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="MENU">
-          <font>
-            <Font name="DankMono-Regular" size="30.0" />
-          </font>
-        </Button>
-        <Button fx:id="documentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="DOCUMENT">
-          <font>
-            <Font name="DankMono-Regular" size="30.0" />
-          </font>
-        </Button>
-        <Button id="currentButton" fx:id="userButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="USER">
-          <font>
-            <Font name="DankMono-Regular" size="30.0" />
-          </font>
-        </Button>
-        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="HELP">
-          <font>
-            <Font name="DankMono-Regular" size="30.0" />
-          </font>
-        </Button>
-        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="SETTING">
-          <font>
-            <Font name="DankMono-Regular" size="30.0" />
-          </font>
-        </Button>
-        <Button fx:id="ticketButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="TICKET">
-          <font>
-            <Font name="DankMono-Regular" size="30.0" />
-          </font>
-        </Button>
-        <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="681.0" mnemonicParsing="false" onAction="#logout" prefHeight="56.0" prefWidth="57.0" style="-fx-background-color: transparent;">
-          <font>
-            <Font name="DankMono-Regular" size="28.0" />
-          </font>
-        </Button>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="53.0" prefHeight="51.0" prefWidth="150.0" text="LIFEBRARY">
           <font>
             <Font name="Bernard MT Condensed" size="35.0" />
@@ -81,6 +46,36 @@
             <Glow level="0.57" />
           </effect>
         </Label>
+        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#switchToHome" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="HOME">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchToBook" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="BOOK">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button id="currentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="USER">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" onAction="#switchToSetting" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="SETTING">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" onAction="#switchToTicket" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="TICKET">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
+        <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" onAction="#switchToFeedback" prefHeight="50.0" prefWidth="140.0" stylesheets="@Stylesheet/User.css" text="FEEDBACK">
+          <font>
+            <Font name="DankMono-Regular" size="30.0" />
+          </font>
+        </Button>
         <ImageView fitHeight="101.0" fitWidth="112.0" layoutX="-5.0" layoutY="658.0" pickOnBounds="true" preserveRatio="true">
           <image>
             <Image url="@Image/logoutIcon.png" />
@@ -91,6 +86,11 @@
                   <Font name="Bodoni MT Condensed" size="30.0" />
                </font>
             </Label>
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="681.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="56.0" prefWidth="57.0" style="-fx-background-color: transparent;">
+          <font>
+            <Font name="DankMono-Regular" size="28.0" />
+          </font>
+        </Button>
       </children>
       <effect>
         <DropShadow height="51.23" radius="25.6175" width="53.24">
@@ -100,7 +100,7 @@
         </DropShadow>
       </effect>
     </Pane>
-      <TextField id="searchBar" fx:id="searchBar" layoutX="230.0" layoutY="67.0" prefHeight="49.0" prefWidth="629.0" />
+      <TextField id="searchBar" fx:id="searchBar" layoutX="230.0" layoutY="67.0" prefHeight="49.0" prefWidth="629.0" promptText="Nhập mã người dùng, tên, mã định danh..." />
       <ChoiceBox id="choiceButton" fx:id="choiceBox" layoutX="868.0" layoutY="67.0" prefHeight="50.0" prefWidth="187.0" />
       <TableView id="userTableView" fx:id="userTableView" layoutX="230.0" layoutY="130.0" prefHeight="610.0" prefWidth="825.0">
         <columns>
@@ -115,14 +115,14 @@
       </TableView>
       <Button id="showUserButton" layoutX="999.0" layoutY="200.0" mnemonicParsing="false" onAction="#showUser" prefHeight="60.0" prefWidth="200.0" text="Show" />
       <Button id="editUserButton" layoutX="1009.0" layoutY="405.0" mnemonicParsing="false" onAction="#editUser" prefHeight="60.0" prefWidth="180.0" text="Edit" />
-      <Button id="removeUserButton" fx:id="removeUserButton" layoutX="999.0" layoutY="612.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="56.0" prefWidth="200.0" text="Remove" />
-      <Button id="addUserButton" fx:id="addUserButton" layoutX="1068.0" layoutY="64.0" mnemonicParsing="false" onAction="#addUser" prefHeight="56.0" prefWidth="56.0" text="+" />
+      <Button id="removeUserButton" layoutX="999.0" layoutY="612.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="56.0" prefWidth="200.0" text="Remove" />
+      <Button id="addUserButton" layoutX="1068.0" layoutY="64.0" mnemonicParsing="false" onAction="#addUser" prefHeight="56.0" prefWidth="56.0" text="+" />
       <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="811.0" layoutY="73.0" onMouseClicked="#searchUser" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Image/searchIcon.png" />
          </image>
       </ImageView>
-      <Button id="searchUserButton" fx:id="searchButton" layoutX="804.0" layoutY="73.0" minWidth="40.0" mnemonicParsing="false" onAction="#searchUser" prefHeight="40.0" prefWidth="40.0">
+      <Button id="searchUserButton" layoutX="804.0" layoutY="73.0" minWidth="40.0" mnemonicParsing="false" onAction="#searchUser" prefHeight="40.0" prefWidth="40.0">
          <rotationAxis>
             <Point3D />
          </rotationAxis></Button>

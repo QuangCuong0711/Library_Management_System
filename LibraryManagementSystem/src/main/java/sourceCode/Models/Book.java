@@ -1,16 +1,6 @@
 package sourceCode.Models;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.cell.PropertyValueFactory;
-import sourceCode.Services.Service;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-public class Document {
+public class Book {
 
     private String ISBN;
     private String title;
@@ -24,7 +14,7 @@ public class Document {
     private String description;
     private int quantity;
 
-    public Document() {
+    public Book() {
         ISBN = "";
         title = "";
         author = "";
@@ -38,7 +28,7 @@ public class Document {
         quantity = 0;
     }
 
-    public Document(String ISBN, String title, String author, String genre, String publisher,
+    public Book(String ISBN, String title, String author, String genre, String publisher,
             String publicationDate, String language, int pageNumber, String imageUrl,
             String description, int quantity) {
         this.ISBN = ISBN;

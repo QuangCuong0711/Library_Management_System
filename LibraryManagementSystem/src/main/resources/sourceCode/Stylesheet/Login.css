@@ -1,49 +1,84 @@
-.button {
+#myPane {
+    -fx-background-color: #DCD6F7;
+    -fx-background-radius: 20px;
+    -fx-border-color: #424874;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgb(166, 177, 225), 20, 0, 0, 0);
+}
+
+
+#login {
     -fx-text-fill: #5D18DCFF;
-    -fx-padding: 17px 40px;
     -fx-background-radius: 20px;
     -fx-cursor: hand;
     -fx-border-width: 0;
     -fx-background-color: white;
     -fx-letter-spacing: 2px;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
     -fx-transition: all 2s ease;
-    -fx-font-family: "Cambria Math";
+    -fx-font-family: "Candara", "Courier New", monospace;
     -fx-effect: dropshadow(three-pass-box, rgba(160, 101, 172, 0.8), 10, 0, 0, 0);
 }
 
-.button:hover {
+#login:hover {
     -fx-transition: all 3s ease;
     -fx-letter-spacing: 3px;
-    -fx-background-color: #5D18DCFF;
+    -fx-background-color: #424874;
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
 
-.button:pressed {
+#login:pressed {
     -fx-transition: 300ms ease;
     -fx-letter-spacing: 3px;
-    -fx-background-color: #5D18DCFF;
+    -fx-background-color: #424874;
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
     -fx-translate-y: 3px;
 }
-
-#form {
-    -fx-background-color: #5D18DCFF;
-    -fx-arc-width: 50px;
-    -fx-arc-height: 50px;
-    -fx-padding: 20px;
-    -fx-spacing: 20px;
-    -fx-alignment: center;
-    -fx-effect: dropshadow(three-pass-box, rgb(130, 130, 205), 10, 0, 0, 0);
+#username {
+    -fx-background-color: #F4EEFF;
+    -fx-background-radius: 10;
+    -fx-border-color: #424874;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 10;
+    -fx-prompt-text-fill: #424874;
+    -fx-font-size: 15px;
+    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #424874;
+    -fx-padding: 10px;
+    -fx-background-insets: 0;
 }
-
-#welcome {
-    -fx-alignment: center;
-    -fx-text-fill: #5D18DCFF;
-    -fx-font-size: 50px;
-    -fx-font-weight: bold;
+#password {
+    -fx-background-color: #F4EEFF;
+    -fx-background-radius: 10;
+    -fx-border-color: #424874;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 10;
+    -fx-prompt-text-fill: #424874;
+    -fx-prompt-font-size: 10px;
+    -fx-font-size: 15px;
+    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-weight: lighter;
+    -fx-text-fill: #424874;
+    -fx-padding: 10px;
+    -fx-background-insets: 0;
+}
+#signup {
+    -fx-background-color: transparent;
+    -fx-text-fill: #545fae;
+    -fx-font-weight: lighter;
     -fx-font-family: "Cambria Math";
 }
+#signup:hover {
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 5, 0, 0, 0);
+}
+#admin {
+    -fx-text-fill: #424874;
+    -fx-font-weight: lighter;
+    -fx-font-family: "Cambria Math";
+}
+

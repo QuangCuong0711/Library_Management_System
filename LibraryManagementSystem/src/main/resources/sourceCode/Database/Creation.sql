@@ -16,14 +16,15 @@ CREATE TABLE IF NOT EXISTS BOOK
 );
 CREATE TABLE IF NOT EXISTS USER
 (
-    userId         VARCHAR(10) PRIMARY KEY,
-    name           VARCHAR(50),
-    identityNumber VARCHAR(20),
-    birth          DATE,
-    gender         VARCHAR(6),
-    phoneNumber    VARCHAR(20),
-    email          VARCHAR(50),
-    address        VARCHAR(255)
+    userId          VARCHAR(10) PRIMARY KEY,
+    name            VARCHAR(50),
+    identityNumber  VARCHAR(20),
+    birth           DATE,
+    gender          VARCHAR(6),
+    phoneNumber     VARCHAR(20),
+    email           VARCHAR(50),
+    address         VARCHAR(255),
+    password VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS ADMIN
 (
@@ -34,27 +35,34 @@ CREATE TABLE IF NOT EXISTS ADMIN
     gender         VARCHAR(6),
     phoneNumber    VARCHAR(20),
     email          VARCHAR(50),
-    address        VARCHAR(255)
+    address        VARCHAR(255),
+    password       VARCHAR(50)
 );
-CREATE TABLE IF NOT EXISTS ADMINACCOUNT
+CREATE TABLE IF NOT EXISTS TICKET
 (
-    adminAccountId  VARCHAR(10) PRIMARY KEY,
-    nameAccount     VARCHAR(50),
-    passwordAccount VARCHAR(50),
-    adminId         VARCHAR(10),
-    CONSTRAINT fk_admin FOREIGN KEY (adminId) REFERENCES ADMIN(adminId)
+    ticketId   VARCHAR(10) PRIMARY KEY,
+    userId     VARCHAR(10),
+    bookId     VARCHAR(20),
+    borrowDate DATE,
+    returnDate DATE,
+    status     VARCHAR(20),
+    FOREIGN KEY (userId) REFERENCES USER (userId),
+    FOREIGN KEY (bookId) REFERENCES BOOK (ISBN)
 );
-CREATE TABLE IF NOT EXISTS USERACCOUNT
+CREATE TABLE IF NOT EXISTS FEEDBACK
 (
-    userAccountId  VARCHAR(10) PRIMARY KEY,
-    nameAccount     VARCHAR(50),
-    passwordAccount VARCHAR(50),
-    userId         VARCHAR(10),
-    CONSTRAINT fk_user FOREIGN KEY (userId) REFERENCES USER(userId)
+    feedbackId VARCHAR(10) PRIMARY KEY,
+    userId     VARCHAR(10),
+    bookId     VARCHAR(20),
+    comment    TEXT,
+    rating     INT,
+    FOREIGN KEY (userId) REFERENCES USER (userId),
+    FOREIGN KEY (bookId) REFERENCES BOOK (ISBN)
 );
+
 DROP TABLE IF EXISTS BOOK;
 DROP TABLE IF EXISTS USER;
 DROP TABLE IF EXISTS ADMIN;
-DROP TABLE IF EXISTS ADMINACCOUNT;
-DROP TABLE IF EXISTS USER;
-DROP TABLE IF EXISTS USERACCOUNT;
+DROP TABLE IF EXISTS TICKET;
+DROP TABLE IF EXISTS FEEDBACK;
+DROP DATABASE IF EXISTS LIBRARY;

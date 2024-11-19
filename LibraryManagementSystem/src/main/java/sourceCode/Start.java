@@ -1,6 +1,5 @@
 package sourceCode;
 
-import java.sql.SQLException;
 import java.util.Objects;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,9 +15,10 @@ public class Start extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws SQLException {
+    public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(this.getClass().getResource("Login.fxml")));
+            Parent root = FXMLLoader.load(
+                    Objects.requireNonNull(this.getClass().getResource("Login.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Library Management System");

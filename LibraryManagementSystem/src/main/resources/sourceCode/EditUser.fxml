@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="370.0" prefWidth="500.0" style="-fx-background-color: transparent;" stylesheets="@Stylesheet/EditUser.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.Controllers.EditUserController">
+<AnchorPane prefHeight="370.0" prefWidth="500.0" style="-fx-background-color: transparent;" stylesheets="@Stylesheet/EditUser.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.EditUser">
   <children>
     <Pane id="myPane" prefHeight="370.0" prefWidth="500.0">
       <children>

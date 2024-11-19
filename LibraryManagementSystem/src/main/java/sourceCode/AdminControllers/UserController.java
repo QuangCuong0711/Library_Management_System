@@ -1,4 +1,4 @@
-package sourceCode.Controllers;
+package sourceCode.AdminControllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,19 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
@@ -30,11 +27,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Services.Service;
 import sourceCode.Models.User;
+import sourceCode.Services.SwitchScene;
 
-public class UserController implements Initializable {
+public class UserController extends SwitchScene implements Initializable {
 
-    ObservableList<User> userList = FXCollections.observableArrayList();
-    String[] choices = {"UserID", "Name", "IdentityNumber"};
+    private static final String selectAllQuery = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User";
+    private static final ObservableList<User> userList = FXCollections.observableArrayList();
+    private static final String[] searchBy = {"UserID", "Name", "IdentityNumber"};
     @FXML
     private TableView<User> userTableView;
     @FXML
@@ -52,10 +51,18 @@ public class UserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        choiceBox.getItems().addAll(choices);
-        choiceBox.setValue("UserID");
+        choiceBox.getItems().addAll(searchBy);
+        choiceBox.setValue("Search by");
+        userTableView.setItems(userList);
+        useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        identitynumberColumn.setCellValueFactory(new PropertyValueFactory<>("identityNumber"));
+        birthColumn.setCellValueFactory(new PropertyValueFactory<>("birth"));
+        selectUser(selectAllQuery);
+    }
+
+    public void selectUser(String query) {
         userList.clear();
-        String query = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address FROM library.User";
         try (Connection conn = Service.getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
@@ -69,16 +76,13 @@ public class UserController implements Initializable {
                             rs.getString("gender"),
                             rs.getString("phoneNumber"),
                             rs.getString("email"),
-                            rs.getString("address")
+                            rs.getString("address"),
+                            rs.getString("password")
                     );
                     userList.add(user);
                 }
             }
-            useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
-            fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            identitynumberColumn.setCellValueFactory(new PropertyValueFactory<>("identityNumber"));
-            birthColumn.setCellValueFactory(new PropertyValueFactory<>("birth"));
-            userTableView.setItems(userList);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,34 +91,9 @@ public class UserController implements Initializable {
     public void searchUser() {
         userList.clear();
         String query =
-                "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address FROM library.User WHERE "
+                "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User WHERE "
                         + choiceBox.getValue() + " LIKE '%" + searchBar.getText() + "%'";
-        try (Connection conn = Service.getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    User user = new User(
-                            rs.getString("userId"),
-                            rs.getString("name"),
-                            rs.getString("identityNumber"),
-                            rs.getDate("birth").toLocalDate(),
-                            rs.getString("gender"),
-                            rs.getString("phoneNumber"),
-                            rs.getString("email"),
-                            rs.getString("address")
-                    );
-                    userList.add(user);
-                }
-            }
-            useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
-            fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-            identitynumberColumn.setCellValueFactory(new PropertyValueFactory<>("identityNumber"));
-            birthColumn.setCellValueFactory(new PropertyValueFactory<>("birth"));
-            userTableView.setItems(userList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        selectUser(query);
     }
 
     public void showUser() {
@@ -122,8 +101,8 @@ public class UserController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/ShowUser.fxml"));
             Parent root = loader.load();
-            ShowUserController showUserController = loader.getController();
-            showUserController.setUser(user);
+            ShowUser showUser = loader.getController();
+            showUser.setUser(user);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("User Information");
@@ -145,6 +124,10 @@ public class UserController implements Initializable {
             return;
         }
         User user = userTableView.getSelectionModel().getSelectedItem();
+        if (user == null) {
+            System.out.println("No user selected");
+            return;
+        }
         String query = "DELETE FROM library.user WHERE userId = ?";
         try (Connection connection = Service.getConnection()) {
             assert connection != null;
@@ -165,9 +148,9 @@ public class UserController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/EditUser.fxml"));
             Parent root = loader.load();
-            EditUserController editUserController = loader.getController();
-            editUserController.setUser(user);
-            editUserController.setUserController(this);
+            EditUser editUser = loader.getController();
+            editUser.setUser(user);
+            editUser.setUserController(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Edit User");
@@ -179,13 +162,12 @@ public class UserController implements Initializable {
         }
     }
 
-
     public void addUser() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AddUser.fxml"));
             Parent root = loader.load();
-            AddUserController addUserController = loader.getController();
-            addUserController.setUserController(this);
+            AddUser addUser = loader.getController();
+            addUser.setUserController(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Add User");
@@ -194,42 +176,6 @@ public class UserController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void switchMenu(ActionEvent event) {
-        try {
-            Button button = (Button) event.getSource();
-            Stage stage = (Stage) button.getScene().getWindow();
-            Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource("/sourceCode/Menu.fxml")));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void logout(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Log out");
-        alert.setHeaderText(null);
-        alert.setContentText("Do you want to log out ?");
-        Optional<ButtonType> a = alert.showAndWait();
-        if (a.isPresent() && a.get() == ButtonType.OK) {
-            try {
-                Button button = (Button) event.getSource();
-                Stage stage = (Stage) button.getScene().getWindow();
-                Parent root = FXMLLoader.load(
-                        Objects.requireNonNull(getClass().getResource("/sourceCode/Login.fxml")));
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.centerOnScreen();
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package sourceCode.Controllers;
+package sourceCode.AdminControllers;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import sourceCode.Models.User;
 import sourceCode.Services.Service;
 
-public class EditUserController {
+public class EditUser {
 
     public TextField userID;
     public TextField name;

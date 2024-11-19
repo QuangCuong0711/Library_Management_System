@@ -20,6 +20,7 @@ public class User {
 
     private String address;
 
+    private String password;
 
     public User() {
         userId = "";
@@ -30,10 +31,11 @@ public class User {
         phoneNumber = "";
         email = "";
         address = "";
+        password = "";
     }
 
     public User(String userId, String name, String identityNumber, LocalDate birth, String gender,
-            String phoneNumber, String email, String address) {
+            String phoneNumber, String email, String address, String password) {
         this.userId = userId;
         this.name = name;
         this.identityNumber = identityNumber;
@@ -42,17 +44,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
-    }
-
-    public User(User other) {
-        this.userId = other.userId;
-        this.name = other.name;
-        this.identityNumber = other.identityNumber;
-        this.birth = other.birth;
-        this.gender = other.gender;
-        this.phoneNumber = other.phoneNumber;
-        this.email = other.email;
-        this.address = other.address;
+        this.password = password;
     }
 
     public String getEmail() {
@@ -117,5 +109,13 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

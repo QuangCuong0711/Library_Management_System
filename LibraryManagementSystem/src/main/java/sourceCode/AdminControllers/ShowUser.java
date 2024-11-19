@@ -1,4 +1,4 @@
-package sourceCode.Controllers;
+package sourceCode.AdminControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import sourceCode.Models.User;
 
-public class ShowUserController {
+public class ShowUser {
 
     @FXML
     private Label name;

@@ -1,4 +1,4 @@
-package sourceCode.Controllers;
+package sourceCode.AdminControllers;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -15,7 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sourceCode.Services.Service;
 
-public class AddUserController implements Initializable {
+public class AddUser implements Initializable {
 
     public TextField address;
     public TextField phoneNumber;
@@ -33,7 +33,7 @@ public class AddUserController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resource) {
-        gender.getItems().addAll("Male", "Female");
+        gender.getItems().addAll("Nam", "Nữ");
     }
 
     public void confirmButtonOnAction(ActionEvent event) {

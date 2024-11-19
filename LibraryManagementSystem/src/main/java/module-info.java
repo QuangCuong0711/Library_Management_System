@@ -19,10 +19,10 @@ module sourceCode {
 
     opens sourceCode to javafx.fxml;
     exports sourceCode;
-    exports sourceCode.Controllers;
-    opens sourceCode.Controllers to javafx.fxml;
     exports sourceCode.Models;
     opens sourceCode.Models to javafx.fxml;
     exports sourceCode.Services;
     opens sourceCode.Services to javafx.fxml;
+    exports sourceCode.AdminControllers;
+    opens sourceCode.AdminControllers to javafx.fxml;
 }
