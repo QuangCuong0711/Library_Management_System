@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS ADMIN
 );
 CREATE TABLE IF NOT EXISTS TICKET
 (
-    ticketId   VARCHAR(10) PRIMARY KEY,
+    ticketId   INT AUTO_INCREMENT PRIMARY KEY,
     userId     VARCHAR(10),
     bookId     VARCHAR(20),
     borrowDate DATE,
@@ -51,11 +51,12 @@ CREATE TABLE IF NOT EXISTS TICKET
 );
 CREATE TABLE IF NOT EXISTS FEEDBACK
 (
-    feedbackId VARCHAR(10) PRIMARY KEY,
+    feedbackId INT AUTO_INCREMENT PRIMARY KEY,
     userId     VARCHAR(10),
     bookId     VARCHAR(20),
     comment    TEXT,
     rating     INT,
+    date       DATE,
     FOREIGN KEY (userId) REFERENCES USER (userId),
     FOREIGN KEY (bookId) REFERENCES BOOK (ISBN)
 );

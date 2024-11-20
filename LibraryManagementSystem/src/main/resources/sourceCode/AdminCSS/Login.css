@@ -3,10 +3,9 @@
     -fx-background-radius: 20px;
     -fx-border-color: #424874;
     -fx-border-width: 0.5;
-    -fx-border-radius: 10px;
+    -fx-border-radius: 20px;
     -fx-effect: dropshadow(three-pass-box, rgb(166, 177, 225), 20, 0, 0, 0);
 }
-
 
 #login {
     -fx-text-fill: #5D18DCFF;
@@ -17,7 +16,7 @@
     -fx-letter-spacing: 2px;
     -fx-font-size: 14px;
     -fx-transition: all 2s ease;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-effect: dropshadow(three-pass-box, rgba(160, 101, 172, 0.8), 10, 0, 0, 0);
 }
 
@@ -37,6 +36,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
     -fx-translate-y: 3px;
 }
+
 #username {
     -fx-background-color: #F4EEFF;
     -fx-background-radius: 10;
@@ -45,12 +45,13 @@
     -fx-border-radius: 10;
     -fx-prompt-text-fill: #424874;
     -fx-font-size: 15px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
     -fx-background-insets: 0;
 }
+
 #password {
     -fx-background-color: #F4EEFF;
     -fx-background-radius: 10;
@@ -58,27 +59,45 @@
     -fx-border-width: 0.5;
     -fx-border-radius: 10;
     -fx-prompt-text-fill: #424874;
-    -fx-prompt-font-size: 10px;
     -fx-font-size: 15px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
     -fx-background-insets: 0;
 }
+
 #signup {
     -fx-background-color: transparent;
     -fx-text-fill: #545fae;
     -fx-font-weight: lighter;
-    -fx-font-family: "Cambria Math";
+    -fx-font-family: "Open Sans";
 }
+
 #signup:hover {
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 5, 0, 0, 0);
 }
+
 #admin {
     -fx-text-fill: #424874;
     -fx-font-weight: lighter;
-    -fx-font-family: "Cambria Math";
+    -fx-font-family: "Open Sans";
 }
+
+#admin > .box {
+    -fx-border-color: #424874;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5;
+}
+
+#admin > .box:hover {
+    -fx-background-color: #A6B1E1;
+}
+
+#admin > .box:pressed {
+    -fx-background-color: #A6B1E1;
+}
+
 

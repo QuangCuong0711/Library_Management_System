@@ -28,7 +28,7 @@ public class ShowUser {
 
     public void setUser(User user) {
         name.setText(user.getName());
-        userID.setText(user.getUserId());
+        userID.setText("USERID:" + user.getUserId());
         identityNumber.setText(user.getIdentityNumber());
         birth.setText(user.getBirth().toString());
         gender.setText(user.getGender());

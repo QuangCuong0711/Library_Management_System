@@ -1,20 +1,20 @@
 #name {
     -fx-font-size: 35;
-    -fx-font-weight: bold;
     -fx-text-fill: #ffffff;
-    -fx-font-family: "Cambria", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
+    -fx-font-weight: lighter;
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
 #userID {
     -fx-font-size: 20;
     -fx-text-fill: #ffffff;
-    -fx-font-family: "JetBrains Mono Light";
+    -fx-font-family: "Open Sans";
 }
 .label {
     -fx-font-size: 12;
-    -fx-font-weight: lighter;
     -fx-text-fill: #081761;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
+    -fx-font-weight: lighter;
 }
 .label:hover {
     -fx-font-weight: bolder;
@@ -24,8 +24,8 @@
     -fx-text-fill: #424874;
     -fx-alignment: BASELINE_CENTER;
     -fx-font-size: 20px;
-    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
-    -fx-font-weight: bold;
+    -fx-font-family: "Open Sans";
+    -fx-font-weight: lighter;
     -fx-background-radius: 15px;
 }
 

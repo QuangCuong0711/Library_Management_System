@@ -34,7 +34,7 @@ public class Book extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
     private static final ObservableList<sourceCode.Models.Book> bookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Use GGAPI", "ISBN", "Title", "Author", "Publisher"};
+    private static final String[] searchBy = {"ISBN", "Title", "Author", "Publisher"};
     @FXML
     private TableView<sourceCode.Models.Book> bookTableView;
     @FXML
@@ -53,7 +53,7 @@ public class Book extends SwitchScene implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Search by");
+        choiceBox.setValue("Bộ lọc");
         bookTableView.setItems(bookList);
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -90,7 +90,8 @@ public class Book extends SwitchScene implements Initializable {
         }
     }
 
-    public void searchAPIBook(String keyword) {
+    public void searchAPIBook() {
+        String keyword = searchBar.getText();
         bookList.clear();
         try {
             JsonArray books = Service.getBook(keyword);
@@ -134,13 +135,9 @@ public class Book extends SwitchScene implements Initializable {
      * This method is used to search for a Document.
      */
     public void searchBook() {
-        if (choiceBox.getValue().equals("Use GGAPI")) {
-            searchAPIBook(searchBar.getText());
-        } else {
-            String query = "SELECT * FROM library.book WHERE " + choiceBox.getValue() + " LIKE '%"
-                    + searchBar.getText() + "%'";
-            selectBook(query);
-        }
+        String query = "SELECT * FROM library.book WHERE " + choiceBox.getValue() + " LIKE '%"
+                + searchBar.getText() + "%'";
+        selectBook(query);
     }
 
     /**
@@ -170,9 +167,9 @@ public class Book extends SwitchScene implements Initializable {
      */
     public void removeBook() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Remove Document");
-        alert.setHeaderText("Can't restore this user after removing");
-        alert.setContentText("Do you want to remove this Document ?");
+        alert.setTitle("Remove Book");
+        alert.setHeaderText("Can't restore this book after removing");
+        alert.setContentText("Do you want to remove this Book ?");
         Optional<ButtonType> a = alert.showAndWait();
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;

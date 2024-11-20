@@ -18,11 +18,11 @@
             </ImageView>
         <Button layoutX="507.0" layoutY="45.0" onAction="#confirmButtonOnAction" prefHeight="32.0" prefWidth="45.0" text="X" />
         <Label fx:id="identityNumber" layoutX="186.0" layoutY="300.0" prefHeight="17.0" prefWidth="179.0" text="001205057599" />
-        <Label id="userID" fx:id="userID" layoutX="368.0" layoutY="170.0" prefHeight="16.0" prefWidth="122.0" text="U016" />
+        <Label id="userID" fx:id="userID" layoutX="275.0" layoutY="165.0" prefHeight="27.0" prefWidth="226.0" text="USERID: XXXX" />
         <Label fx:id="address" layoutX="186.0" layoutY="340.0" prefHeight="17.0" prefWidth="179.0" text="35 Trần Thái Tông, Cầu Giấy" />
         <Label fx:id="birth" layoutX="35.0" layoutY="340.0" text="10/07/2005" />
         <Label fx:id="email" layoutX="415.0" layoutY="340.0" text="optimus1072005@" />
-        <Label id="name" fx:id="name" layoutX="276.0" layoutY="125.0" prefHeight="36.0" prefWidth="283.0" text="NGUYEN THANH HAI" />
+        <Label id="name" fx:id="name" layoutX="274.0" layoutY="124.0" prefHeight="36.0" prefWidth="283.0" text="SAMPLE NAME" />
         <Label fx:id="phoneNumber" layoutX="415.0" layoutY="300.0" text="0336334600" />
         <Label fx:id="gender" layoutX="35.0" layoutY="300.0" text="Nam" />
          </children>

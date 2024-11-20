@@ -57,10 +57,10 @@
 
 #choiceButton {
     -fx-background-color: #A6B1E1;
-    -fx-background-radius: 0 10 0 0;
+    -fx-background-radius: 0;
     -fx-border-color: #424874;
     -fx-border-width: 0.5;
-    -fx-border-radius: 0 10 0 0;
+    -fx-border-radius: 0;
     -fx-font-size: 20px;
     -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
@@ -71,6 +71,19 @@
 
 #choiceButton:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+#showButton {
+    -fx-background-color: #A6B1E1;
+    -fx-background-radius: 0 10 0 0;
+    -fx-border-color: #424874;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 0 10 0 0;
+    -fx-font-size: 20px;
+    -fx-font-family: "Open Sans";
+    -fx-font-weight: lighter;
+    -fx-text-fill: #424874;
+    -fx-padding: 0px;
 }
 
 .table-view:hover {
@@ -123,44 +136,7 @@
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #424874;
-    -fx-background-radius: 20px;
-}
-
-.scroll-bar .track {
     -fx-background-color: #a6b1e1;
-    -fx-background-radius: 20px;
+    -fx-background-size: 0;
 }
 
-
-#addButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 20 0 0 0;
-    -fx-background-radius: 20 0 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
-
-#showButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 0 0 0 0;
-    -fx-background-radius: 0 0 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
-
-#editButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 0 0 0 0;
-    -fx-background-radius: 0 0 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
-
-#removeButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 0 20 0 0;
-    -fx-background-radius: 0 20 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}

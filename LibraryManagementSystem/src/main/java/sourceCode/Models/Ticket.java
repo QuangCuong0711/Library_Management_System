@@ -4,46 +4,46 @@ import java.time.LocalDate;
 
 public class Ticket {
 
-    private String ticketID;
-    private String documentID;
+    private int ticketID;
+    private String bookID;
     private String userID;
     private LocalDate borrowedDate;
     private LocalDate returnedDate;
     private int quantity;
 
     public Ticket() {
-        this.ticketID = "";
-        this.documentID = "";
+        this.ticketID = 0;
+        this.bookID = "";
         this.userID = "";
         this.borrowedDate = null;
         this.returnedDate = null;
         this.quantity = 0;
     }
 
-    public Ticket(String ticketID, String documentID, String userID, LocalDate borrowedDate,
+    public Ticket(int ticketID, String bookID, String userID, LocalDate borrowedDate,
             LocalDate returnedDate, int quantity) {
         this.ticketID = ticketID;
-        this.documentID = documentID;
+        this.bookID = bookID;
         this.userID = userID;
         this.borrowedDate = borrowedDate;
         this.returnedDate = returnedDate;
         this.quantity = quantity;
     }
 
-    public String getTicketID() {
+    public int getTicketID() {
         return ticketID;
     }
 
-    public void setTicketID(String ticketID) {
+    public void setTicketID(int ticketID) {
         this.ticketID = ticketID;
     }
 
-    public String getDocumentID() {
-        return documentID;
+    public String getBookID() {
+        return bookID;
     }
 
-    public void setDocumentID(String documentID) {
-        this.documentID = documentID;
+    public void setBookID(String bookID) {
+        this.bookID = bookID;
     }
 
     public String getUserID() {

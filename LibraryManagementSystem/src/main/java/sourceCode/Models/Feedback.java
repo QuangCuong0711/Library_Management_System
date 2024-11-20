@@ -1,34 +1,40 @@
 package sourceCode.Models;
 
+import java.time.LocalDate;
+
 public class Feedback {
 
-    private String feedbackID;
+    private int feedbackID;
     private String userID;
     private String ISBN;
     private String comment;
-    private String rating;
+    private int rating;
+    private LocalDate date;
 
     public Feedback() {
-        feedbackID = "";
+        feedbackID = 0;
         userID = "";
         ISBN = "";
         comment = "";
-        rating = "";
+        rating = 0;
+        date = null;
     }
 
-    public Feedback(String feedbackID, String userID, String ISBN, String comment, String rating) {
+    public Feedback(int feedbackID, String userID, String ISBN, String comment, int rating,
+            LocalDate date) {
         this.feedbackID = feedbackID;
         this.userID = userID;
         this.ISBN = ISBN;
         this.comment = comment;
         this.rating = rating;
+        this.date = date;
     }
 
-    public String getFeedbackID() {
+    public int getFeedbackID() {
         return feedbackID;
     }
 
-    public void setFeedbackID(String feedbackID) {
+    public void setFeedbackID(int feedbackID) {
         this.feedbackID = feedbackID;
     }
 
@@ -56,11 +62,19 @@ public class Feedback {
         this.comment = comment;
     }
 
-    public String getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

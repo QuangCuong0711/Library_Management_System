@@ -51,7 +51,7 @@ public class User extends SwitchScene implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Search by");
+        choiceBox.setValue("Bộ lọc");
         userTableView.setItems(userList);
         useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));

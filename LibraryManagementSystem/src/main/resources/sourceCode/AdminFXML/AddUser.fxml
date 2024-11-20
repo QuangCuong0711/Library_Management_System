@@ -9,9 +9,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="370.0" prefWidth="500.0" style="-fx-background-color: transparent;" stylesheets="@../AdminCSS/AddUser.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.AddUser">
+<AnchorPane prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: F4EEFF;" stylesheets="@../AdminCSS/AddUser.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.AddUser">
    <children>
-      <Pane id="myPane" prefHeight="370.0" prefWidth="500.0">
+      <Pane id="myPane" layoutX="25.0" layoutY="15.0" prefHeight="370.0" prefWidth="500.0">
          <children>
             <Text layoutX="25.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
             <TextField fx:id="userID" layoutX="20.0" layoutY="35.0" prefHeight="35.0" prefWidth="154.0" />
@@ -29,8 +29,8 @@
             <Text layoutX="250.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Birth" />
             <Text layoutX="25.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Identity Number" />
             <TextField fx:id="address" layoutX="20.0" layoutY="247.0" prefHeight="35.0" prefWidth="468.0" />
-            <Button layoutX="17.0" layoutY="304.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" prefHeight="35.0" prefWidth="223.0" text="OK" />
-            <Button layoutX="250.0" layoutY="304.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="35.0" prefWidth="237.0" text="Cancel" />
+            <Button layoutX="69.0" layoutY="310.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" prefHeight="30.0" prefWidth="170.0" text="Add" />
+            <Button layoutX="250.0" layoutY="310.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="30.0" prefWidth="170.0" text="Cancel" />
             <DatePicker fx:id="birth" layoutX="250.0" layoutY="107.0" prefHeight="35.0" prefWidth="154.0" />
             <Text layoutX="417.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gender" />
             <Text layoutX="292.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mail" />
