@@ -2,7 +2,6 @@ package sourceCode;
 
 import java.sql.*;
 import java.util.Objects;
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import java.io.IOException;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import sourceCode.AdminControllers.User;
 import sourceCode.Services.Service;
 
@@ -19,7 +17,6 @@ public class LoginController {
 
     public TextField usernameField;
     public PasswordField passwordField;
-    public Label alertLabel;
     public CheckBox checkBox;
 
     public void logIn(ActionEvent event) {
@@ -52,13 +49,13 @@ public class LoginController {
                 stage.centerOnScreen();
                 stage.show();
             } else {
-                alertLabel.setText("Invalid username or password");
-                PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
-                pauseTransition.setOnFinished(e -> alertLabel.setText(""));
-                pauseTransition.play();
+                usernameField.clear();
+                passwordField.clear();
             }
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     public void signUp() {

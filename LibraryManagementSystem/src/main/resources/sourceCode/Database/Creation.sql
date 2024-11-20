@@ -16,15 +16,15 @@ CREATE TABLE IF NOT EXISTS BOOK
 );
 CREATE TABLE IF NOT EXISTS USER
 (
-    userId          VARCHAR(10) PRIMARY KEY,
-    name            VARCHAR(50),
-    identityNumber  VARCHAR(20),
-    birth           DATE,
-    gender          VARCHAR(6),
-    phoneNumber     VARCHAR(20),
-    email           VARCHAR(50),
-    address         VARCHAR(255),
-    password        VARCHAR(50)
+    userId         VARCHAR(10) PRIMARY KEY,
+    name           VARCHAR(50),
+    identityNumber VARCHAR(20),
+    birth          DATE,
+    gender         VARCHAR(6),
+    phoneNumber    VARCHAR(20),
+    email          VARCHAR(50),
+    address        VARCHAR(255),
+    password       VARCHAR(50)
 );
 CREATE TABLE IF NOT EXISTS ADMIN
 (
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS TICKET
     bookId     VARCHAR(20),
     borrowDate DATE,
     returnDate DATE,
-    quantity   INT,
+    status     VARCHAR(20),
     FOREIGN KEY (userId) REFERENCES USER (userId),
     FOREIGN KEY (bookId) REFERENCES BOOK (ISBN)
 );

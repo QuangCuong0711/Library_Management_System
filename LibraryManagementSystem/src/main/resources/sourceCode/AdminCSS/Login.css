@@ -45,7 +45,7 @@
     -fx-border-radius: 10;
     -fx-prompt-text-fill: #424874;
     -fx-font-size: 15px;
-    -fx-font-family: "Open Sans";
+    -fx-font-family: "Times New Roman";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
@@ -60,7 +60,7 @@
     -fx-border-radius: 10;
     -fx-prompt-text-fill: #424874;
     -fx-font-size: 15px;
-    -fx-font-family: "Open Sans";
+    -fx-font-family: "Times New Roman";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
@@ -75,7 +75,7 @@
 }
 
 #signup:hover {
-    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
 
 #admin {
