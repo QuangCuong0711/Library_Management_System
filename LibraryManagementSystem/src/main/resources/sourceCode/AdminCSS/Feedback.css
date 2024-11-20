@@ -3,7 +3,7 @@
     -fx-text-fill: #424874;
     -fx-alignment: BASELINE_CENTER;
     -fx-font-size: 20px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-background-radius: 15px;
     -fx-border-color: #424874;
@@ -43,7 +43,7 @@
     -fx-border-radius: 10 0 0 0;
     -fx-prompt-text-fill: #424874;
     -fx-font-size: 20px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
@@ -62,7 +62,7 @@
     -fx-border-width: 0.5;
     -fx-border-radius: 0;
     -fx-font-size: 20px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 0px;
@@ -80,7 +80,7 @@
     -fx-border-width: 0.5;
     -fx-border-radius: 0 10 0 0;
     -fx-font-size: 20px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 0px;
@@ -108,7 +108,7 @@
     -fx-border-width: 0;
     -fx-text-fill: #424874;
     -fx-font-size: 20px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-padding: 7px;
     -fx-alignment: CENTER-LEFT;
@@ -120,7 +120,7 @@
     -fx-border-width: 0;
     -fx-font-size: 16px;
     -fx-text-fill: #424874;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-padding: 5px;
 }

@@ -16,7 +16,7 @@
     -fx-letter-spacing: 2px;
     -fx-font-size: 14px;
     -fx-transition: all 2s ease;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-effect: dropshadow(three-pass-box, rgba(160, 101, 172, 0.8), 10, 0, 0, 0);
 }
 
@@ -45,7 +45,7 @@
     -fx-border-radius: 10;
     -fx-prompt-text-fill: #424874;
     -fx-font-size: 15px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
@@ -60,7 +60,7 @@
     -fx-border-radius: 10;
     -fx-prompt-text-fill: #424874;
     -fx-font-size: 15px;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 10px;
@@ -71,7 +71,7 @@
     -fx-background-color: transparent;
     -fx-text-fill: #545fae;
     -fx-font-weight: lighter;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
 }
 
 #signup:hover {
@@ -81,7 +81,7 @@
 #admin {
     -fx-text-fill: #424874;
     -fx-font-weight: lighter;
-    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-family: "Open Sans";
 }
 
 #admin > .box {
