@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class Feedback extends SwitchScene implements Initializable {
     private static final String selectAllQuery = "SELECT * FROM library.Feedback";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"UserID", "bookId"};
+    private static final String[] searchBy = {"userId", "bookId"};
 
     @FXML
     private TableView<sourceCode.Models.Feedback> feedBackTableView;
@@ -99,7 +99,8 @@ public class Feedback extends SwitchScene implements Initializable {
 
     public void searchFeedBack() {
         feedBackList.clear();
-        String query = selectAllQuery + choiceBox.getValue() + " LIKE '%" + searchBar.getText() + "%'";
+        String query = "SELECT * FROM library.Feedback WHERE " + choiceBox.getValue() + " LIKE '%" +
+                searchBar.getText() + "%'";
         selectFeedBack(query);
     }
 
