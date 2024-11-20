@@ -17,7 +17,7 @@ public class Start extends Application {
     public void start(Stage primaryStage) {
         try {
             Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(this.getClass().getResource("AdminFXML/Login.fxml")));
+                    Objects.requireNonNull(this.getClass().getResource("Login.fxml")));
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Library Management System");

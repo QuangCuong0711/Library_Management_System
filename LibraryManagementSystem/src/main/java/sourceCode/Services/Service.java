@@ -3,6 +3,8 @@ package sourceCode.Services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import sourceCode.Models.Book;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -14,15 +16,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import sourceCode.Models.Book;
 
 public class Service {
 
     private static final String URL = "jdbc:mysql://localhost:3306/library";
     private static final String USER = "root";
-    private static final String PASSWORD = "10072005"; // mng sửa theo máy cá nhân nhé
+    private static final String PASSWORD = "cg0711";
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
-    private static final String API_KEY = "AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg";
+    private static final String API_KEY = "AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE";
 
     // Quang Cuong : AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE
     // Thanh Hai : AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg
@@ -62,34 +63,7 @@ public class Service {
     }
 
     public static Book createBookFromJson(JsonObject book) {
-        JsonObject volumeInfo = book.getAsJsonObject("volumeInfo");
-        Book newBook = new Book();
-        newBook.setISBN(book.get("id") != null ? book.get("id").getAsString() : null);
-        newBook.setTitle(
-                volumeInfo.get("title") != null ? volumeInfo.get("title").getAsString() : null);
-        newBook.setAuthor(
-                volumeInfo.get("authors") != null ? volumeInfo.get("authors").getAsJsonArray()
-                        .get(0).getAsString() : null);
-        newBook.setGenre(
-                volumeInfo.get("categories") != null ? volumeInfo.get("categories").getAsJsonArray()
-                        .get(0).getAsString() : null);
-        newBook.setPublisher(
-                volumeInfo.get("publisher") != null ? volumeInfo.get("publisher").getAsString()
-                        : null);
-        newBook.setPublicationDate(
-                volumeInfo.get("publishedDate") != null ? volumeInfo.get("publishedDate")
-                        .getAsString() : null);
-        newBook.setLanguage(
-                volumeInfo.get("language") != null ? volumeInfo.get("language").getAsString()
-                        : null);
-        newBook.setPageNumber(
-                volumeInfo.get("pageCount") != null ? volumeInfo.get("pageCount").getAsInt() : 0);
-        newBook.setImageUrl(volumeInfo.getAsJsonObject("imageLinks") != null
-                && volumeInfo.getAsJsonObject("imageLinks").get("thumbnail") != null
-                ? volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString() : null);
-        newBook.setDescription(
-                volumeInfo.get("description") != null ? volumeInfo.get("description").getAsString()
-                        : null);
-        return newBook;
+        sourceCode.Models.Book bookModel = new sourceCode.Models.Book();
+        return bookModel;
     }
 }
