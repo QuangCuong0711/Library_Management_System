@@ -3,8 +3,8 @@ USE LIBRARY;
 -- Insert sample data into ADMIN table
 INSERT INTO ADMIN (adminId, name, identityNumber, birth, gender, phoneNumber, email, address, password)
 VALUES
-    ('admin1', 'Admin One', 'ID111111', '1980-02-02', 'Male', '1112223333', 'admin1@example.com', '789 Oak St', 'admin'),
-    ('admin2', 'Admin Two', 'ID222222', '1975-03-03', 'Female', '4445556666', 'admin2@example.com', '101 Pine St', 'admin');
+    ('admin', 'Admin One', 'ID111111', '1980-02-02', 'Male', '1112223333', 'admin1@example.com', '789 Oak St', 'admin'),
+    ('admin1', 'Admin Two', 'ID222222', '1975-03-03', 'Female', '4445556666', 'admin2@example.com', '101 Pine St', 'admin');
 INSERT INTO LIBRARY.USER (userId, name, identityNumber, birth, gender, phoneNumber, email, address, password)
 VALUES ('U001', 'Nguyễn Văn An', '123456789', '1990-05-15', 'Nam', '0912345678',
         'nguyenvanan@gmail.com', 'Số 123 Đường Lê Lợi, Quận 1, TP.HCM', '123456'),

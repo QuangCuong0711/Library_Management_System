@@ -2,10 +2,13 @@
     -fx-background-color: WHITE;
     -fx-text-fill: #424874;
     -fx-alignment: BASELINE_CENTER;
-    -fx-font-size: 28px;
-    -fx-font-family: "Bodoni MT Condensed", "Courier New", monospace;
-    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-font-family: "Candara", "Courier New", monospace;
+    -fx-font-weight: lighter;
     -fx-background-radius: 15px;
+    -fx-border-color: #424874;
+    -fx-border-width: 1;
+    -fx-border-radius: 15px;
 }
 
 .button:hover {
@@ -25,43 +28,15 @@
     -fx-background-color: #424874;
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
-#searchUserButton {
+
+#searchButton {
     -fx-border-width: 0;
     -fx-background-color: transparent;
 }
-#addUserButton {
-    -fx-font-size: 20px;
-    -fx-border-radius: 40;
-    -fx-background-radius: 40;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
-#showUserButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 20 0 0 0;
-    -fx-background-radius: 20 0 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
 
-#editUserButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 0 0 0 0;
-    -fx-background-radius: 0 0 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
-
-#removeUserButton {
-    -fx-rotate: 90;
-    -fx-border-radius: 0 20 0 0;
-    -fx-background-radius: 0 20 0 0;
-    -fx-border-color: #424874;
-    -fx-effect: none;
-}
 
 #searchBar {
-    -fx-background-color: #a6b1e1;
+    -fx-background-color: #A6B1E1;
     -fx-background-radius: 10 0 0 0;
     -fx-border-color: #424874;
     -fx-border-width: 0.5;
@@ -81,7 +56,7 @@
 }
 
 #choiceButton {
-    -fx-background-color: #a6b1e1;
+    -fx-background-color: #A6B1E1;
     -fx-background-radius: 0 10 0 0;
     -fx-border-color: #424874;
     -fx-border-width: 0.5;
@@ -98,37 +73,37 @@
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
 
-#userTableView:hover {
+.table-view:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 5, 0, 0, 0);
 }
 
-#userTableView {
-    -fx-background-color: #dcd6f7;
+.table-view {
+    -fx-background-color: #ffffff;
     -fx-background-radius: 0 0 0 0;
     -fx-border-color: #424874;
     -fx-border-radius: 0 0 0 0;
     -fx-border-width: 1;
 }
 
-#userTableView .column-header {
-    -fx-background-color: #a6b1e1;
+.table-view .column-header {
+    -fx-background-color: #A6B1E1;
 }
 
 .table-view .column-header .label {
-    -fx-background-color: #a6b1e1;
+    -fx-background-color: #A6B1E1;
     -fx-background-radius: 0 0 0 0;
     -fx-border-width: 0;
     -fx-text-fill: #424874;
     -fx-font-size: 20px;
     -fx-font-family: "Candara", "Courier New", monospace;
-    -fx-font-weight: bold;
+    -fx-font-weight: lighter;
     -fx-padding: 7px;
     -fx-alignment: CENTER-LEFT;
 }
 
 
 .table-view .cell {
-    -fx-background-color: #dcd6f7;
+    -fx-background-color: #ffffff;
     -fx-border-width: 0;
     -fx-font-size: 16px;
     -fx-text-fill: #424874;
@@ -137,28 +112,48 @@
     -fx-padding: 5px;
 }
 
-#userTableView .cell:hover {
+.table-view .cell:hover {
     -fx-font-weight: bold;
 }
 
-#userTableView .cell:selected {
+.table-view .cell:selected {
     -fx-background-color: #a6b1e1;
     -fx-text-fill: #424874;
     -fx-font-weight: bold;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: #424874;
-    -fx-background-radius: 20px;
-}
-
-.scroll-bar .track {
     -fx-background-color: #a6b1e1;
-    -fx-background-radius: 20px;
+    -fx-background-size: 0;
+}
+#addButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 20 0 0 0;
+    -fx-background-radius: 20 0 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
 }
 
-.table-view .placeholder {
-    -fx-text-fill: #888888;
-    -fx-font-style: italic;
-    -fx-text: "Can't find any User in Database";
+#showButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
+}
+
+#editButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
+}
+
+#removeButton {
+    -fx-rotate: 90;
+    -fx-border-radius: 0 20 0 0;
+    -fx-background-radius: 0 20 0 0;
+    -fx-border-color: #424874;
+    -fx-effect: none;
 }

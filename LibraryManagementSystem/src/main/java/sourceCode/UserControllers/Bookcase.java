@@ -1,5 +1,7 @@
 package sourceCode.UserControllers;
 
-public class Bookcase {
+import sourceCode.Services.SwitchScene;
+
+public class Bookcase extends SwitchScene {
 
 }

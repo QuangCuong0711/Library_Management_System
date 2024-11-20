@@ -17,32 +17,32 @@
    <children>
       <Pane layoutY="25.0" prefHeight="750.0" prefWidth="200.0" style="-fx-background-color: rgb(166, 177, 225); -fx-background-radius: 0 30 30 0;">
          <children>
-            <Button id="currentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" stylesheets="@../AdminCSS/User.css" text="HOME">
+            <Button id="currentButton" alignment="BASELINE_LEFT" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0"  text="HOME">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchToBook" prefHeight="50.0" prefWidth="140.0" stylesheets="@../AdminCSS/User.css" text="BOOK">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchToBook" prefHeight="50.0" prefWidth="140.0"  text="BOOK">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchToUser" prefHeight="50.0" prefWidth="140.0" stylesheets="@../AdminCSS/User.css" text="USER">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="270.0" mnemonicParsing="false" onAction="#switchToUser" prefHeight="50.0" prefWidth="140.0"  text="USER">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" onAction="#switchToSetting" prefHeight="50.0" prefWidth="140.0" stylesheets="@../AdminCSS/User.css" text="SETTING">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="450.0" mnemonicParsing="false" onAction="#switchToSetting" prefHeight="50.0" prefWidth="140.0"  text="SETTING">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" onAction="#switchToFeedback" prefHeight="50.0" prefWidth="140.0" stylesheets="@../AdminCSS/User.css" text="FEEDBACK">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="390.0" mnemonicParsing="false" onAction="#switchToFeedback" prefHeight="50.0" prefWidth="140.0"  text="FEEDBACK">
                <font>
-                  <Font name="DankMono-Regular" size="30.0" />
+                  <Font name="DankMono-Regular" size="83.0" />
                </font>
             </Button>
-            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" onAction="#switchToTicket" prefHeight="50.0" prefWidth="140.0" stylesheets="@../AdminCSS/User.css" text="TICKET">
+            <Button alignment="BASELINE_LEFT" layoutX="20.0" layoutY="330.0" mnemonicParsing="false" onAction="#switchToTicket" prefHeight="50.0" prefWidth="140.0"  text="TICKET">
                <font>
                   <Font name="DankMono-Regular" size="30.0" />
                </font>

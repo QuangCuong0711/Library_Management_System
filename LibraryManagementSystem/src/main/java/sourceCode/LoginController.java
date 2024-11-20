@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sourceCode.AdminControllers.User;
 import sourceCode.Services.Service;
 
 public class LoginController {
@@ -21,7 +22,7 @@ public class LoginController {
     public Label alertLabel;
     public CheckBox checkBox;
 
-    public void login(ActionEvent event) {
+    public void logIn(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
         String query;
@@ -59,5 +60,9 @@ public class LoginController {
         } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
+    }
+    public void signUp() {
+        User user = new User();
+        user.addUser();
     }
 }
