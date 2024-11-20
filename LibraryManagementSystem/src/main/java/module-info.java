@@ -25,4 +25,6 @@ module sourceCode {
     opens sourceCode.Services to javafx.fxml;
     exports sourceCode.AdminControllers;
     opens sourceCode.AdminControllers to javafx.fxml;
+    exports sourceCode.UserControllers;
+    opens sourceCode.UserControllers to javafx.fxml;
 }
