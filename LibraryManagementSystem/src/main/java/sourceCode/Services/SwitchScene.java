@@ -45,10 +45,6 @@ public class SwitchScene {
         switchTo(event, "AdminFXML/Feedback");
     }
 
-    public void switchToSetting(ActionEvent event) {
-        switchTo(event, "AdminFXML/Setting");
-    }
-
     public void switchToLogin(ActionEvent event) {
         switchTo(event, "Login");
     }

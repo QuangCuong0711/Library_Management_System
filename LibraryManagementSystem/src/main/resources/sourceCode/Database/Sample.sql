@@ -50,3 +50,31 @@ VALUES ('U001', 'Nguyễn Văn An', '123456789', '1990-05-15', 'Nam', '091234567
 
        ('U015', 'Trần Thị Oanh', '357159468', '1970-08-05', 'Nữ', '0956789123',
         'ttoanh70@gmail.com', '159 Lý Thường Kiệt, Hà Nội', '123456');
+INSERT INTO Feedback (userID, ISBN, comment, rating, date)
+VALUES
+('U001', '978-3-16-148410-0', 'Great book, very informative!', 5, '2024-11-21'),
+('U002', '978-1-4028-9462-6', 'Not what I expected.', 2, '2024-11-22'),
+('U003', '978-0-545-01022-1', 'Good read, but a bit lengthy.', 4, '2024-11-23'),
+('U004', '978-0-7432-7356-5', 'Excellent book, highly recommend!', 5, '2024-11-24'),
+('U005', '978-0-316-76948-8', 'Interesting perspective.', 3, '2024-11-25');
+INSERT INTO TICKET (userId, ISBN, borrowDate, returnDate, quantity)
+VALUES
+('U001', '978-3-16-148410-0', '2023-11-21', '2023-12-21', 1),
+('U002', '978-1-4028-9462-6', '2023-11-22', '2023-12-22', 1),
+('U003', '978-0-545-01022-1', '2023-11-23', '2023-12-23', 1),
+('U004', '978-0-7432-7356-5', '2023-11-24', '2023-12-24', 1),
+('U005', '978-0-316-76948-8', '2023-11-25', '2023-12-25', 1);
+INSERT INTO BOOK (ISBN, title, author, genre, publicationDate, language, pageNumber, imageUrl, description, quantity)
+VALUES ('978-3-16-148410-0', 'The Art of War', 'Sun Tzu', 'Non-fiction', '2010-01-01', 'English', 200, 'https://images-na.ssl-images-amazon
+.com/images/I/51Q7x6jZJjL._SX331_BO1,204,203,200_.jpg', 'The Art of War is an ancient Chinese military treatise attributed to Sun Tzu, a military
+strategist, and philosopher.', 5),
+('978-1-4028-9462-6', 'The Great Gatsby', 'F. Scott Fitzgerald', 'Fiction', '2013-01-01', 'English', 180, 'https://images-na.ssl-images-amazon.com
+/images/I/51Q7x6jZJjL._SX331_BO1,204,203,200_.jpg', 'The Great Gatsby is a novel by American writer F. Scott Fitzgerald. Set in the Jazz Age on Long
+Island, the novel depicts narrator Nick Carraway''s interactions with mysterious millionaire Jay Gatsby and Gatsby''s obsession to reunite with his former
+lover, Daisy Buchanan.', 5),
+('978-0-545-01022-1', 'Harry Potter and the Sorcerer''s Stone', 'J.K. Rowling', 'Fantasy', '2014-01-01', 'English', 320, 'https://images-na.ssl-images-
+amazon.com/images/I/51Q7x6jZJjL._SX331_BO1,204,203,200_.jpg', 'Harry Potter and the Philosopher''s Stone is a fantasy novel written by British author J. K.
+Rowling. The first novel in the Harry Potter series and Rowling''s debut novel, it follows Harry Potter, a young wizard who discovers his magical heritage on
+his eleventh birthday, when he receives a letter of acceptance to Hogwarts School of Witchcraft and Wizardry.', 5),
+('978-0-7432-7356-5', 'The Catcher in the Rye', 'J.D. Salinger', 'Fiction', '2015-01-01', 'English', 230, 'https://images-na.ssl-images-amazon.com/images
+/I/51Q7x6jZJjL._SX331_BO1,204,203,200_.jpg', 'The Catcher in the Rye is a novel by J. D. Salinger, partially published in serial form in 1945–1946 and as a', 5);

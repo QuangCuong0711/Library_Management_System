@@ -28,7 +28,7 @@ import javafx.stage.StageStyle;
 import sourceCode.Services.Service;
 import sourceCode.Services.SwitchScene;
 
-public class User extends SwitchScene implements Initializable {
+public class    User extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User";
     private static final ObservableList<sourceCode.Models.User> userList = FXCollections.observableArrayList();
@@ -81,7 +81,6 @@ public class User extends SwitchScene implements Initializable {
                     userList.add(user);
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

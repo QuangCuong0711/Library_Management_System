@@ -60,8 +60,7 @@ public class EditUser {
             e.printStackTrace();
         }
         user.initialize(null, null);
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        stage.close();
+        cancelButtonOnAction(event);
     }
 
     public void cancelButtonOnAction(ActionEvent event) {

@@ -42,23 +42,23 @@ CREATE TABLE IF NOT EXISTS TICKET
 (
     ticketId   INT AUTO_INCREMENT PRIMARY KEY,
     userId     VARCHAR(10),
-    bookId     VARCHAR(20),
+    ISBN     VARCHAR(20),
     borrowDate DATE,
     returnDate DATE,
-    status     VARCHAR(20),
-    FOREIGN KEY (userId) REFERENCES USER (userId),
-    FOREIGN KEY (bookId) REFERENCES BOOK (ISBN)
+    quantity   INT
+#     FOREIGN KEY (userId) REFERENCES USER (userId),
+#     FOREIGN KEY (ISBN) REFERENCES BOOK (ISBN)
 );
 CREATE TABLE IF NOT EXISTS FEEDBACK
 (
     feedbackId INT AUTO_INCREMENT PRIMARY KEY,
     userId     VARCHAR(10),
-    bookId     VARCHAR(20),
+    ISBN     VARCHAR(20),
     comment    TEXT,
     rating     INT,
-    date       DATE,
-    FOREIGN KEY (userId) REFERENCES USER (userId),
-    FOREIGN KEY (bookId) REFERENCES BOOK (ISBN)
+    date       DATE
+#     FOREIGN KEY (userId) REFERENCES USER (userId),
+#     FOREIGN KEY (ISBN) REFERENCES BOOK (ISBN)
 );
 DROP TABLE IF EXISTS BOOK;
 DROP TABLE IF EXISTS USER;

@@ -11,34 +11,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@../UserCSS/Home.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.UserControllers.Home">
   <children>
     <Pane layoutX="43.0" layoutY="1.0" prefHeight="121.0" prefWidth="1117.0" style="-fx-background-color: rgb(166, 177, 225); -fx-background-radius: 0 0 50 50;">
       <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="426.0" layoutY="5.0" prefHeight="111.0" prefWidth="265.0" text="LIFEBRARY">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="426.0" layoutY="5.0" prefHeight="111.0" prefWidth="265.0" text="LIFEBRARY" textFill="WHITE">
           <font>
-            <Font name="Bernard MT Condensed" size="62.0" />
+            <Font name="Bernard MT Condensed" size="60.0" />
           </font>
-          <textFill>
-            <LinearGradient>
-              <stops>
-                <Stop>
-                  <color>
-                    <Color red="1.0" green="1.0" blue="1.0" />
-                  </color>
-                </Stop>
-                <Stop offset="1.0">
-                  <color>
-                    <Color red="1.0" green="1.0" blue="1.0" />
-                  </color>
-                </Stop>
-              </stops>
-            </LinearGradient>
-          </textFill>
           <effect>
             <Glow level="0.57" />
           </effect>
@@ -48,7 +30,7 @@
             <Font name="DankMono-Regular" size="30.0" />
           </font>
         </Button>
-        <Button alignment="BASELINE_LEFT" layoutX="894.0" layoutY="33.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="174.0" text="TEST">
+        <Button alignment="BASELINE_LEFT" layoutX="897.0" layoutY="35.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="174.0" text="TEST">
           <font>
             <Font name="DankMono-Regular" size="30.0" />
           </font>
@@ -74,7 +56,7 @@
     </Pane>
       <TextField id="searchBar" layoutX="175.0" layoutY="180.0" prefHeight="43.0" prefWidth="625.0" promptText="Let's type something..." />
       <ChoiceBox id="choiceBox" layoutX="806.0" layoutY="180.0" prefHeight="43.0" prefWidth="230.0" />
-      <ListView layoutX="96.0" layoutY="246.0" prefHeight="525.0" prefWidth="1011.0" />
+      <ListView layoutX="96.0" layoutY="246.0" prefHeight="423.0" prefWidth="1011.0" />
       <Accordion layoutX="199.0" layoutY="223.0" />
   </children>
 </AnchorPane>

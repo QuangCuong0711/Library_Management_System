@@ -1,30 +1,32 @@
 .button {
-    -fx-background-color: WHITE;
-    -fx-text-fill: #424874;
-    -fx-alignment: BASELINE_CENTER;
-    -fx-font-size: 20px;
-    -fx-font-family: "Open Sans";
+    -fx-background-color: TRANSPARENT; /* Nền trong suốt */
+    -fx-text-fill: #ffffff; /* Màu chữ */
+    -fx-alignment: CENTER; /* Căn giữa nội dung */
+    -fx-font-size: 30px;
+    -fx-font-family: "Bernard MT Condensed";
     -fx-font-weight: lighter;
-    -fx-background-radius: 15px;
-    -fx-border-color: #424874;
-    -fx-border-width: 1;
-    -fx-border-radius: 15px;
+    -fx-border-color: TRANSPARENT; /* Không viền */
+    -fx-border-width: 0;
 }
 
 .button:hover {
-    -fx-text-fill: WHITE;
-    -fx-background-color: #424874;
-    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+    -fx-text-fill: #424874;
+    -fx-scale-x: 1.2;
+    -fx-sclae-y: 1.2;
 }
 
 .button:pressed {
-    -fx-background-color: #424874;
-    -fx-text-fill: WHITE;
-    -fx-translate-y: 3px;
+    -fx-text-fill: #424874;
+    -fx-scale-x: 1.2;
+    -fx-sclae-y: 1.2;
+}
+#homeButton {
+    -fx-font-size: 45px;
 }
 
 #currentButton {
     -fx-text-fill: WHITE;
     -fx-background-color: #424874;
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+    -fx-underlined: true;
 }

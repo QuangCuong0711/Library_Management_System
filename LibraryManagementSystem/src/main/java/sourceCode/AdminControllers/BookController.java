@@ -30,7 +30,7 @@ import javafx.stage.StageStyle;
 import sourceCode.Services.Service;
 import sourceCode.Services.SwitchScene;
 
-public class Book extends SwitchScene implements Initializable {
+public class BookController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
     private static final ObservableList<sourceCode.Models.Book> bookList = FXCollections.observableArrayList();
@@ -194,73 +194,38 @@ public class Book extends SwitchScene implements Initializable {
         }
     }
 
-    //    public void editDocument(String title, String author, String genre, String publisher,
-//            String publicationDate, String language,
-//            int pageNumber, String imageUrl, String description, int quantity) {
-//        String query =
-//                "UPDATE library.book SET title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, "
-//                        +
-//                        "language = ?, pageNumber = ?, imageUrl = ?, description = ?, quantity = ? WHERE ISBN = ?";
-//        try (Connection connection = Service.getConnection()) {
-//            assert connection != null;
-//            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-//                stmt.setString(1, title);
-//                stmt.setString(2, author);
-//                stmt.setString(3, genre);
-//                stmt.setString(4, publisher);
-//                stmt.setString(5, publicationDate);
-//                stmt.setString(6, language);
-//                stmt.setInt(7, pageNumber);
-//                stmt.setString(8, imageUrl);
-//                stmt.setString(9, description);
-//                stmt.setInt(10, quantity);
-//                stmt.executeUpdate();
-//                System.out.println("Document edited successfully");
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Can't edit this document");
-//            e.printStackTrace();
-//        }
-//    }
-//    public void addDocument(String title, String author, String genre, String publisher,
-//            String publicationDate, String language,
-//            int pageNumber, String imageUrl, String description, int quantity) {
-//        String query = "INSERT INTO library.book (title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//        try (Connection connection = Service.getConnection()) {
-//            assert connection != null;
-//            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-//                stmt.setString(1, title);
-//                stmt.setString(2, author);
-//                stmt.setString(3, genre);
-//                stmt.setString(4, publisher);
-//                stmt.setString(5, publicationDate);
-//                stmt.setString(6, language);
-//                stmt.setInt(7, pageNumber);
-//                stmt.setString(8, imageUrl);
-//                stmt.setString(9, description);
-//                stmt.setInt(10, quantity);
-//                stmt.executeUpdate();
-//                System.out.println("Document added successfully");
-//            }
-//        } catch (SQLException e) {
-//            System.out.println("Document adding failed");
-//            e.printStackTrace();
-//        }
-//    }
-//    public void addBook() {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AddBook.fxml"));
-//            Parent root = loader.load();
-//            AddBook addBook = loader.getController();
-//            addBook.setBookController(this);
-//            Stage stage = new Stage();
-//            stage.setScene(new Scene(root));
-//            stage.setTitle("Add Book");
-//            stage.initStyle(StageStyle.UNDECORATED);
-//            stage.centerOnScreen();
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void addBook() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AdminFXML/AddBook.fxml"));
+            Parent root = loader.load();
+            AddBook addBook = loader.getController();
+            addBook.setBookController(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add Book");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void editBook() {
+        sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AdminFXML/EditBook.fxml"));
+            Parent root = loader.load();
+            EditBook editBook = loader.getController();
+            editBook.setBookController(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Edit Book");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
