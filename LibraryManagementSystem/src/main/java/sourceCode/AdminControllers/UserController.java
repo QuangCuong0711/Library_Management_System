@@ -28,11 +28,12 @@ import javafx.stage.StageStyle;
 import sourceCode.Services.Service;
 import sourceCode.Services.SwitchScene;
 
-public class    User extends SwitchScene implements Initializable {
+public class UserController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User";
     private static final ObservableList<sourceCode.Models.User> userList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"UserID", "Name", "IdentityNumber"};
+    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Họ và tên", "Số CCCD",
+            "Ngày sinh"};
     @FXML
     private TableView<sourceCode.Models.User> userTableView;
     @FXML
@@ -51,7 +52,7 @@ public class    User extends SwitchScene implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Bộ lọc");
+        choiceBox.setValue("Tìm kiếm theo");
         userTableView.setItems(userList);
         useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -62,36 +63,49 @@ public class    User extends SwitchScene implements Initializable {
 
     public void selectUser(String query) {
         userList.clear();
-        try (Connection conn = Service.getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    sourceCode.Models.User user = new sourceCode.Models.User(
-                            rs.getString("userId"),
-                            rs.getString("name"),
-                            rs.getString("identityNumber"),
-                            rs.getDate("birth").toLocalDate(),
-                            rs.getString("gender"),
-                            rs.getString("phoneNumber"),
-                            rs.getString("email"),
-                            rs.getString("address"),
-                            rs.getString("password")
-                    );
-                    userList.add(user);
+        Runnable task = () -> {
+            try (Connection conn = Service.getConnection()) {
+                assert conn != null;
+                try (Statement stmt = conn.createStatement();
+                        ResultSet rs = stmt.executeQuery(query)) {
+                    while (rs.next()) {
+                        sourceCode.Models.User user = new sourceCode.Models.User(
+                                rs.getString("userId"),
+                                rs.getString("name"),
+                                rs.getString("identityNumber"),
+                                rs.getDate("birth").toLocalDate(),
+                                rs.getString("gender"),
+                                rs.getString("phoneNumber"),
+                                rs.getString("email"),
+                                rs.getString("address"),
+                                rs.getString("password")
+                        );
+                        userList.add(user);
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     public void searchUser() {
         userList.clear();
-        String query =
-                "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User WHERE "
-                        + choiceBox.getValue() + " LIKE '%" + searchBar.getText() + "%'";
-        selectUser(query);
+        if (choiceBox.getValue().equals("Tất cả")) {
+            selectUser(selectAllQuery);
+        } else if (choiceBox.getValue().equals("Mã người dùng")) {
+            selectUser(selectAllQuery + " WHERE userId LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("Họ và tên")) {
+            selectUser(selectAllQuery + " WHERE name LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("Số CCCD")) {
+            selectUser(
+                    selectAllQuery + " WHERE identityNumber LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("Ngày sinh")) {
+            selectUser(selectAllQuery + " WHERE birth LIKE '%" + searchBar.getText() + "%'");
+        }
     }
 
     public void showUser() {

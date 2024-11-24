@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import java.io.IOException;
 import javafx.stage.Stage;
-import sourceCode.AdminControllers.User;
+import sourceCode.AdminControllers.UserController;
 import sourceCode.Services.Service;
 
 public class LoginController {
@@ -30,7 +30,7 @@ public class LoginController {
             fxmlFile = "AdminFXML/Home.fxml";
         } else {
             query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ?";
-            fxmlFile = "UserFXML/Home.fxml";
+            fxmlFile = "UserFXML/Bookcase.fxml";
         }
 
         try (Connection conn = Service.getConnection()) {
@@ -59,7 +59,7 @@ public class LoginController {
         }
     }
     public void signUp() {
-        User user = new User();
-        user.addUser();
+        UserController userController = new UserController();
+        userController.addUser();
     }
 }

@@ -16,7 +16,7 @@
                   <Image url="@../Image/informationCard%20.png" />
                </image>
             </ImageView>
-        <Button layoutX="507.0" layoutY="45.0" onAction="#confirmButtonOnAction" prefHeight="32.0" prefWidth="45.0" text="X" />
+        <Button layoutX="521.0" layoutY="44.0" onAction="#confirmButtonOnAction" prefHeight="4.0" prefWidth="29.0" text="X" />
         <Label fx:id="identityNumber" layoutX="186.0" layoutY="300.0" prefHeight="17.0" prefWidth="179.0" text="001205057599" />
         <Label id="userID" fx:id="userID" layoutX="275.0" layoutY="169.0" prefHeight="27.0" prefWidth="226.0" text="USERID: XXXX" />
         <Label fx:id="address" layoutX="186.0" layoutY="340.0" prefHeight="17.0" prefWidth="179.0" text="35 Trần Thái Tông, Cầu Giấy" />

@@ -27,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sourceCode.Models.Book;
 import sourceCode.Services.Service;
 import sourceCode.Services.SwitchScene;
 
@@ -34,7 +35,8 @@ public class BookController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
     private static final ObservableList<sourceCode.Models.Book> bookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"ISBN", "Title", "Author", "Publisher"};
+    private static final String[] searchBy = {"Tất cả", "GoogleAPI", "ISBN", "Tiêu đề", "Tác giả",
+            "Thể loại"};
     @FXML
     private TableView<sourceCode.Models.Book> bookTableView;
     @FXML
@@ -44,7 +46,7 @@ public class BookController extends SwitchScene implements Initializable {
     @FXML
     private TableColumn<sourceCode.Models.Book, String> titleColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Book, String> publisherColumn;
+    private TableColumn<sourceCode.Models.Book, String> genreColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -53,12 +55,12 @@ public class BookController extends SwitchScene implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Bộ lọc");
+        choiceBox.setValue("Tìm kiếm theo");
         bookTableView.setItems(bookList);
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        publisherColumn.setCellValueFactory(new PropertyValueFactory<>("publisher"));
+        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
         selectBook(selectAllQuery);
     }
 
@@ -69,7 +71,7 @@ public class BookController extends SwitchScene implements Initializable {
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
-                    sourceCode.Models.Book book = new sourceCode.Models.Book(
+                    Book book = new Book(
                             rs.getString("ISBN"),
                             rs.getString("title"),
                             rs.getString("author"),
@@ -135,9 +137,20 @@ public class BookController extends SwitchScene implements Initializable {
      * This method is used to search for a Document.
      */
     public void searchBook() {
-        String query = "SELECT * FROM library.book WHERE " + choiceBox.getValue() + " LIKE '%"
-                + searchBar.getText() + "%'";
-        selectBook(query);
+        bookList.clear();
+        if (choiceBox.getValue().equals("Tất cả")) {
+            selectBook(selectAllQuery);
+        } else if (choiceBox.getValue().equals("ISBN")) {
+            selectBook(selectAllQuery + " WHERE ISBN LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("Tiêu đề")) {
+            selectBook(selectAllQuery + " WHERE title LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("Tác giả")) {
+            selectBook(selectAllQuery + " WHERE author LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("Thể loại")) {
+            selectBook(selectAllQuery + " WHERE genre LIKE '%" + searchBar.getText() + "%'");
+        } else if (choiceBox.getValue().equals("GoogleAPI")) {
+            searchAPIBook();
+        }
     }
 
     /**
@@ -195,8 +208,13 @@ public class BookController extends SwitchScene implements Initializable {
     }
 
     public void addBook() {
+        if (choiceBox.getValue().equals("GoogleAPI")) {
+            addAPIBook();
+            return;
+        }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AdminFXML/AddBook.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/sourceCode/AdminFXML/AddBook.fxml"));
             Parent root = loader.load();
             AddBook addBook = loader.getController();
             addBook.setBookController(this);
@@ -214,7 +232,8 @@ public class BookController extends SwitchScene implements Initializable {
     public void editBook() {
         sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AdminFXML/EditBook.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/sourceCode/AdminFXML/EditBook.fxml"));
             Parent root = loader.load();
             EditBook editBook = loader.getController();
             editBook.setBookController(this);

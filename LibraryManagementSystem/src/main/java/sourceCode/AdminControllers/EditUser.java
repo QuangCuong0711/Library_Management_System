@@ -22,7 +22,7 @@ public class EditUser {
     public TextField phoneNumber;
     public TextField address;
     public DatePicker birth;
-    private User user;
+    private UserController userController;
 
     public void setUser(sourceCode.Models.User user) {
         name.setText(user.getName());
@@ -35,8 +35,8 @@ public class EditUser {
         gender.setValue(user.getGender());
     }
 
-    public void setUserController(User user) {
-        this.user = user;
+    public void setUserController(UserController userController) {
+        this.userController = userController;
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
@@ -59,7 +59,7 @@ public class EditUser {
             System.out.println("Can't edit this user");
             e.printStackTrace();
         }
-        user.initialize(null, null);
+        userController.initialize(null, null);
         cancelButtonOnAction(event);
     }
 

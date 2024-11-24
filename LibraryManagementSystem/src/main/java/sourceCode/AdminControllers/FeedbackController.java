@@ -24,17 +24,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class Feedback extends SwitchScene implements Initializable {
+public class FeedbackController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.Feedback";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"UserID", "ISBN", "Rating"};
-    public TableColumn<Feedback, Integer> feedbackidColumn;
-    public TableColumn<Feedback, String> uidColumn;
-    public TableColumn<Feedback, String> isbnColumn;
-    public TableColumn<Feedback, Integer> ratingColumn;
-    public TableColumn<Feedback, String> dateColumn;
-    public TableColumn<Feedback, String> commentColumn;
+    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Đánh giá",
+            "Ngày đánh giá"};
+    public TableColumn<FeedbackController, Integer> feedbackidColumn;
+    public TableColumn<FeedbackController, String> uidColumn;
+    public TableColumn<FeedbackController, String> isbnColumn;
+    public TableColumn<FeedbackController, Integer> ratingColumn;
+    public TableColumn<FeedbackController, String> dateColumn;
+    public TableColumn<FeedbackController, String> commentColumn;
     @FXML
     private TableView<sourceCode.Models.Feedback> feedbackTableView;
     @FXML
@@ -45,7 +46,7 @@ public class Feedback extends SwitchScene implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Bộ lọc");
+        choiceBox.setValue("Tìm kiếm theo");
         feedbackTableView.setItems(feedBackList);
         feedbackidColumn.setCellValueFactory(new PropertyValueFactory<>("feedbackID"));
         uidColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
@@ -81,21 +82,43 @@ public class Feedback extends SwitchScene implements Initializable {
 
     public void searchFeedback() {
         feedBackList.clear();
-        String query = "SELECT * FROM library.Feedback WHERE " + choiceBox.getValue() + " LIKE '%" +
-                searchBar.getText() + "%'";
-        selectFeedback(query);
+        if (searchBar.getText().isEmpty() || choiceBox.getValue().equals("Tất cả")) {
+            selectFeedback(selectAllQuery);
+        } else {
+            String keyword = searchBar.getText();
+            String filter = choiceBox.getValue();
+            String query = "SELECT * FROM library.Feedback WHERE ";
+            switch (filter) {
+                case "Mã người dùng":
+                    query += "userId = '" + keyword + "'";
+                    break;
+                case "Mã sách":
+                    query += "ISBN = '" + keyword + "'";
+                    break;
+                case "Đánh giá":
+                    query += "rating = '" + keyword + "'";
+                    break;
+                case "Ngày đánh giá":
+                    query += "date = '" + keyword + "'";
+                    break;
+                default:
+                    break;
+            }
+            selectFeedback(query);
+        }
     }
 
     public void showUser() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sourceCode/AdminFXML/ShowUser.fxml"));
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/sourceCode/AdminFXML/ShowUser.fxml"));
         Parent root = loader.load();
         ShowUser showUser = loader.getController();
-        sourceCode.Models.Feedback selectedFeedback = feedbackTableView.getSelectionModel().getSelectedItem();
+        sourceCode.Models.Feedback selectedFeedback = feedbackTableView.getSelectionModel()
+                .getSelectedItem();
         if (selectedFeedback == null) {
             return;
         }
-        String userID = selectedFeedback.getUserID();
-        String query = "SELECT * FROM library.User WHERE userId = '" + userID + "';";
+        String query = "SELECT * FROM library.User WHERE userId = '" + selectedFeedback.getUserID() + "';";
         try (Connection conn = Service.getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
@@ -125,5 +148,46 @@ public class Feedback extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
-
+    public void showBook() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/sourceCode/AdminFXML/ShowBook.fxml"));
+        Parent root = loader.load();
+        ShowBook showBook = loader.getController();
+        sourceCode.Models.Feedback selectedFeedback = feedbackTableView.getSelectionModel()
+                .getSelectedItem();
+        if (selectedFeedback == null) {
+            return;
+        }
+        String query = "SELECT * FROM library.Book WHERE ISBN = '" + selectedFeedback.getISBN() + "';";
+        try (Connection conn = Service.getConnection()) {
+            assert conn != null;
+            try (Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query)) {
+                if (rs.next()) {
+                    sourceCode.Models.Book book = new sourceCode.Models.Book(
+                            rs.getString("ISBN"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getString("genre"),
+                            rs.getString("publisher"),
+                            rs.getString("publicationDate"),
+                            rs.getString("language"),
+                            rs.getInt("pageNumber"),
+                            rs.getString("imageUrl"),
+                            rs.getString("description"),
+                            rs.getInt("quantity")
+                    );
+                    showBook.setBook(book);
+                }
+            }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Book Information");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

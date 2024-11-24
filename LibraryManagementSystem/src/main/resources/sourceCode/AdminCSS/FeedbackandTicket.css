@@ -52,12 +52,14 @@
     -fx-border-color: #424874;
     -fx-border-width: 0.5;
     -fx-border-radius: 0 10 0 0;
+    -fx-padding: 0px;
+    -fx-background-insets: 0;
+}
+#choiceButton .label {
     -fx-font-size: 15px;
     -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
-    -fx-padding: 0px;
-    -fx-background-insets: 0;
 }
 #choiceButton:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
@@ -121,6 +123,14 @@
     -fx-padding: 0px;
     -fx-background-insets: 0;
 }
+#showBook:hover {
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+    -fx-background-color: #424874;
+    -fx-text-fill: #FFFFFF;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
 #showUser {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 10 10 10 30;
@@ -134,13 +144,6 @@
     -fx-padding: 0px;
     -fx-background-insets: 0;
 }
-#showBook:hover {
-    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
-    -fx-background-color: #424874;
-    -fx-text-fill: #FFFFFF;
-    -fx-scale-x: 1;
-    -fx-scale-y: 1;
-}
 #showUser:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
     -fx-background-color: #424874;
@@ -148,3 +151,4 @@
     -fx-scale-x: 1;
     -fx-scale-y: 1;
 }
+
