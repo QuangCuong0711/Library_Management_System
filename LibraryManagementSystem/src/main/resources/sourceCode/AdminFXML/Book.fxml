@@ -49,18 +49,13 @@
       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
     </columnResizePolicy>
   </TableView>
-  <Button id="addButton" layoutX="124.0" layoutY="720.0" mnemonicParsing="false" onAction="#addBook" prefHeight="40.0" prefWidth="200.0" text="Add Book" />
-  <Button id="removeButton" layoutX="876.0" layoutY="720.0" mnemonicParsing="false" onAction="#removeBook" prefHeight="40.0" prefWidth="200.0" text="Remove Book" />
-  <Button id="showButton" layoutX="345.0" layoutY="720.0" mnemonicParsing="false" onAction="#showBook" prefHeight="40.0" prefWidth="200.0" text="Show Book" />
-  <Button id="editButton" layoutX="654.0" layoutY="720.0" mnemonicParsing="false" onAction="#editBook" prefHeight="40.0" prefWidth="200.0" text="Edit Book" />
+  <Button id="addButton" layoutX="124.0" layoutY="720.0" mnemonicParsing="false" onAction="#addBook" prefHeight="40.0" prefWidth="220.0" text="Add Book" />
+  <Button id="removeButton" layoutX="856.0" layoutY="720.0" mnemonicParsing="false" onAction="#removeBook" prefHeight="40.0" prefWidth="220.0" text="Remove Book" />
+  <Button id="showButton" layoutX="371.0" layoutY="720.0" mnemonicParsing="false" onAction="#showBook" prefHeight="40.0" prefWidth="220.0" text="Show Book" />
+  <Button id="editButton" layoutX="611.0" layoutY="720.0" mnemonicParsing="false" onAction="#editBook" prefHeight="40.0" prefWidth="220.0" text="Edit Book" />
    <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../Image/searchIcon.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="79.0" fitWidth="67.0" layoutX="567.0" layoutY="713.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../Image/searchAPI.png" />
       </image>
    </ImageView>
 </AnchorPane>

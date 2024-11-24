@@ -13,7 +13,7 @@
          <children>
             <ImageView fitHeight="400.0" fitWidth="630.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Image/informationCard%20.png" />
+                  <Image url="@../Image/informationCard.png" />
                </image>
             </ImageView>
         <Button layoutX="521.0" layoutY="44.0" onAction="#confirmButtonOnAction" prefHeight="4.0" prefWidth="29.0" text="X" />
