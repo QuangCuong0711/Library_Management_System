@@ -30,7 +30,22 @@ public class ShowBook {
         date.setText(book.getPublicationDate());
         language.setText(book.getLanguage());
         pageNumber.setText(String.valueOf(book.getPageNumber()));
-        image.setImage(new Image(book.getImageUrl()));
+        if(book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
+            try {
+                Image img = new Image(book.getImageUrl(), true);
+                if (img.isError()) {
+                    System.out.println("Image URL is invalid or image cannot be loaded: " + book.getImageUrl());
+                    image.setImage(null);
+                } else {
+                    image.setImage(img);
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid image URL: " + book.getImageUrl());
+                image.setImage(null);
+            }
+        } else {
+            image.setImage(null);
+        }
         description.setText(book.getDescription());
     }
 

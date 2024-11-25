@@ -133,7 +133,7 @@ public class TicketController extends SwitchScene implements Initializable {
             selectTicket(
                     selectAllQuery + " WHERE borrowedDate LIKE '%" + searchBar.getText() + "%'");
         } else if (choiceBox.getValue().equals("Trạng thái")) {
-            selectTicket(selectAllQuery + " WHERE status LIKE '%" + searchBar.getText() + "%'");
+            selectTicket(selectAllQuery + " HAVING status LIKE '%" + searchBar.getText() + "%'");
         }
     }
 
