@@ -5,7 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,7 +60,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
         choiceBox.setValue("Tìm kiếm theo");
         choiceBox.getItems().addAll(searchBy);
         bookListView.setItems(bookList);
-        selectBook(selectAllQuery);
+        selectBook(selectAllQuery, sourceCode.LoginController.currentUserId);
         bookListView.setCellFactory(lv -> new ListCell<Book>() {
             @Override
             protected void updateItem(Book book, boolean empty) {
@@ -100,27 +100,29 @@ public class BookcaseController extends SwitchScene implements Initializable {
                 });
     }
 
-    public void selectBook(String query) {
+    public void selectBook(String query, String userId) {
         bookList.clear();
         try (Connection conn = Service.getConnection()) {
             assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    Book book = new Book(
-                            rs.getString("ISBN"),
-                            rs.getString("title"),
-                            rs.getString("author"),
-                            rs.getString("genre"),
-                            rs.getString("publisher"),
-                            rs.getString("publicationDate"),
-                            rs.getString("language"),
-                            rs.getInt("pageNumber"),
-                            rs.getString("imageUrl"),
-                            rs.getString("description"),
-                            rs.getInt("quantity")
-                    );
-                    bookList.add(book);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, userId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        Book book = new Book(
+                                rs.getString("ISBN"),
+                                rs.getString("title"),
+                                rs.getString("author"),
+                                rs.getString("genre"),
+                                rs.getString("publisher"),
+                                rs.getString("publicationDate"),
+                                rs.getString("language"),
+                                rs.getInt("pageNumber"),
+                                rs.getString("imageUrl"),
+                                rs.getString("description"),
+                                rs.getInt("quantity")
+                        );
+                        bookList.add(book);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -129,22 +131,55 @@ public class BookcaseController extends SwitchScene implements Initializable {
     }
 
     public void searchBook() {
+        String currentUserId = sourceCode.LoginController.currentUserId;
         if (choiceBox.getValue().equals("Tất cả")) {
-            selectBook(selectAllQuery);
+            selectBook(selectAllQuery, currentUserId);
         } else if (choiceBox.getValue().equals("ISBN")) {
-            selectBook(selectAllQuery + " AND b.ISBN LIKE '%" + searchBar.getText() + "%'");
+            selectBook(selectAllQuery + " AND b.ISBN LIKE '%" + searchBar.getText() + "%'", currentUserId);
         } else if (choiceBox.getValue().equals("Tiêu đề")) {
-            selectBook(selectAllQuery + " AND b.title LIKE '%" + searchBar.getText() + "%'");
+            selectBook(selectAllQuery + " AND b.title LIKE '%" + searchBar.getText() + "%'", currentUserId);
         } else if (choiceBox.getValue().equals("Tác giả")) {
-            selectBook(selectAllQuery + " AND b.author LIKE '%" + searchBar.getText() + "%'");
+            selectBook(selectAllQuery + " AND b.author LIKE '%" + searchBar.getText() + "%'", currentUserId);
         } else if (choiceBox.getValue().equals("Thể loại")) {
-            selectBook(selectAllQuery + " AND b.genre LIKE '%" + searchBar.getText() + "%'");
+            selectBook(selectAllQuery + " AND b.genre LIKE '%" + searchBar.getText() + "%'", currentUserId);
         }
     }
 
     public void returnBook() {
+        sourceCode.Models.Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
+        if (selectedBook == null) {
+            System.out.println("Vui lòng chọn sách để trả!");
+            return;
+        }
 
+        String currentUserID = sourceCode.LoginController.currentUserId;
+
+        String returnQuery = """
+            UPDATE library.ticket
+            SET returnedDate = CURRENT_DATE
+            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+        """;
+
+        try (Connection conn = Service.getConnection()) {
+            assert conn != null;
+            try (PreparedStatement pstmt = conn.prepareStatement(returnQuery)) {
+                pstmt.setString(1, currentUserID);
+                pstmt.setString(2, selectedBook.getISBN());
+
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Trả sách thành công: " + selectedBook.getTitle());
+                    selectBook(selectAllQuery, currentUserID);
+                } else {
+                    System.out.println("Không thể trả sách, vui lòng thử lại.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Lỗi kết nối cơ sở dữ liệu.");
+        }
     }
+
 
     public void sendFeedback() {
         try {

@@ -20,13 +20,13 @@ public class Service {
 
     private static final String URL = "jdbc:mysql://localhost:3306/library";
     private static final String USER = "root";
-    private static final String PASSWORD = "10072005"; // mng sửa theo máy cá nhân nhé
+    private static final String PASSWORD = "Ncmh@0822"; // mng sửa theo máy cá nhân nhé
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
-    private static final String API_KEY = "AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg";
+    private static final String API_KEY = "AIzaSyAyp5j4HRvk5dLirXVzyeZnWEEH3H2Cbhc";
 
     // Quang Cuong : AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE
     // Thanh Hai : AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg
-    // Nguyen Cong Manh Hung :
+    // Manh Hung : AIzaSyAyp5j4HRvk5dLirXVzyeZnWEEH3H2Cbhc
 
     public static Connection getConnection() throws SQLException {
         try {

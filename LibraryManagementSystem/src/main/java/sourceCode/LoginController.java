@@ -19,6 +19,8 @@ public class LoginController {
     public PasswordField passwordField;
     public CheckBox checkBox;
 
+    public static String currentUserId = null;
+
     public void logIn(ActionEvent event) {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -39,8 +41,9 @@ public class LoginController {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            if (resultSet.getInt(1) == 1) {
+            if (resultSet.next()) {
+                currentUserId = resultSet.getString(1);
+
                 Parent root = FXMLLoader.load(
                         Objects.requireNonNull(this.getClass().getResource(fxmlFile)));
                 Scene scene = new Scene(root);
@@ -51,6 +54,7 @@ public class LoginController {
             } else {
                 usernameField.clear();
                 passwordField.clear();
+                System.out.println("Invalid username or password");
             }
         } catch (SQLException e) {
             e.printStackTrace();
