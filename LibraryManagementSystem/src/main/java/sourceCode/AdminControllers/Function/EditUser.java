@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,6 +10,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sourceCode.AdminControllers.UserController;
 import sourceCode.Services.DatabaseConnection;
 
 public class EditUser {

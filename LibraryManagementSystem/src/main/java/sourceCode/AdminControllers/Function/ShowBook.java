@@ -1,8 +1,10 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -10,16 +12,26 @@ import sourceCode.Models.Book;
 
 public class ShowBook {
 
-    public ImageView image;
-    public Label title;
-    public Label ISBN;
-    public Label author;
-    public Label publisher;
-    public Label date;
-    public Label genre;
-    public Label language;
-    public Label pageNumber;
-    public Label description;
+    @FXML
+    private ImageView image;
+    @FXML
+    private Label title;
+    @FXML
+    private Label ISBN;
+    @FXML
+    private Label author;
+    @FXML
+    private Label publisher;
+    @FXML
+    private Label date;
+    @FXML
+    private Label genre;
+    @FXML
+    private Label language;
+    @FXML
+    private Label pageNumber;
+    @FXML
+    private TextArea description;
 
     public void setBook(Book book) {
         title.setText(book.getTitle());

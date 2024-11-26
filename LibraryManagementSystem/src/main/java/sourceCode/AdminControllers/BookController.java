@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +28,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sourceCode.AdminControllers.Function.AddBook;
+import sourceCode.AdminControllers.Function.EditBook;
+import sourceCode.AdminControllers.Function.ShowBook;
 import sourceCode.Models.Book;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.GoogleBooksAPI;
@@ -36,9 +40,8 @@ public class BookController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "GoogleAPI", "ISBN", "Tiêu đề", "Tác giả",
-            "Thể loại"};
-
+    private static final String[] searchBy = {"All", "GoogleAPI", "ISBN", "Title", "Author",
+            "Genre"};
     @FXML
     private TableView<Book> bookTableView;
     @FXML
@@ -71,30 +74,43 @@ public class BookController extends SwitchScene implements Initializable {
 
     public void selectBook(String query) {
         bookList.clear();
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    Book book = new Book(
-                            rs.getString("ISBN"),
-                            rs.getString("title"),
-                            rs.getString("author"),
-                            rs.getString("genre"),
-                            rs.getString("publisher"),
-                            rs.getString("publicationDate"),
-                            rs.getString("language"),
-                            rs.getInt("pageNumber"),
-                            rs.getString("imageUrl"),
-                            rs.getString("description"),
-                            rs.getInt("quantity")
-                    );
-                    bookList.add(book);
+        Task<ObservableList<Book>> task = new Task<>() {
+            @Override
+            protected ObservableList<Book> call() throws Exception {
+                ObservableList<Book> books = FXCollections.observableArrayList();
+                try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+                    assert conn != null;
+                    try (Statement stmt = conn.createStatement();
+                            ResultSet rs = stmt.executeQuery(query)) {
+                        while (rs.next()) {
+                            Book book = new Book(
+                                    rs.getString("ISBN"),
+                                    rs.getString("title"),
+                                    rs.getString("author"),
+                                    rs.getString("genre"),
+                                    rs.getString("publisher"),
+                                    rs.getString("publicationDate"),
+                                    rs.getString("language"),
+                                    rs.getInt("pageNumber"),
+                                    rs.getString("imageUrl"),
+                                    rs.getString("description"),
+                                    rs.getInt("quantity")
+                            );
+                            books.add(book);
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+                return books;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        };
+
+        task.setOnSucceeded(e -> {
+            bookList.addAll(task.getValue());
+        });
+
+        new Thread(task).start();
     }
 
     public void searchAPIBook() {

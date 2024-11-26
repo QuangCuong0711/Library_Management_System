@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sourceCode.AdminControllers.BookController;
 import sourceCode.Services.DatabaseConnection;
 
 public class AddBook implements Initializable {

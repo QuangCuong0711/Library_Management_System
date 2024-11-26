@@ -3,6 +3,7 @@ package sourceCode;
 import java.sql.*;
 import java.util.Objects;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -16,9 +17,12 @@ import sourceCode.Services.DatabaseConnection;
 public class LoginController {
 
     public static String currentUserId = null;
-    public TextField usernameField;
-    public PasswordField passwordField;
-    public CheckBox checkBox;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private CheckBox checkBox;
 
     public void logIn(ActionEvent event) {
         String username = usernameField.getText();
@@ -31,7 +35,7 @@ public class LoginController {
             fxmlFile = "AdminFXML/Home.fxml";
         } else {
             query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ?";
-            fxmlFile = "UserFXML/Bookcase.fxml";
+            fxmlFile = "UserFXML/Library.fxml";
         }
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;

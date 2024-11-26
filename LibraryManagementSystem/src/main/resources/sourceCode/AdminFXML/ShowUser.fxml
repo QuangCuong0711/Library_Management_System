@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="300.0" prefWidth="500.0" stylesheets="@../AdminCSS/ShowUser.css"
   xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="sourceCode.AdminControllers.ShowUser">
+  fx:controller="sourceCode.AdminControllers.Function.ShowUser">
   <Pane layoutX="1.0" prefHeight="400.0" prefWidth="600.0">
     <ImageView fitHeight="400.0" fitWidth="630.0" pickOnBounds="true" preserveRatio="true">
       <Image url="@../Image/informationCard.png"/>

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextArea?>
 <AnchorPane prefHeight="558.0" prefWidth="601.0" style="-fx-background-color: F4EEFF;"
   stylesheets="@../AdminCSS/AddUser.css" xmlns="http://javafx.com/javafx/23"
-  xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.AddBook">
+  xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.Function.AddBook">
   <Pane id="myPane" layoutX="41.0" layoutY="20.0" prefHeight="518.0" prefWidth="520.0">
     <Text layoutX="25.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ảnh bìa"/>
     <TextField fx:id="ISBN" layoutX="20.0" layoutY="35.0" prefHeight="35.0" prefWidth="154.0"/>

@@ -9,7 +9,7 @@
 
 <Pane prefHeight="375.0" prefWidth="500.0" stylesheets="@../UserCSS/FnFeedback.css"
   xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="sourceCode.UserControllers.UpdateFeedback">
+  fx:controller="sourceCode.UserControllers.Function.UpdateFeedback">
   <ImageView fitHeight="375.0" fitWidth="544.0" pickOnBounds="true" preserveRatio="true">
     <Image url="@../Image/feedback.png"/>
   </ImageView>

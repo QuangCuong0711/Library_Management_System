@@ -17,6 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sourceCode.AdminControllers.Function.ShowBook;
+import sourceCode.AdminControllers.Function.ShowUser;
+import sourceCode.Models.Ticket;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
@@ -37,29 +40,30 @@ public class TicketController extends SwitchScene implements Initializable {
                     WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
                     ELSE 'Không xác định'
                 END AS status FROM library.Ticket""";
-    private static final ObservableList<sourceCode.Models.Ticket> ticketList = FXCollections.observableArrayList();
+    private static final ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Ngày mượn",
             "Ngày trả", "Trạng thái"};
-    @FXML
-    public TableColumn<sourceCode.Models.Ticket, LocalDate> borrowedDateColumn;
-    @FXML
-    public TableColumn<sourceCode.Models.Ticket, LocalDate> returnedDateColumn;
-    @FXML
-    public TableColumn<sourceCode.Models.Ticket, String> statusColumn;
-    @FXML
-    private TableView<sourceCode.Models.Ticket> ticketTableView;
+
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
     private TextField searchBar;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, Integer> ticketIDColumn;
+    private TableView<Ticket> ticketTableView;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, String> uidColumn;
+    private TableColumn<Ticket, Integer> ticketIDColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, String> isbnColumn;
+    private TableColumn<Ticket, String> uidColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, Integer> quantityColumn;
+    private TableColumn<Ticket, String> isbnColumn;
+    @FXML
+    private TableColumn<Ticket, Integer> quantityColumn;
+    @FXML
+    private TableColumn<Ticket, LocalDate> borrowedDateColumn;
+    @FXML
+    private TableColumn<Ticket, LocalDate> returnedDateColumn;
+    @FXML
+    private TableColumn<Ticket, String> statusColumn;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
@@ -71,11 +75,11 @@ public class TicketController extends SwitchScene implements Initializable {
         borrowedDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedDate"));
         returnedDateColumn.setCellValueFactory(new PropertyValueFactory<>("returnedDate"));
         returnedDateColumn.setCellFactory(
-                column -> new TableCell<sourceCode.Models.Ticket, LocalDate>() {
+                column -> new TableCell<Ticket, LocalDate>() {
                     @Override
                     protected void updateItem(LocalDate item, boolean empty) {
                         super.updateItem(item, empty);
-                        sourceCode.Models.Ticket ticket = getTableRow().getItem();
+                        Ticket ticket = getTableRow().getItem();
                         if (empty || ticket == null) {
                             setText(null);
                         } else if (item == null && ticket.getTicketID() != 0) {
@@ -91,6 +95,7 @@ public class TicketController extends SwitchScene implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         selectTicket(selectAllQuery);
     }
+
     public void selectTicket(String query) {
         ticketList.clear();
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
@@ -98,7 +103,7 @@ public class TicketController extends SwitchScene implements Initializable {
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
-                    sourceCode.Models.Ticket ticket = new sourceCode.Models.Ticket(
+                    Ticket ticket = new Ticket(
                             rs.getInt("ticketId"),
                             rs.getString("ISBN"),
                             rs.getString("userId"),
@@ -116,6 +121,7 @@ public class TicketController extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void searchTicket() {
         ticketList.clear();
         if (choiceBox.getValue().equals("Tất cả")) {
@@ -134,12 +140,13 @@ public class TicketController extends SwitchScene implements Initializable {
             selectTicket(selectAllQuery + " HAVING   status LIKE '%" + searchBar.getText() + "%'");
         }
     }
+
     public void showUser() throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/sourceCode/AdminFXML/ShowUser.fxml"));
         Parent root = loader.load();
         ShowUser showUser = loader.getController();
-        sourceCode.Models.Ticket selectedTicket = ticketTableView.getSelectionModel()
+        Ticket selectedTicket = ticketTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedTicket == null) {
             return;
@@ -175,17 +182,19 @@ public class TicketController extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void showBook() throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/sourceCode/AdminFXML/ShowBook.fxml"));
         Parent root = loader.load();
         ShowBook showBook = loader.getController();
-        sourceCode.Models.Ticket selectedTicket = ticketTableView.getSelectionModel()
+        Ticket selectedTicket = ticketTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedTicket == null) {
             return;
         }
-        String query = "SELECT * FROM library.Book WHERE ISBN = '" + selectedTicket.getISBN() + "';";
+        String query =
+                "SELECT * FROM library.Book WHERE ISBN = '" + selectedTicket.getISBN() + "';";
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();

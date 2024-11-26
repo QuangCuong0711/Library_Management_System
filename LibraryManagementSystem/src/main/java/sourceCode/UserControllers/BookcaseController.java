@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -28,6 +29,8 @@ import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
+import sourceCode.UserControllers.BookViews.BookCellController;
+import sourceCode.UserControllers.Function.AddFeedback;
 
 public class BookcaseController extends SwitchScene implements Initializable {
 
@@ -37,22 +40,38 @@ public class BookcaseController extends SwitchScene implements Initializable {
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
             "Thể loại"};
-    public TextField searchBar;
-    public ChoiceBox<String> choiceBox;
-    public SplitPane splitPane;
-    public ListView<Book> bookListView;
+    @FXML
     public AnchorPane bookDetail;
+    @FXML
     public Pane myPane;
-    public ImageView bookImage;
-    public Label bookTitle;
-    public Label bookISBN;
-    public Label bookAuthor;
-    public Label bookPublisher;
-    public Label bookPublicationDate;
-    public Label bookGenre;
-    public Label bookLanguage;
-    public Label bookPageNumber;
-    public Label bookDescription;
+    @FXML
+    private TextField searchBar;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private SplitPane splitPane;
+    @FXML
+    private ListView<Book> bookListView;
+    @FXML
+    private ImageView bookImage;
+    @FXML
+    private Label bookTitle;
+    @FXML
+    private Label bookISBN;
+    @FXML
+    private Label bookAuthor;
+    @FXML
+    private Label bookPublisher;
+    @FXML
+    private Label bookPublicationDate;
+    @FXML
+    private Label bookGenre;
+    @FXML
+    private Label bookLanguage;
+    @FXML
+    private Label bookPageNumber;
+    @FXML
+    private Label bookDescription;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,18 +150,17 @@ public class BookcaseController extends SwitchScene implements Initializable {
     }
 
     public void searchBook() {
-        String currentUserId = sourceCode.LoginController.currentUserId;
-        if (choiceBox.getValue().equals("Tất cả")) {
-            selectBook(selectAllQuery);
-        } else if (choiceBox.getValue().equals("ISBN")) {
-            selectBook(selectAllQuery + " AND b.ISBN LIKE '%" + searchBar.getText() + "%'");
+        String query = selectAllQuery;
+        if (choiceBox.getValue().equals("ISBN")) {
+            query += " AND b.ISBN LIKE '%" + searchBar.getText() + "%'";
         } else if (choiceBox.getValue().equals("Tiêu đề")) {
-            selectBook(selectAllQuery + " AND b.title LIKE '%" + searchBar.getText() + "%'");
+            query += " AND b.title LIKE '%" + searchBar.getText() + "%'";
         } else if (choiceBox.getValue().equals("Tác giả")) {
-            selectBook(selectAllQuery + " AND b.author LIKE '%" + searchBar.getText() + "%'");
+            query += " AND b.author LIKE '%" + searchBar.getText() + "%'";
         } else if (choiceBox.getValue().equals("Thể loại")) {
-            selectBook(selectAllQuery + " AND b.genre LIKE '%" + searchBar.getText() + "%'");
+            query += " AND b.genre LIKE '%" + searchBar.getText() + "%'";
         }
+        selectBook(query);
     }
 
     public void returnBook() {
@@ -153,10 +171,10 @@ public class BookcaseController extends SwitchScene implements Initializable {
         }
         String currentUserID = sourceCode.LoginController.currentUserId;
         String returnQuery = """
-            UPDATE library.ticket
-            SET returnedDate = CURRENT_DATE
-            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
-        """;
+                    UPDATE library.ticket
+                    SET returnedDate = CURRENT_DATE
+                    WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+                """;
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;

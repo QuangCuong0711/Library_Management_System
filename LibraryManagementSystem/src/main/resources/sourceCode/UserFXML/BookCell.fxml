@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="100.0" prefWidth="625.0" stylesheets="@../UserCSS/BookCell.css"
   xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
-  fx:controller="sourceCode.UserControllers.BookCellController">
+  fx:controller="sourceCode.UserControllers.BookViews.BookCellController">
    <Label id="title" fx:id="titleLabel" layoutX="130.0" layoutY="14.0" text="Title"/>
    <Label id="ISBN" fx:id="isbnLabel" layoutX="131.0" layoutY="56.0" text="ISBN"/>
    <Label id="desciption" fx:id="descriptionLabel" layoutX="130.0" layoutY="79.0" prefHeight="61.0"

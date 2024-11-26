@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

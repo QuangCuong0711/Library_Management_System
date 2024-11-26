@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.AdminControllers.ShowBook;
+import sourceCode.AdminControllers.Function.ShowBook;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
@@ -43,11 +43,11 @@ public class TicketController extends SwitchScene implements Initializable {
     private static final String[] searchBy = {"Tất cả", "Mã sách", "Ngày mượn",
             "Ngày trả", "Trạng thái"};
     @FXML
-    public TableColumn<sourceCode.Models.Ticket, LocalDate> borrowedDateColumn;
+    private TableColumn<sourceCode.Models.Ticket, LocalDate> borrowedDateColumn;
     @FXML
-    public TableColumn<sourceCode.Models.Ticket, LocalDate> returnedDateColumn;
+    private TableColumn<sourceCode.Models.Ticket, LocalDate> returnedDateColumn;
     @FXML
-    public TableColumn<sourceCode.Models.Ticket, String> statusColumn;
+    private TableColumn<sourceCode.Models.Ticket, String> statusColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML

@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.AdminControllers.ShowBook;
+import sourceCode.AdminControllers.Function.ShowBook;
 import sourceCode.Models.Feedback;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
@@ -29,23 +29,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import sourceCode.UserControllers.Function.UpdateFeedback;
 
 public class FeedbackController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + sourceCode.LoginController.currentUserId;
+    private static final String selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + "'" + sourceCode.LoginController.currentUserId + "'";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã sách", "Đánh giá",
             "Ngày đánh giá"};
     @FXML
-    public TableColumn<FeedbackController, Integer> feedbackidColumn;
+    private TableColumn<FeedbackController, Integer> feedbackidColumn;
     @FXML
-    public TableColumn<FeedbackController, String> isbnColumn;
+    private TableColumn<FeedbackController, String> isbnColumn;
     @FXML
-    public TableColumn<FeedbackController, Integer> ratingColumn;
+    private TableColumn<FeedbackController, Integer> ratingColumn;
     @FXML
-    public TableColumn<FeedbackController, String> dateColumn;
+    private TableColumn<FeedbackController, String> dateColumn;
     @FXML
-    public TableColumn<FeedbackController, String> commentColumn;
+    private TableColumn<FeedbackController, String> commentColumn;
     @FXML
     private TableView<sourceCode.Models.Feedback> feedbackTableView;
     @FXML

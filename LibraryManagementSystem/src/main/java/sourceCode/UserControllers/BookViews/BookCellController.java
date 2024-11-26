@@ -1,4 +1,4 @@
-package sourceCode.UserControllers;
+package sourceCode.UserControllers.BookViews;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

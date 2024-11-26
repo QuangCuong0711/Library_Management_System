@@ -25,6 +25,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import sourceCode.AdminControllers.Function.AddUser;
+import sourceCode.AdminControllers.Function.EditUser;
+import sourceCode.AdminControllers.Function.ShowUser;
 import sourceCode.Models.User;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
@@ -36,15 +39,15 @@ public class UserController extends SwitchScene implements Initializable {
     private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Họ và tên", "Số CCCD",
             "Ngày sinh"};
     @FXML
-    private TableView<sourceCode.Models.User> userTableView;
+    private TableView<User> userTableView;
     @FXML
-    private TableColumn<sourceCode.Models.User, String> useridColumn;
+    private TableColumn<User, String> useridColumn;
     @FXML
-    private TableColumn<sourceCode.Models.User, String> fullnameColumn;
+    private TableColumn<User, String> fullnameColumn;
     @FXML
-    private TableColumn<sourceCode.Models.User, String> identitynumberColumn;
+    private TableColumn<User, String> identitynumberColumn;
     @FXML
-    private TableColumn<sourceCode.Models.User, String> birthColumn;
+    private TableColumn<User, String> birthColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -70,7 +73,7 @@ public class UserController extends SwitchScene implements Initializable {
                 try (Statement stmt = connection.createStatement();
                         ResultSet rs = stmt.executeQuery(query)) {
                     while (rs.next()) {
-                        sourceCode.Models.User user = new sourceCode.Models.User(
+                        User user = new User(
                                 rs.getString("userId"),
                                 rs.getString("name"),
                                 rs.getString("identityNumber"),
@@ -110,7 +113,7 @@ public class UserController extends SwitchScene implements Initializable {
     }
 
     public void showUser() {
-        sourceCode.Models.User user = userTableView.getSelectionModel().getSelectedItem();
+        User user = userTableView.getSelectionModel().getSelectedItem();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/sourceCode/AdminFXML/ShowUser.fxml"));
@@ -137,7 +140,7 @@ public class UserController extends SwitchScene implements Initializable {
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;
         }
-        sourceCode.Models.User user = userTableView.getSelectionModel().getSelectedItem();
+        User user = userTableView.getSelectionModel().getSelectedItem();
         if (user == null) {
             System.out.println("No user selected");
             return;
@@ -158,7 +161,7 @@ public class UserController extends SwitchScene implements Initializable {
     }
 
     public void editUser() {
-        sourceCode.Models.User user = userTableView.getSelectionModel().getSelectedItem();
+        User user = userTableView.getSelectionModel().getSelectedItem();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/sourceCode/AdminFXML/EditUser.fxml"));

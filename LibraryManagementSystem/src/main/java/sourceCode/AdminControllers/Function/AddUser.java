@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sourceCode.AdminControllers.UserController;
 import sourceCode.Services.DatabaseConnection;
 
 public class AddUser implements Initializable {

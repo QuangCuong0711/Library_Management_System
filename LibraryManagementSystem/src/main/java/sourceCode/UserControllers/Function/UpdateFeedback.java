@@ -1,4 +1,4 @@
-package sourceCode.UserControllers;
+package sourceCode.UserControllers.Function;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,13 +11,14 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.UserControllers.FeedbackController;
 
 public class UpdateFeedback {
 
     @FXML
-    public TextField commentText;
+    private TextField commentText;
     @FXML
-    public Slider ratingSlider;
+    private Slider ratingSlider;
     private FeedbackController feedbackController;
     private int feedbackId;
 

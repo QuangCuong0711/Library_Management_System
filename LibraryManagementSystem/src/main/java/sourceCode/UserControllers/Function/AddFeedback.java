@@ -1,4 +1,4 @@
-package sourceCode.UserControllers;
+package sourceCode.UserControllers.Function;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,9 +15,9 @@ import sourceCode.Services.DatabaseConnection;
 public class AddFeedback {
 
     @FXML
-    public TextField commentText;
+    private TextField commentText;
     @FXML
-    public Slider ratingSlider;
+    private Slider ratingSlider;
     private String isbn;
 
     public String getISBN() {
