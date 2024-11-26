@@ -28,25 +28,29 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.GoogleBooksAPI;
 import sourceCode.Services.SwitchScene;
 
 public class BookController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
-    private static final ObservableList<sourceCode.Models.Book> bookList = FXCollections.observableArrayList();
+    private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "GoogleAPI", "ISBN", "Tiêu đề", "Tác giả",
             "Thể loại"};
+
     @FXML
-    private TableView<sourceCode.Models.Book> bookTableView;
+    private TableView<Book> bookTableView;
     @FXML
-    private TableColumn<sourceCode.Models.Book, String> isbnColumn;
+    private TableColumn<Book, String> isbnColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Book, String> authorColumn;
+    private TableColumn<Book, String> authorColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Book, String> titleColumn;
+    private TableColumn<Book, String> titleColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Book, String> genreColumn;
+    private TableColumn<Book, String> genreColumn;
+    @FXML
+    private TableColumn<Book, String> quantityColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -61,12 +65,13 @@ public class BookController extends SwitchScene implements Initializable {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         selectBook(selectAllQuery);
     }
 
     public void selectBook(String query) {
         bookList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -96,10 +101,10 @@ public class BookController extends SwitchScene implements Initializable {
         String keyword = searchBar.getText();
         bookList.clear();
         try {
-            JsonArray books = Service.getBook(keyword);
+            JsonArray books = GoogleBooksAPI.getBook(keyword);
             for (int i = 0; i < books.size(); i++) {
                 JsonObject book = books.get(i).getAsJsonObject();
-                bookList.add(Service.createBookFromJson(book));
+                bookList.add(GoogleBooksAPI.createBookFromJson(book));
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -109,25 +114,49 @@ public class BookController extends SwitchScene implements Initializable {
 
     public void addAPIBook() {
         sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
-        String query = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = Service.getConnection()) {
+        String checkQuery = "SELECT quantity FROM library.book WHERE ISBN = ?";
+        String updateQuery = "UPDATE library.book SET quantity = quantity + 1, title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, language = ?, pageNumber = ?, imageUrl = ?, description = ? WHERE ISBN = ?";
+        String insertQuery = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setString(1, book.getISBN());
-                stmt.setString(2, book.getTitle());
-                stmt.setString(3, book.getAuthor());
-                stmt.setString(4, book.getGenre());
-                stmt.setString(5, book.getPublisher());
-                stmt.setString(6, book.getPublicationDate());
-                stmt.setString(7, book.getLanguage());
-                stmt.setInt(8, book.getPageNumber());
-                stmt.setString(9, book.getImageUrl());
-                stmt.setString(10, book.getDescription());
-                stmt.executeUpdate();
-                System.out.println("Book added successfully");
+            try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
+                checkStmt.setString(1, book.getISBN());
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next()) {
+                    try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+                        updateStmt.setString(1, book.getTitle());
+                        updateStmt.setString(2, book.getAuthor());
+                        updateStmt.setString(3, book.getGenre());
+                        updateStmt.setString(4, book.getPublisher());
+                        updateStmt.setString(5, book.getPublicationDate());
+                        updateStmt.setString(6, book.getLanguage());
+                        updateStmt.setInt(7, book.getPageNumber());
+                        updateStmt.setString(8, book.getImageUrl());
+                        updateStmt.setString(9, book.getDescription());
+                        updateStmt.setString(10, book.getISBN());
+                        updateStmt.executeUpdate();
+                        System.out.println("Book updated successfully");
+                    }
+                } else {
+                    try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+                        insertStmt.setString(1, book.getISBN());
+                        insertStmt.setString(2, book.getTitle());
+                        insertStmt.setString(3, book.getAuthor());
+                        insertStmt.setString(4, book.getGenre());
+                        insertStmt.setString(5, book.getPublisher());
+                        insertStmt.setString(6, book.getPublicationDate());
+                        insertStmt.setString(7, book.getLanguage());
+                        insertStmt.setInt(8, book.getPageNumber());
+                        insertStmt.setString(9, book.getImageUrl());
+                        insertStmt.setString(10, book.getDescription());
+                        insertStmt.setInt(11, 1); // Thêm số lượng ban đầu là 1
+                        insertStmt.executeUpdate();
+                        System.out.println("Book added successfully");
+                    }
+                }
             }
         } catch (SQLException e) {
-            System.out.println("Book adding failed");
+            System.out.println("Book operation failed");
             e.printStackTrace();
         }
     }
@@ -193,7 +222,7 @@ public class BookController extends SwitchScene implements Initializable {
             return;
         }
         String query = "DELETE FROM library.book WHERE ISBN = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, book.getISBN());
@@ -236,6 +265,7 @@ public class BookController extends SwitchScene implements Initializable {
                     getClass().getResource("/sourceCode/AdminFXML/EditBook.fxml"));
             Parent root = loader.load();
             EditBook editBook = loader.getController();
+            editBook.setBook(book);
             editBook.setBookController(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

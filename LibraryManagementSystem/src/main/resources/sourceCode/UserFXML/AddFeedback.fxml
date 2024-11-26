@@ -8,16 +8,19 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane prefHeight="375.0" prefWidth="500.0" stylesheets="@../UserCSS/FnFeedback.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.UserControllers.AddFeedback">
-   <children>
-      <ImageView fitHeight="375.0" fitWidth="544.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Image/feedback.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="257.0" layoutY="313.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="26.0" prefWidth="120.0" text="Cancel" />
-      <Button layoutX="123.0" layoutY="311.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" prefHeight="32.0" prefWidth="120.0" text="Confirm" />
-      <TextField fx:id="commentText" alignment="TOP_LEFT" layoutX="57.0" layoutY="80.0" prefHeight="114.0" prefWidth="386.0" />
-      <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="37.0" layoutY="268.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="36.0" prefWidth="426.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-   </children>
+<Pane prefHeight="375.0" prefWidth="500.0" stylesheets="@../UserCSS/FnFeedback.css"
+  xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="sourceCode.UserControllers.AddFeedback">
+   <ImageView fitHeight="375.0" fitWidth="544.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../Image/feedback.png"/>
+   </ImageView>
+   <Button layoutX="257.0" layoutY="313.0" mnemonicParsing="false" onAction="#cancelButtonOnAction"
+     prefHeight="26.0" prefWidth="120.0" text="Cancel"/>
+   <Button layoutX="123.0" layoutY="311.0" mnemonicParsing="false" onAction="#confirmButtonOnAction"
+     prefHeight="32.0" prefWidth="120.0" text="Confirm"/>
+   <TextField fx:id="commentText" alignment="TOP_LEFT" layoutX="57.0" layoutY="80.0"
+     prefHeight="114.0" prefWidth="386.0"/>
+   <Slider fx:id="ratingSlider" blockIncrement="1.0" layoutX="37.0" layoutY="268.0"
+     majorTickUnit="1.0" max="5.0" minorTickCount="0" prefHeight="36.0" prefWidth="426.0"
+     showTickLabels="true" showTickMarks="true" snapToTicks="true"/>
 </Pane>

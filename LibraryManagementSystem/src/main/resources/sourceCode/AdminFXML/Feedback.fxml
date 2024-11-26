@@ -53,9 +53,8 @@
   </TableView>
    <Button id="showUser" layoutX="348.0" layoutY="718.0" mnemonicParsing="false" onAction="#showBook" prefHeight="49.0" prefWidth="247.0" text="Show Book's information" />
    <Button id="showBook" layoutX="605.0" layoutY="718.0" mnemonicParsing="false" onAction="#showUser" prefHeight="49.0" prefWidth="247.0" text="Show User's information" />
-   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchFeedback" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../Image/searchIcon.png" />
-      </image>
-   </ImageView>
+  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0"
+    onMouseClicked="#searchFeedback" pickOnBounds="true" preserveRatio="true">
+    <Image url="@../Image/searchIcon.png"/>
+  </ImageView>
 </AnchorPane>

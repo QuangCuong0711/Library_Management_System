@@ -25,13 +25,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.Services.Service;
+import sourceCode.Models.User;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 
 public class UserController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User";
-    private static final ObservableList<sourceCode.Models.User> userList = FXCollections.observableArrayList();
+    private static final ObservableList<User> userList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Họ và tên", "Số CCCD",
             "Ngày sinh"};
     @FXML
@@ -64,9 +65,9 @@ public class UserController extends SwitchScene implements Initializable {
     public void selectUser(String query) {
         userList.clear();
         Runnable task = () -> {
-            try (Connection conn = Service.getConnection()) {
-                assert conn != null;
-                try (Statement stmt = conn.createStatement();
+            try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
+                assert connection != null;
+                try (Statement stmt = connection.createStatement();
                         ResultSet rs = stmt.executeQuery(query)) {
                     while (rs.next()) {
                         sourceCode.Models.User user = new sourceCode.Models.User(
@@ -142,7 +143,7 @@ public class UserController extends SwitchScene implements Initializable {
             return;
         }
         String query = "DELETE FROM library.user WHERE userId = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, user.getUserId());

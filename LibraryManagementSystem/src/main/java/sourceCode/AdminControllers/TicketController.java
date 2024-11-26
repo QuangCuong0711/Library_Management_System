@@ -17,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -91,10 +91,9 @@ public class TicketController extends SwitchScene implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         selectTicket(selectAllQuery);
     }
-
     public void selectTicket(String query) {
         ticketList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -117,7 +116,6 @@ public class TicketController extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
-
     public void searchTicket() {
         ticketList.clear();
         if (choiceBox.getValue().equals("Tất cả")) {
@@ -133,10 +131,9 @@ public class TicketController extends SwitchScene implements Initializable {
             selectTicket(
                     selectAllQuery + " WHERE borrowedDate LIKE '%" + searchBar.getText() + "%'");
         } else if (choiceBox.getValue().equals("Trạng thái")) {
-            selectTicket(selectAllQuery + " WHERE status LIKE '%" + searchBar.getText() + "%'");
+            selectTicket(selectAllQuery + " HAVING   status LIKE '%" + searchBar.getText() + "%'");
         }
     }
-
     public void showUser() throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/sourceCode/AdminFXML/ShowUser.fxml"));
@@ -149,7 +146,7 @@ public class TicketController extends SwitchScene implements Initializable {
         }
         String userID = selectedTicket.getUserID();
         String query = "SELECT * FROM library.User WHERE userId = '" + userID + "';";
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -189,7 +186,7 @@ public class TicketController extends SwitchScene implements Initializable {
             return;
         }
         String query = "SELECT * FROM library.Book WHERE ISBN = '" + selectedTicket.getISBN() + "';";
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {

@@ -5,7 +5,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,14 +26,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 
 public class BookcaseController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery
             = "SELECT * FROM library.ticket t JOIN library.book b ON t.ISBN = b.ISBN "
-            + "WHERE t.returnedDate IS NULL AND t.userID = 'U001'";
+            + "WHERE t.returnedDate IS NULL AND t.userID = ?";
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
             "Thể loại"};
@@ -102,25 +102,27 @@ public class BookcaseController extends SwitchScene implements Initializable {
 
     public void selectBook(String query) {
         bookList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    Book book = new Book(
-                            rs.getString("ISBN"),
-                            rs.getString("title"),
-                            rs.getString("author"),
-                            rs.getString("genre"),
-                            rs.getString("publisher"),
-                            rs.getString("publicationDate"),
-                            rs.getString("language"),
-                            rs.getInt("pageNumber"),
-                            rs.getString("imageUrl"),
-                            rs.getString("description"),
-                            rs.getInt("quantity")
-                    );
-                    bookList.add(book);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, sourceCode.LoginController.currentUserId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        Book book = new Book(
+                                rs.getString("ISBN"),
+                                rs.getString("title"),
+                                rs.getString("author"),
+                                rs.getString("genre"),
+                                rs.getString("publisher"),
+                                rs.getString("publicationDate"),
+                                rs.getString("language"),
+                                rs.getInt("pageNumber"),
+                                rs.getString("imageUrl"),
+                                rs.getString("description"),
+                                rs.getInt("quantity")
+                        );
+                        bookList.add(book);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -129,6 +131,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
     }
 
     public void searchBook() {
+        String currentUserId = sourceCode.LoginController.currentUserId;
         if (choiceBox.getValue().equals("Tất cả")) {
             selectBook(selectAllQuery);
         } else if (choiceBox.getValue().equals("ISBN")) {
@@ -143,8 +146,37 @@ public class BookcaseController extends SwitchScene implements Initializable {
     }
 
     public void returnBook() {
+        sourceCode.Models.Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
+        if (selectedBook == null) {
+            System.out.println("Vui lòng chọn sách để trả!");
+            return;
+        }
+        String currentUserID = sourceCode.LoginController.currentUserId;
+        String returnQuery = """
+            UPDATE library.ticket
+            SET returnedDate = CURRENT_DATE
+            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+        """;
 
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+            assert conn != null;
+            try (PreparedStatement pstmt = conn.prepareStatement(returnQuery)) {
+                pstmt.setString(1, currentUserID);
+                pstmt.setString(2, selectedBook.getISBN());
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0) {
+                    System.out.println("Trả sách thành công: " + selectedBook.getTitle());
+                    selectBook(selectAllQuery);
+                } else {
+                    System.out.println("Không thể trả sách, vui lòng thử lại.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Lỗi kết nối cơ sở dữ liệu.");
+        }
     }
+
 
     public void sendFeedback() {
         try {

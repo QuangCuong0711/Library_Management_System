@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.AdminControllers.ShowBook;
 import sourceCode.Models.Feedback;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 
 public class FeedbackController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = 'U001'";
+    private static final String selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + sourceCode.LoginController.currentUserId;
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã sách", "Đánh giá",
             "Ngày đánh giá"};
@@ -68,7 +68,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     public void selectFeedback(String query) {
         feedBackList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -126,7 +126,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
         }
         String query =
                 "SELECT * FROM library.Book WHERE ISBN = '" + selectedFeedback.getISBN() + "';";
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -200,7 +200,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
             return;
         }
         String query = "DELETE FROM library.Feedback WHERE feedbackId = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setInt(1, feedback.getFeedbackID());

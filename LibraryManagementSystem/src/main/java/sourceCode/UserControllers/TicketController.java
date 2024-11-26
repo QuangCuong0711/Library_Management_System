@@ -18,7 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.AdminControllers.ShowBook;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -37,11 +37,17 @@ public class TicketController extends SwitchScene implements Initializable {
                     WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Đang mượn'
                     WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
                     ELSE 'Không xác định'
-                END AS status FROM library.Ticket WHERE USERID = 'U001' ORDER BY borrowedDate DESC;""";
+                END AS status FROM library.Ticket WHERE USERID = '"""
+            + sourceCode.LoginController.currentUserId + "' ORDER BY borrowedDate DESC;";
     private static final ObservableList<sourceCode.Models.Ticket> ticketList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã sách", "Ngày mượn",
             "Ngày trả", "Trạng thái"};
-    public TableColumn feedbackidColumn;
+    @FXML
+    public TableColumn<sourceCode.Models.Ticket, LocalDate> borrowedDateColumn;
+    @FXML
+    public TableColumn<sourceCode.Models.Ticket, LocalDate> returnedDateColumn;
+    @FXML
+    public TableColumn<sourceCode.Models.Ticket, String> statusColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -53,13 +59,7 @@ public class TicketController extends SwitchScene implements Initializable {
     @FXML
     private TableColumn<sourceCode.Models.Ticket, String> isbnColumn;
     @FXML
-    public TableColumn<sourceCode.Models.Ticket, LocalDate> borrowedDateColumn;
-    @FXML
-    public TableColumn<sourceCode.Models.Ticket, LocalDate> returnedDateColumn;
-    @FXML
     private TableColumn<sourceCode.Models.Ticket, Integer> quantityColumn;
-    @FXML
-    public TableColumn<sourceCode.Models.Ticket, String> statusColumn;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBox.getItems().addAll(searchBy);
@@ -93,7 +93,7 @@ public class TicketController extends SwitchScene implements Initializable {
 
     public void selectTicket(String query) {
         ticketList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -148,7 +148,7 @@ public class TicketController extends SwitchScene implements Initializable {
         }
         String query =
                 "SELECT * FROM library.Book WHERE ISBN = '" + selectedTicket.getISBN() + "';";
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {

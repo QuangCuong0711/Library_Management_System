@@ -8,30 +8,22 @@
 <?import javafx.scene.layout.StackPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../AdminCSS/ShowBook.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.AdminControllers.ShowBook">
-   <children>
-      <ImageView fitHeight="400.0" fitWidth="629.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Image/bookCard.png" />
-         </image>
+   <ImageView fitHeight="400.0" fitWidth="629.0" pickOnBounds="true" preserveRatio="true">
+      <Image url="@../Image/bookCard.png" />
+   </ImageView>
+   <Label fx:id="ISBN" layoutX="317.0" layoutY="100.0" prefHeight="22.0" prefWidth="246.0" text="ISBN" />
+   <Label fx:id="author" layoutX="337.0" layoutY="124.0" prefHeight="22.0" prefWidth="225.0" text="Label" />
+   <Label fx:id="publisher" layoutX="353.0" layoutY="150.0" prefHeight="22.0" prefWidth="201.0" text="Label" />
+   <Label fx:id="date" layoutX="323.0" layoutY="175.0" prefHeight="22.0" prefWidth="240.0" text="Label" />
+   <Label fx:id="genre" layoutX="329.0" layoutY="199.0" prefHeight="22.0" prefWidth="146.0" text="Label" />
+   <Label fx:id="language" layoutX="356.0" layoutY="224.0" prefHeight="22.0" prefWidth="105.0" text="Label" />
+   <Label fx:id="pageNumber" layoutX="374.0" layoutY="249.0" prefHeight="22.0" prefWidth="78.0" text="Label" />
+   <Label fx:id="description" alignment="TOP_LEFT" layoutX="281.0" layoutY="297.0" prefHeight="87.0" prefWidth="272.0" text=".................................................................................................................................................................................................................................................................." wrapText="true" />
+   <Label id="title" fx:id="title" layoutX="281.0" layoutY="49.0" prefHeight="38.0" prefWidth="272.0" text="Title" textOverrun="CLIP" />
+   <Button layoutX="551.0" layoutY="16.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" prefHeight="22.0" prefWidth="29.0" text="X" />
+   <StackPane layoutX="37.0" layoutY="34.0" prefHeight="332.0" prefWidth="200.0">
+      <ImageView fx:id="image" fitHeight="309.0" fitWidth="206.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../Image/cover.jpg" />
       </ImageView>
-      <Label fx:id="ISBN" layoutX="317.0" layoutY="100.0" prefHeight="22.0" prefWidth="246.0" text="ISBN" />
-      <Label fx:id="author" layoutX="337.0" layoutY="124.0" prefHeight="22.0" prefWidth="225.0" text="Label" />
-      <Label fx:id="publisher" layoutX="353.0" layoutY="150.0" prefHeight="22.0" prefWidth="201.0" text="Label" />
-      <Label fx:id="date" layoutX="323.0" layoutY="175.0" prefHeight="22.0" prefWidth="240.0" text="Label" />
-      <Label fx:id="genre" layoutX="329.0" layoutY="199.0" prefHeight="22.0" prefWidth="146.0" text="Label" />
-      <Label fx:id="language" layoutX="356.0" layoutY="224.0" prefHeight="22.0" prefWidth="105.0" text="Label" />
-      <Label fx:id="pageNumber" layoutX="374.0" layoutY="249.0" prefHeight="22.0" prefWidth="78.0" text="Label" />
-      <Label fx:id="description" alignment="TOP_LEFT" layoutX="281.0" layoutY="297.0" prefHeight="65.0" prefWidth="272.0" text="................................................................................................................................................................................" wrapText="true" />
-      <Label id="title" fx:id="title" layoutX="281.0" layoutY="49.0" prefHeight="38.0" prefWidth="272.0" text="Title" textOverrun="CLIP" />
-      <Button layoutX="551.0" layoutY="16.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" prefHeight="22.0" prefWidth="29.0" text="X" />
-      <StackPane layoutX="37.0" layoutY="34.0" prefHeight="332.0" prefWidth="200.0">
-         <children>
-            <ImageView fx:id="image" fitHeight="309.0" fitWidth="206.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../Image/cover.jpg" />
-               </image>
-            </ImageView>
-         </children>
-      </StackPane>
-   </children>
+   </StackPane>
 </AnchorPane>

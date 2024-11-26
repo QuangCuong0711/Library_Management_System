@@ -23,7 +23,7 @@ public class Book {
         publicationDate = "";
         language = "";
         pageNumber = 0;
-        imageUrl = "";
+        imageUrl = null ;
         description = "";
         quantity = 0;
     }

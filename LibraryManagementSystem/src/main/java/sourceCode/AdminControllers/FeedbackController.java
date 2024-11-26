@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -56,10 +56,9 @@ public class FeedbackController extends SwitchScene implements Initializable {
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         selectFeedback(selectAllQuery);
     }
-
     public void selectFeedback(String query) {
         feedBackList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -79,7 +78,6 @@ public class FeedbackController extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
-
     public void searchFeedback() {
         feedBackList.clear();
         if (searchBar.getText().isEmpty() || choiceBox.getValue().equals("Tất cả")) {
@@ -107,7 +105,6 @@ public class FeedbackController extends SwitchScene implements Initializable {
             selectFeedback(query);
         }
     }
-
     public void showUser() throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/sourceCode/AdminFXML/ShowUser.fxml"));
@@ -119,7 +116,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
             return;
         }
         String query = "SELECT * FROM library.User WHERE userId = '" + selectedFeedback.getUserID() + "';";
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -159,7 +156,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
             return;
         }
         String query = "SELECT * FROM library.Book WHERE ISBN = '" + selectedFeedback.getISBN() + "';";
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {

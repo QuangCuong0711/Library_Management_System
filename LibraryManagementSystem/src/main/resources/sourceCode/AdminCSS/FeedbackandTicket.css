@@ -85,7 +85,7 @@
     -fx-font-size: 15px;
     -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
-    -fx-padding: 7px;
+    -fx-padding: 10px;
     -fx-alignment: CENTER-LEFT;
 }
 .table-view .cell {
@@ -93,9 +93,9 @@
     -fx-border-width: 0;
     -fx-font-size: 13px;
     -fx-text-fill: #424874;
-    -fx-font-family: "Open Sans";
-    -fx-font-weight: lighter;
     -fx-padding: 5px;
+    -fx-font-family: "Open Sans";
+    -fx-alignment: CENTER-LEFT;
 }
 .table-view .cell:hover {
     -fx-font-weight: bold;

@@ -43,7 +43,8 @@
       <TableColumn id="isbnColumn" fx:id="isbnColumn" editable="false" prefWidth="187.0" sortable="false" text="ISBN" />
       <TableColumn id="titleColumn" fx:id="titleColumn" editable="false" prefWidth="254.0" sortable="false" text="Title" />
       <TableColumn id="authorColumn" fx:id="authorColumn" editable="false" prefWidth="250.0" sortable="false" text="Author" />
-      <TableColumn id="genreColumn" fx:id="genreColumn" editable="false" prefWidth="190.0" sortable="false" text="Genre" />
+      <TableColumn id="genreColumn" fx:id="genreColumn" editable="false" prefWidth="193.0" sortable="false" text="Genre" />
+         <TableColumn id="quantityColumn" fx:id="quantityColumn" editable="false" prefWidth="117.0" sortable="false" text="Qty" />
     </columns>
     <columnResizePolicy>
       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -53,9 +54,7 @@
   <Button id="removeButton" layoutX="856.0" layoutY="720.0" mnemonicParsing="false" onAction="#removeBook" prefHeight="40.0" prefWidth="220.0" text="Remove Book" />
   <Button id="showButton" layoutX="371.0" layoutY="720.0" mnemonicParsing="false" onAction="#showBook" prefHeight="40.0" prefWidth="220.0" text="Show Book" />
   <Button id="editButton" layoutX="611.0" layoutY="720.0" mnemonicParsing="false" onAction="#editBook" prefHeight="40.0" prefWidth="220.0" text="Edit Book" />
-   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../Image/searchIcon.png" />
-      </image>
-   </ImageView>
+  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
+    <Image url="@../Image/searchIcon.png" />
+  </ImageView>
 </AnchorPane>

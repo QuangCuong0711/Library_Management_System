@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 
 public class AddFeedback {
 
@@ -30,11 +30,11 @@ public class AddFeedback {
 
     public void confirmButtonOnAction(ActionEvent event) {
         String query = "INSERT INTO library.Feedback (ISBN, userID, comment, rating, date) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, getISBN());
-                stmt.setString(2, "U001");
+                stmt.setString(2, sourceCode.LoginController.currentUserId);
                 stmt.setString(3, commentText.getText());
                 stmt.setInt(4, ratingSlider.valueProperty().intValue());
                 stmt.setDate(5, new Date(System.currentTimeMillis()));

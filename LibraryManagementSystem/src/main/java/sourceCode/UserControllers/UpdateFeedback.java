@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 
 public class UpdateFeedback {
 
@@ -51,7 +51,7 @@ public class UpdateFeedback {
 
     public void confirmButtonOnAction(ActionEvent event) {
         String query = "UPDATE library.Feedback SET comment = ?, rating = ?, date = ? WHERE feedbackId = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, getComment());
