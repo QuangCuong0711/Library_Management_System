@@ -15,7 +15,7 @@ import sourceCode.Models.Book;
 public class GoogleBooksAPI {
 
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
-    private static final String API_KEY = "AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg";
+    private static final String API_KEY = "AIzaSyAyp5j4HRvk5dLirXVzyeZnWEEH3H2Cbhc";
 
     // Quang Cuong : AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE
     // Thanh Hai : AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg

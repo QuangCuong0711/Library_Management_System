@@ -24,7 +24,7 @@ public class DatabaseConnection {
     }
 
     public Connection getConnection() throws SQLException {
-        String PASSWORD = "10072005"; // Change this to your MySQL password
+        String PASSWORD = "Ncmh@0822"; // Change this to your MySQL password
         String USER = "root";
         String URL = "jdbc:mysql://localhost:3306/library";
         return DriverManager.getConnection(URL, USER, PASSWORD);
