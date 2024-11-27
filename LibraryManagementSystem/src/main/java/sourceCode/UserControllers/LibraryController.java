@@ -7,8 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -46,21 +51,49 @@ public class LibraryController extends SwitchScene implements Initializable {
         choiceBox.setValue("Tất cả");
     }
 
-    private void populateTilePane() {
+    public void populateTilePane() {
         myTilePane.getChildren().clear();
-        for (Book book : bookList) {
-            try {
-                FXMLLoader loader = new FXMLLoader(
-                        getClass().getResource("/sourceCode/UserFXML/BookGrid.fxml"));
-                Pane bookPane = loader.load();
-                BookGridController controller = loader.getController();
-                controller.setBook(book);
-                myTilePane.getChildren().add(bookPane);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        int batchSize = 15;
+        for (int i = 0; i < bookList.size(); i += batchSize) {
+            int start = i;
+            int end = Math.min(i + batchSize, bookList.size());
+
+            Task<Void> task = new Task<>() {
+                @Override
+                protected Void call() throws Exception {
+                    for (int j = start; j < end; j++) {
+                        Book book = bookList.get(j);
+                        FXMLLoader loader = new FXMLLoader(
+                                getClass().getResource("/sourceCode/UserFXML/BookGrid.fxml"));
+                        Pane bookPane = loader.load();
+
+                        BookGridController controller = loader.getController();
+                        controller.setBook(book);
+
+                        Platform.runLater(() -> myTilePane.getChildren().add(bookPane));
+                    }
+                    return null;
+                }
+            };
+
+            new Thread(task).start();
         }
     }
+//    private void populateTilePane() {
+//        myTilePane.getChildren().clear();
+//        for (Book book : bookList) {
+//            try {
+//                FXMLLoader loader = new FXMLLoader(
+//                        getClass().getResource("/sourceCode/UserFXML/BookGrid.fxml"));
+//                Pane bookPane = loader.load();
+//                BookGridController controller = loader.getController();
+//                controller.setBook(book);
+//                myTilePane.getChildren().add(bookPane);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     public void selectBook(String query) {
         bookList.clear();
