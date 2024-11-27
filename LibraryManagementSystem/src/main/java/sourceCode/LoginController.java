@@ -2,6 +2,8 @@ package sourceCode;
 
 import java.sql.*;
 import java.util.Objects;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import javafx.stage.Stage;
 import sourceCode.AdminControllers.UserController;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.SwitchScene;
 
 public class LoginController {
 
@@ -37,31 +40,89 @@ public class LoginController {
             query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ?";
             fxmlFile = "UserFXML/Library.fxml";
         }
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next() && resultSet.getInt(1) == 1) {
-                currentUserId = username;
-                Parent root = FXMLLoader.load(
-                        Objects.requireNonNull(this.getClass().getResource(fxmlFile)));
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.centerOnScreen();
-                stage.show();
-            } else {
-                usernameField.clear();
-                passwordField.clear();
-                System.out.println("Invalid username or password");
+        new Thread(() -> {
+            try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+                assert conn != null;
+                PreparedStatement preparedStatement = conn.prepareStatement(query);
+                preparedStatement.setString(1, username);
+                preparedStatement.setString(2, password);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next() && resultSet.getInt(1) == 1) {
+                    currentUserId = username;
+                    Platform.runLater(() -> {
+                        try {
+                            Parent root = FXMLLoader.load(
+                                    Objects.requireNonNull(this.getClass().getResource(fxmlFile)));
+                            Scene scene = new Scene(root);
+                            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                            stage.setScene(scene);
+                            stage.centerOnScreen();
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    SwitchScene switchScene = new SwitchScene();
+                    switchScene.preloadFXML(
+                            "AdminFXML/Home",
+                            "AdminFXML/User",
+                            "AdminFXML/Book",
+                            "AdminFXML/Ticket",
+                            "AdminFXML/Feedback",
+                            "UserFXML/Library",
+                            "UserFXML/Bookcase",
+                            "UserFXML/Ticket",
+                            "UserFXML/Feedback"
+                    );
+                } else {
+                    Platform.runLater(() -> {
+                        usernameField.clear();
+                        passwordField.clear();
+                        System.out.println("Invalid username or password");
+                    });
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        }).start();
+//        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+//            assert conn != null;
+//            PreparedStatement preparedStatement = conn.prepareStatement(query);
+//            preparedStatement.setString(1, username);
+//            preparedStatement.setString(2, password);
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            if (resultSet.next() && resultSet.getInt(1) == 1) {
+//                currentUserId = username;
+//                Parent root = FXMLLoader.load(
+//                        Objects.requireNonNull(this.getClass().getResource(fxmlFile)));
+//                Scene scene = new Scene(root);
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.centerOnScreen();
+//                stage.show();
+//                SwitchScene switchScene = new SwitchScene();
+//                switchScene.preloadFXML(
+//                        "AdminFXML/Home",
+//                        "AdminFXML/User",
+//                        "AdminFXML/Book",
+//                        "AdminFXML/Ticket",
+//                        "AdminFXML/Feedback",
+//                        "UserFXML/Library",
+//                        "UserFXML/Bookcase",
+//                        "UserFXML/Ticket",
+//                        "UserFXML/Feedback"
+//                );
+//            } else {
+//                usernameField.clear();
+//                passwordField.clear();
+//                System.out.println("Invalid username or password");
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void signUp() {
