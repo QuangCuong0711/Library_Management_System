@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -26,33 +27,51 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
+import sourceCode.UserControllers.BookViews.BookCellController;
+import sourceCode.UserControllers.Function.AddFeedback;
 
 public class BookcaseController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery
             = "SELECT * FROM library.ticket t JOIN library.book b ON t.ISBN = b.ISBN "
-            + "WHERE t.returnedDate IS NULL AND t.userID = 'U001'";
+            + "WHERE t.returnedDate IS NULL AND t.userID = ?";
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
             "Thể loại"};
-    public TextField searchBar;
-    public ChoiceBox<String> choiceBox;
-    public SplitPane splitPane;
-    public ListView<Book> bookListView;
+    @FXML
     public AnchorPane bookDetail;
+    @FXML
     public Pane myPane;
-    public ImageView bookImage;
-    public Label bookTitle;
-    public Label bookISBN;
-    public Label bookAuthor;
-    public Label bookPublisher;
-    public Label bookPublicationDate;
-    public Label bookGenre;
-    public Label bookLanguage;
-    public Label bookPageNumber;
-    public Label bookDescription;
+    @FXML
+    private TextField searchBar;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private SplitPane splitPane;
+    @FXML
+    private ListView<Book> bookListView;
+    @FXML
+    private ImageView bookImage;
+    @FXML
+    private Label bookTitle;
+    @FXML
+    private Label bookISBN;
+    @FXML
+    private Label bookAuthor;
+    @FXML
+    private Label bookPublisher;
+    @FXML
+    private Label bookPublicationDate;
+    @FXML
+    private Label bookGenre;
+    @FXML
+    private Label bookLanguage;
+    @FXML
+    private Label bookPageNumber;
+    @FXML
+    private Label bookDescription;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +79,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
         choiceBox.setValue("Tìm kiếm theo");
         choiceBox.getItems().addAll(searchBy);
         bookListView.setItems(bookList);
-        selectBook(selectAllQuery, sourceCode.LoginController.currentUserId);
+        selectBook(selectAllQuery);
         bookListView.setCellFactory(lv -> new ListCell<Book>() {
             @Override
             protected void updateItem(Book book, boolean empty) {
@@ -100,12 +119,12 @@ public class BookcaseController extends SwitchScene implements Initializable {
                 });
     }
 
-    public void selectBook(String query, String userId) {
+    public void selectBook(String query) {
         bookList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, userId);
+                stmt.setString(1, sourceCode.LoginController.currentUserId);
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         Book book = new Book(
@@ -131,18 +150,17 @@ public class BookcaseController extends SwitchScene implements Initializable {
     }
 
     public void searchBook() {
-        String currentUserId = sourceCode.LoginController.currentUserId;
-        if (choiceBox.getValue().equals("Tất cả")) {
-            selectBook(selectAllQuery, currentUserId);
-        } else if (choiceBox.getValue().equals("ISBN")) {
-            selectBook(selectAllQuery + " AND b.ISBN LIKE '%" + searchBar.getText() + "%'", currentUserId);
+        String query = selectAllQuery;
+        if (choiceBox.getValue().equals("ISBN")) {
+            query += " AND b.ISBN LIKE '%" + searchBar.getText() + "%'";
         } else if (choiceBox.getValue().equals("Tiêu đề")) {
-            selectBook(selectAllQuery + " AND b.title LIKE '%" + searchBar.getText() + "%'", currentUserId);
+            query += " AND b.title LIKE '%" + searchBar.getText() + "%'";
         } else if (choiceBox.getValue().equals("Tác giả")) {
-            selectBook(selectAllQuery + " AND b.author LIKE '%" + searchBar.getText() + "%'", currentUserId);
+            query += " AND b.author LIKE '%" + searchBar.getText() + "%'";
         } else if (choiceBox.getValue().equals("Thể loại")) {
-            selectBook(selectAllQuery + " AND b.genre LIKE '%" + searchBar.getText() + "%'", currentUserId);
+            query += " AND b.genre LIKE '%" + searchBar.getText() + "%'";
         }
+        selectBook(query);
     }
 
     public void returnBook() {
@@ -151,25 +169,22 @@ public class BookcaseController extends SwitchScene implements Initializable {
             System.out.println("Vui lòng chọn sách để trả!");
             return;
         }
-
         String currentUserID = sourceCode.LoginController.currentUserId;
-
         String returnQuery = """
-            UPDATE library.ticket
-            SET returnedDate = CURRENT_DATE
-            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
-        """;
+                    UPDATE library.ticket
+                    SET returnedDate = CURRENT_DATE
+                    WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+                """;
 
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (PreparedStatement pstmt = conn.prepareStatement(returnQuery)) {
                 pstmt.setString(1, currentUserID);
                 pstmt.setString(2, selectedBook.getISBN());
-
                 int rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("Trả sách thành công: " + selectedBook.getTitle());
-                    selectBook(selectAllQuery, currentUserID);
+                    selectBook(selectAllQuery);
                 } else {
                     System.out.println("Không thể trả sách, vui lòng thử lại.");
                 }

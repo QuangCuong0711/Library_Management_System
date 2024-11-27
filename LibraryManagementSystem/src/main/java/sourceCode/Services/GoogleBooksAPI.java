@@ -10,35 +10,16 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import sourceCode.Models.Book;
 
-public class Service {
+public class GoogleBooksAPI {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/library";
-    private static final String USER = "root";
-    private static final String PASSWORD = "Ncmh@0822"; // mng sửa theo máy cá nhân nhé
     private static final String API_URL = "https://www.googleapis.com/books/v1/volumes";
-    private static final String API_KEY = "AIzaSyAyp5j4HRvk5dLirXVzyeZnWEEH3H2Cbhc";
+    private static final String API_KEY = "AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg";
 
     // Quang Cuong : AIzaSyCcp7GuHwib1MlkCrRv0ez7aWXhaI3nJXE
     // Thanh Hai : AIzaSyAfpySygIIfG6YtBgDT1x6xaYFkBkNjnDg
     // Manh Hung : AIzaSyAyp5j4HRvk5dLirXVzyeZnWEEH3H2Cbhc
-
-    public static Connection getConnection() throws SQLException {
-        try {
-            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            System.out.println("Database connected");
-            return connection;
-        } catch (SQLException e) {
-            System.out.println("Database connection failed");
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public static JsonArray getBook(String query) throws IOException, InterruptedException {
         try {

@@ -1,14 +1,14 @@
 #name {
     -fx-font-size: 35;
     -fx-text-fill: #ffffff;
-    -fx-font-family: "Bernard MT Condensed";
+    -fx-font-family: "Times New Roman";
     -fx-font-weight: lighter;
 }
 
 #userID {
     -fx-font-size: 20;
     -fx-text-fill: #ffffff;
-    -fx-font-family: "Bernard MT Condensed";
+    -fx-font-family: "Times New Roman";
     -fx-font-weight: lighter;
 }
 

@@ -3,6 +3,7 @@ package sourceCode;
 import java.sql.*;
 import java.util.Objects;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -11,15 +12,17 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import javafx.stage.Stage;
 import sourceCode.AdminControllers.UserController;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 
 public class LoginController {
 
-    public TextField usernameField;
-    public PasswordField passwordField;
-    public CheckBox checkBox;
-
     public static String currentUserId = null;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private CheckBox checkBox;
 
     public void logIn(ActionEvent event) {
         String username = usernameField.getText();
@@ -32,18 +35,16 @@ public class LoginController {
             fxmlFile = "AdminFXML/Home.fxml";
         } else {
             query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ?";
-            fxmlFile = "UserFXML/Bookcase.fxml";
+            fxmlFile = "UserFXML/Library.fxml";
         }
-
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                currentUserId = resultSet.getString(1);
-
+            if (resultSet.next() && resultSet.getInt(1) == 1) {
+                currentUserId = username;
                 Parent root = FXMLLoader.load(
                         Objects.requireNonNull(this.getClass().getResource(fxmlFile)));
                 Scene scene = new Scene(root);
@@ -62,6 +63,7 @@ public class LoginController {
             throw new RuntimeException(e);
         }
     }
+
     public void signUp() {
         UserController userController = new UserController();
         userController.addUser();

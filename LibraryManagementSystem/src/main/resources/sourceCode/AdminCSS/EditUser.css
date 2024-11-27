@@ -83,6 +83,15 @@
     -fx-background-insets: 0;
     -fx-faint-focus-color: transparent;
 }
-.date-picker > .arrow-button {
-
+.text-area {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 7;
+    -fx-border-color: #424874;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+    -fx-font-family: "Open Sans";
+    -fx-text-fill: #424874;
+}
+.text-area:hover {
+    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }

@@ -14,7 +14,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sourceCode.Services.Service;
+import sourceCode.AdminControllers.Function.ShowBook;
+import sourceCode.AdminControllers.Function.ShowUser;
+import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -30,12 +32,18 @@ public class FeedbackController extends SwitchScene implements Initializable {
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Đánh giá",
             "Ngày đánh giá"};
-    public TableColumn<FeedbackController, Integer> feedbackidColumn;
-    public TableColumn<FeedbackController, String> uidColumn;
-    public TableColumn<FeedbackController, String> isbnColumn;
-    public TableColumn<FeedbackController, Integer> ratingColumn;
-    public TableColumn<FeedbackController, String> dateColumn;
-    public TableColumn<FeedbackController, String> commentColumn;
+    @FXML
+    private TableColumn<FeedbackController, Integer> feedbackidColumn;
+    @FXML
+    private TableColumn<FeedbackController, String> uidColumn;
+    @FXML
+    private TableColumn<FeedbackController, String> isbnColumn;
+    @FXML
+    private TableColumn<FeedbackController, Integer> ratingColumn;
+    @FXML
+    private TableColumn<FeedbackController, String> dateColumn;
+    @FXML
+    private TableColumn<FeedbackController, String> commentColumn;
     @FXML
     private TableView<sourceCode.Models.Feedback> feedbackTableView;
     @FXML
@@ -59,7 +67,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     public void selectFeedback(String query) {
         feedBackList.clear();
-        try (Connection conn = Service.getConnection()) {
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -118,8 +126,9 @@ public class FeedbackController extends SwitchScene implements Initializable {
         if (selectedFeedback == null) {
             return;
         }
-        String query = "SELECT * FROM library.User WHERE userId = '" + selectedFeedback.getUserID() + "';";
-        try (Connection conn = Service.getConnection()) {
+        String query =
+                "SELECT * FROM library.User WHERE userId = '" + selectedFeedback.getUserID() + "';";
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
@@ -148,6 +157,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void showBook() throws IOException {
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/sourceCode/AdminFXML/ShowBook.fxml"));
@@ -158,8 +168,9 @@ public class FeedbackController extends SwitchScene implements Initializable {
         if (selectedFeedback == null) {
             return;
         }
-        String query = "SELECT * FROM library.Book WHERE ISBN = '" + selectedFeedback.getISBN() + "';";
-        try (Connection conn = Service.getConnection()) {
+        String query =
+                "SELECT * FROM library.Book WHERE ISBN = '" + selectedFeedback.getISBN() + "';";
+        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {

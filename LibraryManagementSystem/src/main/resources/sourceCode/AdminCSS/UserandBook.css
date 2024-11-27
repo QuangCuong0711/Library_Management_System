@@ -13,7 +13,7 @@
 .button:hover {
     -fx-text-fill: #424874;
     -fx-scale-x: 1.1;
-    -fx-sclae-y: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 #homeButton {
@@ -23,9 +23,8 @@
 #currentButton {
     -fx-text-fill: #424874;
     -fx-scale-x: 1.1;
-    -fx-sclae-y: 1.1;
+    -fx-scale-y: 1.1;
 }
-
 
 #searchButton {
     -fx-border-width: 0;
@@ -97,8 +96,7 @@
     -fx-text-fill: #424874;
     -fx-font-size: 15px;
     -fx-font-family: "Open Sans";
-    -fx-font-weight: lighter;
-    -fx-padding: 7px;
+    -fx-padding: 10px;
     -fx-alignment: CENTER-LEFT;
 }
 
@@ -106,9 +104,9 @@
     -fx-background-color: #ffffff;
     -fx-border-width: 0;
     -fx-font-size: 13px;
+    -fx-alignment: CENTER-LEFT;
     -fx-text-fill: #424874;
     -fx-font-family: "Open Sans";
-    -fx-font-weight: lighter;
     -fx-padding: 5px;
 }
 
@@ -121,6 +119,8 @@
     -fx-text-fill: #424874;
     -fx-font-weight: bold;
 }
+
+
 
 .scroll-bar .thumb {
     -fx-background-color: #a6b1e1;

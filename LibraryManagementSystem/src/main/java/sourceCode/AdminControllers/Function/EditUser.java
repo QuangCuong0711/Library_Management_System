@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,7 +10,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sourceCode.Services.Service;
+import sourceCode.AdminControllers.UserController;
+import sourceCode.Services.DatabaseConnection;
 
 public class EditUser {
 
@@ -41,7 +42,7 @@ public class EditUser {
 
     public void confirmButtonOnAction(ActionEvent event) {
         String query = "UPDATE library.user SET name = ?, identityNumber = ?, birth = ?, gender = ?, phoneNumber = ?, email = ?, address = ? WHERE userId = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, name.getText());

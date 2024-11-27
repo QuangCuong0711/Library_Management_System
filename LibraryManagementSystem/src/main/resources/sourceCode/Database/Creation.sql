@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS LIBRARY;
 USE LIBRARY;
 CREATE TABLE IF NOT EXISTS BOOK
 (
-    ISBN            VARCHAR(20) PRIMARY KEY,
+    ISBN            VARCHAR(30) PRIMARY KEY,
     title           VARCHAR(255) NOT NULL,
     author          VARCHAR(255) NOT NULL,
     genre           VARCHAR(100),
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS TICKET
 (
     ticketId     INT AUTO_INCREMENT PRIMARY KEY,
     userId       VARCHAR(10),
-    ISBN         VARCHAR(20),
+    ISBN         VARCHAR(30),
     borrowedDate DATE,
     returnedDate DATE,
     quantity     INT
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS FEEDBACK
 (
     feedbackId INT AUTO_INCREMENT PRIMARY KEY,
     userId     VARCHAR(10),
-    ISBN       VARCHAR(20),
+    ISBN       VARCHAR(30),
     comment    TEXT,
     rating     INT,
     date       DATE

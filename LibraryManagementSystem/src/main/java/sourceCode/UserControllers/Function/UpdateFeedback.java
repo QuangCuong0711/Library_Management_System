@@ -1,4 +1,4 @@
-package sourceCode.UserControllers;
+package sourceCode.UserControllers.Function;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -10,14 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
+import sourceCode.UserControllers.FeedbackController;
 
 public class UpdateFeedback {
 
     @FXML
-    public TextField commentText;
+    private TextField commentText;
     @FXML
-    public Slider ratingSlider;
+    private Slider ratingSlider;
     private FeedbackController feedbackController;
     private int feedbackId;
 
@@ -51,7 +52,7 @@ public class UpdateFeedback {
 
     public void confirmButtonOnAction(ActionEvent event) {
         String query = "UPDATE library.Feedback SET comment = ?, rating = ?, date = ? WHERE feedbackId = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, getComment());

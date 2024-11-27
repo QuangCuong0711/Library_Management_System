@@ -1,14 +1,16 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sourceCode.AdminControllers.BookController;
 import sourceCode.Models.Book;
-import sourceCode.Services.Service;
+import sourceCode.Services.DatabaseConnection;
 
 public class EditBook {
 
@@ -19,7 +21,7 @@ public class EditBook {
     public TextField publisher;
     public TextField imageUrl;
     public TextField publicationDate;
-    public TextField description;
+    public TextArea description;
     public TextField pageNumber;
     public TextField language;
     private BookController bookController;
@@ -46,7 +48,7 @@ public class EditBook {
                 "UPDATE library.book SET title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, "
                         +
                         "language = ?, pageNumber = ?, imageUrl = ?, description = ? WHERE ISBN = ?";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, titile.getText());

@@ -40,11 +40,11 @@
   <ChoiceBox id="choiceButton" fx:id="choiceBox" layoutX="886.0" layoutY="142.0" prefHeight="43.0" prefWidth="190.0" />
   <TableView fx:id="ticketTableView" layoutX="124.0" layoutY="194.0" prefHeight="508.0" prefWidth="952.0">
     <columns>
-      <TableColumn id="ticketID" fx:id="ticketIDColumn" editable="false" prefWidth="107.0" sortable="false" text="TicketID" />
-      <TableColumn id="uid" fx:id="uidColumn" editable="false" prefWidth="166.0" sortable="false" text="UserID" />
-      <TableColumn id="isbn" fx:id="isbnColumn" editable="false" prefWidth="170.0" sortable="false" text="ISBN" />
-      <TableColumn id="borrowedDateColumn" fx:id="borrowedDateColumn" editable="false" prefWidth="159.0" sortable="false" text="Ngày mượn" />
-      <TableColumn id="returnedDateColumn" fx:id="returnedDateColumn" editable="false" prefWidth="162.0" sortable="false" text="Ngày trả" />
+      <TableColumn id="ticketID" fx:id="ticketIDColumn" editable="false" prefWidth="81.0" sortable="false" text="TicketID" />
+      <TableColumn id="uid" fx:id="uidColumn" editable="false" prefWidth="157.0" sortable="false" text="UserID" />
+      <TableColumn id="isbn" fx:id="isbnColumn" editable="false" prefWidth="185.0" sortable="false" text="ISBN" />
+      <TableColumn id="borrowedDateColumn" fx:id="borrowedDateColumn" editable="false" prefWidth="131.0" sortable="false" text="Ngày mượn" />
+      <TableColumn id="returnedDateColumn" fx:id="returnedDateColumn" editable="false" prefWidth="210.0" sortable="false" text="Ngày trả" />
       <TableColumn id="quantity" fx:id="quantityColumn" editable="false" prefWidth="57.0" sortable="false" text="SL" />
       <TableColumn id="status" fx:id="statusColumn" editable="false" prefWidth="127.0" sortable="false" text="Trạng thái" />
     </columns>
@@ -54,9 +54,7 @@
   </TableView>
   <Button id="showUser" layoutX="348.0" layoutY="718.0" mnemonicParsing="false" onAction="#showBook" prefHeight="49.0" prefWidth="247.0" text="Show Book's information" />
   <Button id="showBook" layoutX="605.0" layoutY="718.0" mnemonicParsing="false" onAction="#showUser" prefHeight="49.0" prefWidth="247.0" text="Show User's information" />
-   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchTicket" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../Image/searchIcon.png" />
-      </image>
-   </ImageView>
+  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchTicket" pickOnBounds="true" preserveRatio="true">
+    <Image url="@../Image/searchIcon.png" />
+  </ImageView>
 </AnchorPane>

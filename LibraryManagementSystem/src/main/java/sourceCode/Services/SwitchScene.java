@@ -49,6 +49,10 @@ public class SwitchScene {
         switchTo(event, "Login");
     }
 
+    public void switchToLibrary(ActionEvent event) {
+        switchTo(event, "UserFXML/Library");
+    }
+
     public void switchToBookcase(ActionEvent event) {
         switchTo(event, "UserFXML/Bookcase");
     }

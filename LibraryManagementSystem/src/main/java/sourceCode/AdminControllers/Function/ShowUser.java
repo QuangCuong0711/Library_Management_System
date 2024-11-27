@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +28,7 @@ public class ShowUser {
 
     public void setUser(User user) {
         name.setText(user.getName());
-        userID.setText("USERID:" + user.getUserId());
+        userID.setText("USERID: " + user.getUserId());
         identityNumber.setText(user.getIdentityNumber());
         birth.setText(user.getBirth().toString());
         gender.setText(user.getGender());

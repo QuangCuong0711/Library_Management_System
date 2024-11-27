@@ -1,4 +1,4 @@
-package sourceCode.AdminControllers;
+package sourceCode.AdminControllers.Function;
 
 import java.net.URL;
 import java.sql.Connection;
@@ -13,7 +13,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import sourceCode.Services.Service;
+import sourceCode.AdminControllers.UserController;
+import sourceCode.Services.DatabaseConnection;
 
 public class AddUser implements Initializable {
 
@@ -38,7 +39,7 @@ public class AddUser implements Initializable {
 
     public void confirmButtonOnAction(ActionEvent event) {
         String query = "INSERT INTO library.user (name, userId, identityNumber, birth, gender, phoneNumber, email, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = Service.getConnection()) {
+        try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setString(1, name.getText());
