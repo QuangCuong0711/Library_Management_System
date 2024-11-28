@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
 import sourceCode.Models.Ticket;
 import sourceCode.Services.DatabaseConnection;
 import sourceCode.Services.SwitchScene;
@@ -130,8 +132,27 @@ public class HomeController extends SwitchScene implements Initializable {
             try (Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query)) {
                 while (rs.next()) {
-                    pieChartData.add(
-                            new PieChart.Data(rs.getString("status"), rs.getInt("statusCount")));
+                    PieChart.Data data = new PieChart.Data(rs.getString("status"),
+                            rs.getInt("statusCount"));
+                    data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                        if (newNode != null) {
+                            newNode.setOnMouseEntered(e -> {
+                                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300),
+                                        newNode);
+                                scaleTransition.setToY(1.1);
+                                scaleTransition.setToX(1.1);
+                                scaleTransition.play();
+                            });
+                            newNode.setOnMouseExited(e -> {
+                                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300),
+                                        newNode);
+                                scaleTransition.setToY(1);
+                                scaleTransition.setToX(1);
+                                scaleTransition.play();
+                            });
+                        }
+                    });
+                    pieChartData.add(data);
                 }
             }
         } catch (SQLException e) {
@@ -177,4 +198,6 @@ public class HomeController extends SwitchScene implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -26,7 +26,7 @@
     <Button alignment="BASELINE_LEFT" layoutX="43.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyFeedback" prefHeight="58.0" prefWidth="192.0" text="FEEDBACK" />
     <Button id="homeButton" alignment="BASELINE_LEFT" layoutX="444.0" layoutY="6.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="230.0" text="LIBRARY">
     </Button>
-    <Button alignment="BASELINE_LEFT" layoutX="903.0" layoutY="20.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="174.0" text="PROFILE">
+    <Button alignment="BASELINE_LEFT" layoutX="903.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToProfile" prefHeight="52.0" prefWidth="174.0" text="PROFILE">
     </Button>
     <Button alignment="BASELINE_LEFT" layoutX="253.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyTicket" prefHeight="58.0" prefWidth="163.0" text="TICKET">
     </Button>

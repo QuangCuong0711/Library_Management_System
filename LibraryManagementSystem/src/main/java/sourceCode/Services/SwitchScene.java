@@ -101,6 +101,10 @@ public class SwitchScene {
         switchTo(event, "UserFXML/Feedback");
     }
 
+    public void switchToProfile(ActionEvent event) {
+        switchTo(event, "UserFXML/Profile");
+    }
+
     public void shutdown() {
         executor.shutdown();
     }
