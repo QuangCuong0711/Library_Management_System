@@ -1,5 +1,8 @@
 package sourceCode.UserControllers.BookViews;
 
+import static sourceCode.LoginController.imageCache;
+import static sourceCode.LoginController.imagedefault;
+
 import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,22 +25,31 @@ public class BookGridController {
 
     public void setBook(Book book) {
         bookTitle.setText(book.getTitle());
-        if (book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
-            try {
-                Image img = new Image(book.getImageUrl(), true);
-                if (img.isError()) {
-                    System.out.println("Image URL is invalid or image cannot be loaded: "
-                            + book.getImageUrl());
-                    bookCover.setImage(null);
-                } else {
-                    bookCover.setImage(img);
+        if (book.getImageUrl() != null) {
+            if (imageCache.containsKey(book.getImageUrl())) {
+                // Nếu ảnh đã có trong cache, sử dụng ảnh đó
+                bookCover.setImage(imageCache.get(book.getImageUrl()));
+            } else {
+                try {
+                    // Tải ảnh trực tiếp trong luồng chính
+                    Image img = new Image(book.getImageUrl());
+                    if (!img.isError()) {
+                        // Nếu tải thành công, lưu vào cache và hiển thị ảnh
+                        imageCache.put(book.getImageUrl(), img);
+                        bookCover.setImage(img);
+                        System.out.println("Image loaded and cached: " + book.getImageUrl());
+                    } else {
+                        // Nếu ảnh có lỗi, sử dụng ảnh mặc định
+                        System.out.println("Image error, using default for URL: " + book.getImageUrl());
+                        bookCover.setImage(imagedefault);
+                    }
+                } catch (Exception e) {
+                    // Xử lý ngoại lệ và sử dụng ảnh mặc định
+                    System.out.println("Exception while loading image: " + book.getImageUrl());
+                    e.printStackTrace();
+                    bookCover.setImage(imagedefault);
                 }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid image URL: " + book.getImageUrl());
-                bookCover.setImage(null);
             }
-        } else {
-            bookCover.setImage(null);
         }
         this.book = book;
     }

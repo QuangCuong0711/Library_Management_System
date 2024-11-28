@@ -1,5 +1,7 @@
 package sourceCode.UserControllers;
 
+import static sourceCode.LoginController.imagedefault;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -110,7 +112,20 @@ public class BookcaseController extends SwitchScene implements Initializable {
         bookListView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
-                        bookImage.setImage(new Image(newValue.getImageUrl()));
+                        if (newValue.getImageUrl() != null) {
+                            try{
+                                Image image = new Image(newValue.getImageUrl());
+                                if (image.isError()) {
+                                    bookImage.setImage(imagedefault); // Gán ảnh mặc định
+                                } else {
+                                    bookImage.setImage(image); // Gán ảnh nếu tải thành công
+                                }
+                            } catch (Exception e) {
+                                bookImage.setImage(imagedefault);
+                            }
+                        } else {
+                            bookImage.setImage(imagedefault);
+                        }
                         bookTitle.setText(newValue.getTitle());
                         bookISBN.setText("ISBN: " + newValue.getISBN());
                         bookAuthor.setText("Tác giả: " + newValue.getAuthor());

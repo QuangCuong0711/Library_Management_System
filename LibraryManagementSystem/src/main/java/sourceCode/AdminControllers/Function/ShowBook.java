@@ -11,11 +11,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import sourceCode.LoginController;
 import sourceCode.Models.Book;
+
+import static sourceCode.LoginController.imageCache;
+import static sourceCode.LoginController.imagedefault;
 
 public class ShowBook {
 
-    private static final Map<String, Image> imageCache = new HashMap<>();
     @FXML
     private ImageView image;
     @FXML
@@ -56,43 +59,28 @@ public class ShowBook {
 
     private void loadImageWithCache(String imageUrl) {
         if (imageCache.containsKey(imageUrl)) {
+            // Nếu ảnh đã có trong cache, sử dụng ảnh đó
             image.setImage(imageCache.get(imageUrl));
         } else {
-            Task<Image> loadImageTask = new Task<>() {
-                @Override
-                protected Image call() {
-                    try {
-                        Image img = new Image(imageUrl, true);
-                        if (img.isError()) {
-                            System.out.println("Lỗi tải ảnh : " + imageUrl);
-                            return null;
-                        }
-                        return img;
-                    } catch (Exception e) {
-                        System.out.println("Lỗi tải ảnh từ URL: " + imageUrl);
-                        e.printStackTrace();
-                        return null;
-                    }
-                }
-            };
-            loadImageTask.setOnSucceeded(event -> {
-                Image loadedImage = loadImageTask.getValue();
-                if (loadedImage != null) {
-                    image.setImage(loadedImage);
-                    imageCache.put(imageUrl, loadedImage);
+            try {
+                // Tải ảnh trực tiếp trong luồng chính
+                Image img = new Image(imageUrl);
+                if (!img.isError()) {
+                    // Nếu tải thành công, lưu vào cache và hiển thị ảnh
+                    imageCache.put(imageUrl, img);
+                    image.setImage(img);
                     System.out.println("Image loaded and cached: " + imageUrl);
                 } else {
-                    System.out.println(" Sử dụng ảnh mặc định ");
-                    image.setImage(null);
+                    // Nếu ảnh có lỗi, sử dụng ảnh mặc định
+                    System.out.println("Image error, using default for URL: " + imageUrl);
+                    image.setImage(imagedefault);
                 }
-            });
-            loadImageTask.setOnFailed(event -> {
-                System.out.println("Image loading task failed for URL: " + imageUrl);
-                image.setImage(null);
-            });
-            Thread loadImageThread = new Thread(loadImageTask);
-            loadImageThread.setDaemon(true);
-            loadImageThread.start();
+            } catch (Exception e) {
+                // Xử lý ngoại lệ và sử dụng ảnh mặc định
+                System.out.println("Exception while loading image: " + imageUrl);
+                e.printStackTrace();
+                image.setImage(imagedefault);
+            }
         }
     }
 

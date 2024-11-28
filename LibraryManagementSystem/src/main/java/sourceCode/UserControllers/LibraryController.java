@@ -1,6 +1,5 @@
 package sourceCode.UserControllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
