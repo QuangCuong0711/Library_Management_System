@@ -52,8 +52,6 @@ public class ShowBook {
         description.setText(book.getDescription());
         if (book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
             loadImageWithCache(book.getImageUrl());
-        } else {
-            image.setImage(null);
         }
     }
 
@@ -71,7 +69,6 @@ public class ShowBook {
                     image.setImage(img);
                     System.out.println("Image loaded and cached: " + imageUrl);
                 } else {
-                    // Nếu ảnh có lỗi, sử dụng ảnh mặc định
                     System.out.println("Image error, using default for URL: " + imageUrl);
                     image.setImage(imagedefault);
                 }

@@ -204,20 +204,37 @@ public class BookcaseController extends SwitchScene implements Initializable {
             return;
         }
         String currentUserID = sourceCode.LoginController.currentUserId;
-        String returnQuery = """
+        String returnticketQuery = """
                     UPDATE library.ticket
                     SET returnedDate = CURRENT_DATE
                     WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+                    LIMIT 1;
+                """;
+        String  updatequantityQuery = """
+                    UPDATE library.book
+                    SET quantity = quantity + 1
+                    WHERE ISBN = ?;
                 """;
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            try (PreparedStatement pstmt = conn.prepareStatement(returnQuery)) {
+            try (PreparedStatement pstmt = conn.prepareStatement(returnticketQuery)) {
                 pstmt.setString(1, currentUserID);
                 pstmt.setString(2, selectedBook.getISBN());
                 int rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
-                    System.out.println("Trả sách thành công: " + selectedBook.getTitle());
-                    loadBooksFromDatabase(selectAllQuery);
+                    try (PreparedStatement pstmt1 = conn.prepareStatement(updatequantityQuery)) {
+                        pstmt1.setString(1,selectedBook.getISBN());
+                        rowsAffected = pstmt1.executeUpdate();
+                        if (rowsAffected > 0) {
+                            System.out.println("Trả sách thành công: " + selectedBook.getTitle());
+                            loadBooksFromDatabase(selectAllQuery);
+                        } else {
+                            System.out.println("Không thể trả sách, vui lòng thử lại.");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        System.out.println("Lỗi kết nối cơ sở dữ liệu.");
+                    }
                 } else {
                     System.out.println("Không thể trả sách, vui lòng thử lại.");
                 }

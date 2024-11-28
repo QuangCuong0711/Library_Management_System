@@ -91,7 +91,6 @@ public class BookDetailController {
         String lateQuery = "SELECT COUNT(*) FROM library.ticket t WHERE userId = ? AND returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30";
         String borrowQuery = "SELECT COUNT(*) FROM library.ticket t WHERE userId = ? AND returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30";
         String insertQuery = "INSERT INTO library.ticket (ISBN, userID, borrowedDate, returnedDate, quantity) VALUES (?, ?, CURDATE(), null, 1)";
-        String updateTicketQuery = "UPDATE library.ticket SET quantity = ? WHERE ISBN = ? AND userID = ?";
         String updateBookQuery = "UPDATE library.book SET quantity = quantity - 1 WHERE ISBN = ?";
 
         ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -166,18 +165,11 @@ public class BookDetailController {
                 System.out.println("Sách không có sẵn để mượn.");
                 return;
             }
-            try (PreparedStatement updateTicketStmt = conn.prepareStatement(updateTicketQuery)) {
-                updateTicketStmt.setInt(1, 1);
-                updateTicketStmt.setString(2, book.getISBN());
-                updateTicketStmt.setString(3, sourceCode.LoginController.currentUserId);
-                int rowsAffected = updateTicketStmt.executeUpdate();
-                if (rowsAffected == 0) {
-                    try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
-                        insertStmt.setString(1, book.getISBN());
-                        insertStmt.setString(2, sourceCode.LoginController.currentUserId);
-                        insertStmt.executeUpdate();
-                    }
-                }
+            System.out.println(insertQuery);
+            try (PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
+                insertStmt.setString(1, book.getISBN());
+                insertStmt.setString(2, sourceCode.LoginController.currentUserId);
+                insertStmt.executeUpdate();
             }
             try (PreparedStatement updateBookStmt = conn.prepareStatement(updateBookQuery)) {
                 updateBookStmt.setString(1, book.getISBN());
