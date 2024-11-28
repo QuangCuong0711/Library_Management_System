@@ -202,7 +202,7 @@ public class ProfileController extends SwitchScene implements Initializable {
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;
         }
-        String query = "DELETE FROM library.user WHERE userId = ?";
+        String query = "UPDATE library.user SET password = NULL WHERE userId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {

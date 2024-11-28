@@ -82,7 +82,7 @@ public class SwitchScene {
     }
 
     public void switchToLogin(ActionEvent event) {
-        switchTo(event, "Login");
+        switchTo(event, "AdminFXML/Login");
     }
 
     public void switchToLibrary(ActionEvent event) {
