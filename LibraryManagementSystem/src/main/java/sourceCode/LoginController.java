@@ -1,6 +1,8 @@
 package sourceCode;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import javafx.application.Platform;
@@ -22,8 +24,9 @@ import sourceCode.Services.SwitchScene;
 public class LoginController {
 
     public static String currentUserId = null;
-    public static Image imagedefault = new Image(LoginController.class.getResource("/sourceCode/Image/templateCover.png").toExternalForm()
-    );
+    public static Image imagedefault = new Image(LoginController.class.getResource("/sourceCode/Image/templateCover.png").toExternalForm());
+    public static final Map<String, Image> imageCache = new HashMap<>();
+
 
     @FXML
     private TextField usernameField;

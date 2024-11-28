@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import sourceCode.Models.Book;
 
+import static sourceCode.LoginController.imageCache;
 import static sourceCode.LoginController.imagedefault;
 
 public class BookCellController {
@@ -26,17 +27,43 @@ public class BookCellController {
         authorLabel.setText("Author: " + book.getAuthor());
         isbnLabel.setText("ISBN: " + book.getISBN());
         descriptionLabel.setText("Description:" + '\n' + book.getDescription());
+//        if (book.getImageUrl() != null) {
+//            try{
+//                Image image = new Image(book.getImageUrl());
+//                if (image.isError()) {
+//                    bookImage.setImage(imagedefault); // Gán ảnh mặc định
+//                } else {
+//                    bookImage.setImage(image); // Gán ảnh nếu tải thành công
+//                }
+//            } catch (Exception e) {
+//                bookImage.setImage(imagedefault);
+//
+//            }
+//        }
         if (book.getImageUrl() != null) {
-            try{
-                Image image = new Image(book.getImageUrl());
-                if (image.isError()) {
-                    bookImage.setImage(imagedefault); // Gán ảnh mặc định
-                } else {
-                    bookImage.setImage(image); // Gán ảnh nếu tải thành công
+            if (imageCache.containsKey(book.getImageUrl())) {
+                // Nếu ảnh đã có trong cache, sử dụng ảnh đó
+                bookImage.setImage(imageCache.get(book.getImageUrl()));
+            } else {
+                try {
+                    // Tải ảnh trực tiếp trong luồng chính
+                    Image img = new Image(book.getImageUrl());
+                    if (!img.isError()) {
+                        // Nếu tải thành công, lưu vào cache và hiển thị ảnh
+                        imageCache.put(book.getImageUrl(), img);
+                        bookImage.setImage(img);
+                        System.out.println("Image loaded and cached: " + book.getImageUrl());
+                    } else {
+                        // Nếu ảnh có lỗi, sử dụng ảnh mặc định
+                        System.out.println("Image error, using default for URL: " + book.getImageUrl());
+                        bookImage.setImage(imagedefault);
+                    }
+                } catch (Exception e) {
+                    // Xử lý ngoại lệ và sử dụng ảnh mặc định
+                    System.out.println("Exception while loading image: " + book.getImageUrl());
+                    e.printStackTrace();
+                    bookImage.setImage(imagedefault);
                 }
-            } catch (Exception e) {
-                bookImage.setImage(imagedefault);
-
             }
         }
     }
