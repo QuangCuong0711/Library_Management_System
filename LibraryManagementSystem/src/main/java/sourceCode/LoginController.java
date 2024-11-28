@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import java.io.IOException;
+
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sourceCode.AdminControllers.UserController;
 import sourceCode.Services.DatabaseConnection;
@@ -20,6 +22,9 @@ import sourceCode.Services.SwitchScene;
 public class LoginController {
 
     public static String currentUserId = null;
+    public static Image imagedefault = new Image(LoginController.class.getResource("/sourceCode/Image/templateCover.png").toExternalForm()
+    );
+
     @FXML
     private TextField usernameField;
     @FXML

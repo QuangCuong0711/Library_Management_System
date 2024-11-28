@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
 
+import static sourceCode.LoginController.imagedefault;
+
 public class BookGridController {
 
     @FXML
@@ -23,7 +25,17 @@ public class BookGridController {
     public void setBook(Book book) {
         bookTitle.setText(book.getTitle());
         if (book.getImageUrl() != null) {
-            bookCover.setImage(new Image(book.getImageUrl()));
+            try{
+                Image image = new Image(book.getImageUrl());
+                if (image.isError()) {
+                    bookCover.setImage(imagedefault); // Gán ảnh mặc định
+                } else {
+                    bookCover.setImage(image); // Gán ảnh nếu tải thành công
+                }
+            } catch (Exception e) {
+                bookCover.setImage(imagedefault);
+
+            }
         }
         this.book = book;
     }

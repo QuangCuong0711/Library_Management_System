@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -79,6 +77,7 @@ public class LibraryController extends SwitchScene implements Initializable {
             new Thread(task).start();
         }
     }
+
 //    private void populateTilePane() {
 //        myTilePane.getChildren().clear();
 //        for (Book book : bookList) {

@@ -8,6 +8,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -52,7 +53,10 @@
         </AnchorPane>
       </ScrollPane>
       <Pane fx:id="myPane" layoutX="-3.0" layoutY="6.0" prefHeight="288.0" prefWidth="414.0">
-        <ImageView id="bookImage" fx:id="bookImage" fitHeight="263.0" fitWidth="163.0" layoutX="126.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView id="bookImage" fx:id="bookImage" fitHeight="263.0" fitWidth="163.0" layoutX="126.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Image/templateCover.png" />
+               </image></ImageView>
       </Pane>
       <Button id="returnBook" layoutX="54.0" layoutY="531.0" mnemonicParsing="false" onAction="#returnBook" prefHeight="43.0" prefWidth="150.0" text="Return Book" />
       <Button id="sendFeedback" layoutX="216.0" layoutY="531.0" mnemonicParsing="false" onAction="#sendFeedback" prefHeight="43.0" prefWidth="150.0" text="Send Feedback" />

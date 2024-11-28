@@ -9,9 +9,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import sourceCode.LoginController;
 import sourceCode.Models.Book;
 import java.util.HashMap;
 import java.util.Map;
+
+import static sourceCode.LoginController.imagedefault;
 
 public class ShowBook {
 
@@ -50,8 +53,6 @@ public class ShowBook {
         description.setText(book.getDescription());
         if (book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
             loadImageWithCache(book.getImageUrl());
-        } else {
-            image.setImage(null);
         }
     }
 
@@ -63,16 +64,16 @@ public class ShowBook {
                 @Override
                 protected Image call() {
                     try {
-                        Image img = new Image(imageUrl, true);
+                        Image img = new Image(imageUrl);
                         if (img.isError()) {
                             System.out.println("Lỗi tải ảnh : " + imageUrl);
-                            return null;
+                            return LoginController.imagedefault;
                         }
                         return img;
                     } catch (Exception e) {
                         System.out.println("Lỗi tải ảnh từ URL: " + imageUrl);
                         e.printStackTrace();
-                        return null;
+                        return LoginController.imagedefault;
                     }
                 }
             };
@@ -85,13 +86,11 @@ public class ShowBook {
                     System.out.println("Image loaded and cached: " + imageUrl);
                 } else {
                     System.out.println(" Sử dụng ảnh mặc định ");
-                    image.setImage(null);
                 }
             });
 
             loadImageTask.setOnFailed(event -> {
                 System.out.println("Image loading task failed for URL: " + imageUrl);
-                image.setImage(null);
             });
 
             Thread loadImageThread = new Thread(loadImageTask);
