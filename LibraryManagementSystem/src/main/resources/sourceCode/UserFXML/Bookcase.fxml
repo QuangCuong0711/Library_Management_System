@@ -8,9 +8,11 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.paint.Color?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F4EEFF;" stylesheets="@../UserCSS/Bookcase.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sourceCode.UserControllers.BookcaseController">
@@ -38,7 +40,7 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="406.0">
       <ListView fx:id="bookListView" fixedCellSize="0.0" prefHeight="598.0" prefWidth="616.0" />
     </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="302.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="588.0" prefWidth="426.0">
       <ScrollPane id="myScrollPane" hbarPolicy="NEVER" layoutX="12.0" layoutY="356.0" prefHeight="155.0" prefWidth="391.0" vbarPolicy="NEVER">
         <AnchorPane fx:id="bookDetail" minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="297.0">
           <Label fx:id="bookISBN" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="342.0" text="ISBN: " />
@@ -51,12 +53,18 @@
           <Label fx:id="bookDescription" layoutX="14.0" layoutY="184.0" prefHeight="17.0" prefWidth="342.0" text="Description:" />
         </AnchorPane>
       </ScrollPane>
-      <Pane fx:id="myPane" layoutX="-3.0" layoutY="6.0" prefHeight="288.0" prefWidth="414.0">
-        <ImageView id="bookImage" fx:id="bookImage" fitHeight="263.0" fitWidth="163.0" layoutX="126.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-      </Pane>
       <Button id="returnBook" layoutX="54.0" layoutY="531.0" mnemonicParsing="false" onAction="#returnBook" prefHeight="43.0" prefWidth="150.0" text="Return Book" />
       <Button id="sendFeedback" layoutX="216.0" layoutY="531.0" mnemonicParsing="false" onAction="#sendFeedback" prefHeight="43.0" prefWidth="150.0" text="Send Feedback" />
-      <Label id="bookTitle" fx:id="bookTitle" contentDisplay="CENTER" layoutX="12.0" layoutY="294.0" prefHeight="58.0" prefWidth="384.0" text="Naruto Shippuden" textAlignment="CENTER" />
+      <Label id="bookTitle" fx:id="bookTitle" layoutX="26.0" layoutY="282.0" prefHeight="80.0" prefWidth="364.0" wrapText="true" />
+         <StackPane prefHeight="278.0" prefWidth="414.0">
+            <children>
+           <ImageView id="bookImage" fx:id="bookImage" fitHeight="204.0" fitWidth="202.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/templateCover.png" />
+                  </image>
+               </ImageView>
+            </children>
+         </StackPane>
     </AnchorPane>
   </SplitPane>
 </AnchorPane>

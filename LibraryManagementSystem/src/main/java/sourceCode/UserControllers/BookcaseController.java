@@ -7,8 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -37,6 +40,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
     private static final String selectAllQuery
             = "SELECT * FROM library.ticket t JOIN library.book b ON t.ISBN = b.ISBN "
             + "WHERE t.returnedDate IS NULL AND t.userID = ?";
+    private final ExecutorService executor = Executors.newFixedThreadPool(3);
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
             "Thể loại"};
@@ -79,8 +83,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
         choiceBox.setValue("Tìm kiếm theo");
         choiceBox.getItems().addAll(searchBy);
         bookListView.setItems(bookList);
-        selectBook(selectAllQuery);
-        bookListView.setCellFactory(lv -> new ListCell<Book>() {
+        bookListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(Book book, boolean empty) {
                 super.updateItem(book, empty);
@@ -88,15 +91,19 @@ public class BookcaseController extends SwitchScene implements Initializable {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                                "/sourceCode/UserFXML/BookCell.fxml"));
-                        setGraphic(loader.load());
-                        BookCellController controller = loader.getController();
-                        controller.setBook(book);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Task<Parent> loadCellTask = new Task<>() {
+                        @Override
+                        protected Parent call() throws Exception {
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                                    "/sourceCode/UserFXML/BookCell.fxml"));
+                            Parent cell = loader.load();
+                            BookCellController controller = loader.getController();
+                            controller.setBook(book);
+                            return cell;
+                        }
+                    };
+                    loadCellTask.setOnSucceeded(event -> setGraphic(loadCellTask.getValue()));
+                    executor.submit(loadCellTask);
                 }
             }
         });
@@ -117,36 +124,48 @@ public class BookcaseController extends SwitchScene implements Initializable {
                         splitPane.setDividerPositions(0.6);
                     }
                 });
+                loadBooksFromDatabase(selectAllQuery);
     }
 
-    public void selectBook(String query) {
-        bookList.clear();
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setString(1, sourceCode.LoginController.currentUserId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        Book book = new Book(
-                                rs.getString("ISBN"),
-                                rs.getString("title"),
-                                rs.getString("author"),
-                                rs.getString("genre"),
-                                rs.getString("publisher"),
-                                rs.getString("publicationDate"),
-                                rs.getString("language"),
-                                rs.getInt("pageNumber"),
-                                rs.getString("imageUrl"),
-                                rs.getString("description"),
-                                rs.getInt("quantity")
-                        );
-                        bookList.add(book);
+    private void loadBooksFromDatabase(String query) {
+        Task<ObservableList<Book>> loadBooksTask = new Task<>() {
+            @Override
+            protected ObservableList<Book> call() throws Exception {
+                ObservableList<Book> books = FXCollections.observableArrayList();
+                try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+                    assert conn != null;
+                    try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                        stmt.setString(1, sourceCode.LoginController.currentUserId);
+                        try (ResultSet rs = stmt.executeQuery()) {
+                            while (rs.next()) {
+                                Book book = new Book(
+                                        rs.getString("ISBN"),
+                                        rs.getString("title"),
+                                        rs.getString("author"),
+                                        rs.getString("genre"),
+                                        rs.getString("publisher"),
+                                        rs.getString("publicationDate"),
+                                        rs.getString("language"),
+                                        rs.getInt("pageNumber"),
+                                        rs.getString("imageUrl"),
+                                        rs.getString("description"),
+                                        rs.getInt("quantity")
+                                );
+                                books.add(book);
+                            }
+                        }
                     }
                 }
+                return books;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        };
+        loadBooksTask.setOnSucceeded(event -> {
+            bookList.setAll(loadBooksTask.getValue());
+        });
+        loadBooksTask.setOnFailed(event -> {
+            System.err.println("Lỗi khi tải dữ liệu từ database: " + loadBooksTask.getException());
+        });
+        executor.submit(loadBooksTask);
     }
 
     public void searchBook() {
@@ -160,7 +179,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
         } else if (choiceBox.getValue().equals("Thể loại")) {
             query += " AND b.genre LIKE '%" + searchBar.getText() + "%'";
         }
-        selectBook(query);
+        loadBooksFromDatabase(query); // Gọi lại hàm để tải dữ liệu mới
     }
 
     public void returnBook() {
@@ -177,14 +196,13 @@ public class BookcaseController extends SwitchScene implements Initializable {
                 """;
 
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
             try (PreparedStatement pstmt = conn.prepareStatement(returnQuery)) {
                 pstmt.setString(1, currentUserID);
                 pstmt.setString(2, selectedBook.getISBN());
                 int rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
                     System.out.println("Trả sách thành công: " + selectedBook.getTitle());
-                    selectBook(selectAllQuery);
+                    loadBooksFromDatabase(selectAllQuery);
                 } else {
                     System.out.println("Không thể trả sách, vui lòng thử lại.");
                 }
@@ -194,7 +212,6 @@ public class BookcaseController extends SwitchScene implements Initializable {
             System.out.println("Lỗi kết nối cơ sở dữ liệu.");
         }
     }
-
 
     public void sendFeedback() {
         try {

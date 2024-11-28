@@ -23,7 +23,7 @@
     </Button>
     <Button alignment="BASELINE_LEFT" layoutX="22.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToTicket" prefHeight="40.0" prefWidth="125.0" text="TICKET">
     </Button>
-    <Button id="homeButton" layoutX="357.0" layoutY="6.0" mnemonicParsing="false" text="HOME">
+    <Button id="homeButton" layoutX="357.0" layoutY="6.0" mnemonicParsing="false" onAction="#switchToHome" text="HOME">
       <font>
         <Font size="45.0" />
       </font>

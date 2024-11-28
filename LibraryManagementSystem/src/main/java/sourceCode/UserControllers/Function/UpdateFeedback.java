@@ -43,7 +43,7 @@ public class UpdateFeedback {
     }
 
     public int getRating() {
-        return ratingSlider.valueProperty().intValue();
+        return (int) ratingSlider.getValue();
     }
 
     public void setRating(int rating) {

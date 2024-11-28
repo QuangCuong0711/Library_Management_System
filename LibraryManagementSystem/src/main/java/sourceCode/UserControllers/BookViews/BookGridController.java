@@ -22,8 +22,22 @@ public class BookGridController {
 
     public void setBook(Book book) {
         bookTitle.setText(book.getTitle());
-        if (book.getImageUrl() != null) {
-            bookCover.setImage(new Image(book.getImageUrl()));
+        if (book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
+            try {
+                Image img = new Image(book.getImageUrl(), true);
+                if (img.isError()) {
+                    System.out.println("Image URL is invalid or image cannot be loaded: "
+                            + book.getImageUrl());
+                    bookCover.setImage(null);
+                } else {
+                    bookCover.setImage(img);
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid image URL: " + book.getImageUrl());
+                bookCover.setImage(null);
+            }
+        } else {
+            bookCover.setImage(null);
         }
         this.book = book;
     }

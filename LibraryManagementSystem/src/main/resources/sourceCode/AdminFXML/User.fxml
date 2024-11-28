@@ -23,7 +23,7 @@
     </Button>
     <Button alignment="BASELINE_LEFT" layoutX="22.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToTicket" prefHeight="40.0" prefWidth="125.0" text="TICKET">
     </Button>
-    <Button id="homeButton" layoutX="357.0" layoutY="6.0" mnemonicParsing="false" text="HOME">
+    <Button id="homeButton" layoutX="357.0" layoutY="6.0" mnemonicParsing="false" onAction="#switchToHome" text="HOME">
       <font>
         <Font size="45.0" />
       </font>
@@ -53,8 +53,7 @@
    <Button id="removeButton" layoutX="850.0" layoutY="711.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="52.0" prefWidth="226.0" text="Remove User" />
    <Button id="showButton" layoutX="357.0" layoutY="711.0" mnemonicParsing="false" onAction="#showUser" prefHeight="52.0" prefWidth="241.0" text="Show User" />
    <Button id="editButton" layoutX="603.0" layoutY="711.0" mnemonicParsing="false" onAction="#editUser" prefHeight="52.0" prefWidth="241.0" text="Edit User" />
-  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0"
-    onMouseClicked="#searchUser" pickOnBounds="true" preserveRatio="true">
-    <Image url="@../Image/searchIcon.png"/>
+  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchUser" pickOnBounds="true" preserveRatio="true">
+    <Image url="@../Image/searchIcon.png" />
   </ImageView>
 </AnchorPane>

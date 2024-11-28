@@ -25,7 +25,7 @@ public class AddFeedback {
     }
 
     public void setISBN(String ISBN) {
-        this.isbn = ISBN.substring(6);
+        this.isbn = ISBN;
     }
 
     public void confirmButtonOnAction(ActionEvent event) {

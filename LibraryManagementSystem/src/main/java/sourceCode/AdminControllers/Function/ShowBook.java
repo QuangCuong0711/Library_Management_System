@@ -1,5 +1,8 @@
 package sourceCode.AdminControllers.Function;
 
+import java.util.HashMap;
+import java.util.Map;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +15,7 @@ import sourceCode.Models.Book;
 
 public class ShowBook {
 
+    private static final Map<String, Image> imageCache = new HashMap<>();
     @FXML
     private ImageView image;
     @FXML
@@ -42,23 +46,54 @@ public class ShowBook {
         date.setText(book.getPublicationDate());
         language.setText(book.getLanguage());
         pageNumber.setText(String.valueOf(book.getPageNumber()));
-        if(book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
-            try {
-                Image img = new Image(book.getImageUrl(), true);
-                if (img.isError()) {
-                    System.out.println("Image URL is invalid or image cannot be loaded: " + book.getImageUrl());
-                    image.setImage(null);
-                } else {
-                    image.setImage(img);
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid image URL: " + book.getImageUrl());
-                image.setImage(null);
-            }
+        description.setText(book.getDescription());
+        if (book.getImageUrl() != null && !book.getImageUrl().isEmpty()) {
+            loadImageWithCache(book.getImageUrl());
         } else {
             image.setImage(null);
         }
-        description.setText(book.getDescription());
+    }
+
+    private void loadImageWithCache(String imageUrl) {
+        if (imageCache.containsKey(imageUrl)) {
+            image.setImage(imageCache.get(imageUrl));
+        } else {
+            Task<Image> loadImageTask = new Task<>() {
+                @Override
+                protected Image call() {
+                    try {
+                        Image img = new Image(imageUrl, true);
+                        if (img.isError()) {
+                            System.out.println("Lỗi tải ảnh : " + imageUrl);
+                            return null;
+                        }
+                        return img;
+                    } catch (Exception e) {
+                        System.out.println("Lỗi tải ảnh từ URL: " + imageUrl);
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+            };
+            loadImageTask.setOnSucceeded(event -> {
+                Image loadedImage = loadImageTask.getValue();
+                if (loadedImage != null) {
+                    image.setImage(loadedImage);
+                    imageCache.put(imageUrl, loadedImage);
+                    System.out.println("Image loaded and cached: " + imageUrl);
+                } else {
+                    System.out.println(" Sử dụng ảnh mặc định ");
+                    image.setImage(null);
+                }
+            });
+            loadImageTask.setOnFailed(event -> {
+                System.out.println("Image loading task failed for URL: " + imageUrl);
+                image.setImage(null);
+            });
+            Thread loadImageThread = new Thread(loadImageTask);
+            loadImageThread.setDaemon(true);
+            loadImageThread.start();
+        }
     }
 
     public void confirmButtonOnAction(ActionEvent event) {

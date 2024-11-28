@@ -94,7 +94,7 @@
     -fx-background-color: #A6B1E1;
 }
 
-#myPane {
+.stack-pane {
     -fx-alignment: BASELINE_CENTER;
 }
 
@@ -103,11 +103,10 @@
 }
 
 #bookTitle {
-    -fx-font-size: 30;
+    -fx-font-size: 28;
     -fx-text-fill: #424874;
     -fx-font-family: "Times New Roman";
-
-    -fx-alignment: BASELINE_CENTER;
+    -fx-alignment: CENTER-LEFT;
 }
 
 #myScrollPane {

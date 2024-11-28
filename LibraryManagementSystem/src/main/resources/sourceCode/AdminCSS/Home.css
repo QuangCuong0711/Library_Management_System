@@ -12,21 +12,117 @@
 .button:hover {
     -fx-text-fill: #424874;
     -fx-scale-x: 1.2;
-    -fx-sclae-y: 1.2;
+    -fx-scale-y: 1.1;
 }
 
 .button:pressed {
     -fx-text-fill: #424874;
     -fx-scale-x: 1.2;
-    -fx-sclae-y: 1.2;
-}
-#homeButton {
-    -fx-font-size: 45px;
+    -fx-scale-y: 1.1;
 }
 
-#currentButton {
-    -fx-text-fill: WHITE;
-    -fx-background-color: #424874;
-    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
-    -fx-underlined: true;
+#homeButton {
+    -fx-font-size: 45px;
+    -fx-text-fill: #424874;
+}
+
+#countLabel {
+    -fx-font-size: 25px;
+    -fx-font-family: "Bernard MT Condensed";
+    -fx-text-fill: #424874;
+    -fx-alignment: CENTER;
+}
+
+#countNumber {
+    -fx-font-size: 40px;
+    -fx-font-family: "Bernard MT Condensed";
+    -fx-text-fill: #424874;
+    -fx-alignment: CENTER;
+}
+
+#countNumber:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+#myBarChart {
+    -fx-background-color: #F4EEFF;
+    -fx-background-radius: 10;
+    -fx-border-color: #DCD6F7;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+#myBarChart .label {
+    -fx-font-size: 15px;
+    -fx-font-family: "Bernard MT Condensed";
+    -fx-text-fill: #424874;
+}
+
+.axis.axis-label {
+    -fx-font-size: 15px;
+    -fx-font-family: "Bernard MT Condensed";
+    -fx-text-fill: #424874;
+}
+
+.axis.tick-label {
+    -fx-font-size: 15px;
+    -fx-font-family: "Bernard MT Condensed";
+    -fx-text-fill: #424874;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: #424874; /* OK */
+}
+
+.chart-plot-background { /* OK */
+    -fx-background-color: #F4EEFF;
+}
+
+#myPieChart {
+    -fx-background-color: #F4EEFF;
+    -fx-background-radius: 10;
+    -fx-border-color: #DCD6F7;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+
+#myPieChart .label {
+    -fx-font-size: 15px;
+    -fx-font-family: "Bernard MT Condensed";
+    -fx-text-fill: #424874;
+}
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 0 0 0 0;
+    -fx-border-color: #DCD6F7;
+    -fx-border-radius: 0 0 0 0;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header {
+    -fx-background-color: #DCD6F7;
+}
+
+.table-view .column-header .label {
+    -fx-background-color: #DCD6F7;
+    -fx-background-radius: 0 0 0 0;
+    -fx-text-fill: #424874;
+    -fx-font-size: 15px;
+    -fx-font-family: "Open Sans";
+    -fx-padding: 10px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-view .cell {
+    -fx-background-color: #ffffff;
+    -fx-font-size: 13px;
+    -fx-text-fill: #424874;
+    -fx-padding: 5px;
+    -fx-font-family: "Open Sans";
+    -fx-alignment: CENTER-LEFT;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #DCD6F7;
 }

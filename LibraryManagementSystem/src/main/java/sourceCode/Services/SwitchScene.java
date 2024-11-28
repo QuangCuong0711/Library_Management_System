@@ -1,21 +1,50 @@
 package sourceCode.Services;
 
-import java.io.IOException;
-import java.util.Objects;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SwitchScene {
 
+    private final Map<String, Parent> fxmlCache = new HashMap<>();
+    private final ExecutorService executor = Executors.newFixedThreadPool(4);
+
+    public void preloadFXML(String... fxmlFiles) {
+        for (String fxml : fxmlFiles) {
+            String path = "/sourceCode/" + fxml + ".fxml";
+            if (!fxmlCache.containsKey(fxml)) {
+                Task<Parent> loadTask = new Task<>() {
+                    @Override
+                    protected Parent call() throws Exception {
+                        return FXMLLoader.load(
+                                Objects.requireNonNull(getClass().getResource(path)));
+                    }
+                };
+
+                loadTask.setOnSucceeded(event -> fxmlCache.put(fxml, loadTask.getValue()));
+                loadTask.setOnFailed(event -> {
+                    System.err.println("Failed to load FXML: " + fxml);
+                    loadTask.getException().printStackTrace();
+                });
+
+                executor.submit(loadTask);
+            }
+        }
+    }
+
     public void switchTo(ActionEvent event, String fxml) {
         try {
-            String path = "/sourceCode/" + fxml + ".fxml";
-            Parent root = FXMLLoader.load(
-                    Objects.requireNonNull(getClass().getResource(path)));
+            Parent root = fxmlCache.getOrDefault(fxml, loadFXML(fxml));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.centerOnScreen();
@@ -23,6 +52,13 @@ public class SwitchScene {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Parent loadFXML(String fxml) throws IOException {
+        String path = "/sourceCode/" + fxml + ".fxml";
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
+        fxmlCache.put(fxml, root);
+        return root;
     }
 
     public void switchToHome(ActionEvent event) {
@@ -63,5 +99,9 @@ public class SwitchScene {
 
     public void switchToMyFeedback(ActionEvent event) {
         switchTo(event, "UserFXML/Feedback");
+    }
+
+    public void shutdown() {
+        executor.shutdown();
     }
 }

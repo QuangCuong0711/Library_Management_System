@@ -40,8 +40,8 @@ public class BookController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"All", "GoogleAPI", "ISBN", "Title", "Author",
-            "Genre"};
+    private static final String[] searchBy = {"Tất cả", "GoogleAPI", "ISBN", "Tiêu đề", "Tác giả",
+            "Thể loại"};
     @FXML
     private TableView<Book> bookTableView;
     @FXML
@@ -141,7 +141,11 @@ public class BookController extends SwitchScene implements Initializable {
                 if (rs.next()) {
                     try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
                         updateStmt.setString(1, book.getTitle());
-                        updateStmt.setString(2, book.getAuthor());
+                        if(book.getAuthor() == null) {
+                            updateStmt.setString(2, "");
+                        } else {
+                            updateStmt.setString(2, book.getAuthor());
+                        }
                         updateStmt.setString(3, book.getGenre());
                         updateStmt.setString(4, book.getPublisher());
                         updateStmt.setString(5, book.getPublicationDate());
@@ -157,7 +161,11 @@ public class BookController extends SwitchScene implements Initializable {
                     try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                         insertStmt.setString(1, book.getISBN());
                         insertStmt.setString(2, book.getTitle());
-                        insertStmt.setString(3, book.getAuthor());
+                        if(book.getAuthor() == null) {
+                            insertStmt.setString(3, "");
+                        } else {
+                            insertStmt.setString(3, book.getAuthor());
+                        }
                         insertStmt.setString(4, book.getGenre());
                         insertStmt.setString(5, book.getPublisher());
                         insertStmt.setString(6, book.getPublicationDate());

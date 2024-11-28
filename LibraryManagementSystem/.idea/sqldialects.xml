@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/AddBook.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/EditBook.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/EditUser.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/HomeController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/TicketController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/UserController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/LoginController.java" dialect="GenericSQL" />
@@ -16,6 +17,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/UserControllers/Function/UpdateFeedback.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/UserControllers/TicketController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/sourceCode/Database/Creation.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/sourceCode/Database/Sample.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sourceCode/Database/Deletion.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sourceCode/Database/Insertion.sql" dialect="MySQL" />
   </component>
 </project>
