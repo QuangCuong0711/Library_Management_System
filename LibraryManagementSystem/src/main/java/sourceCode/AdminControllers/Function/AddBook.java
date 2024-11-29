@@ -51,9 +51,22 @@ public class AddBook implements Initializable {
         if (result.isEmpty() || result.get() != ButtonType.OK) {
             return;
         }
+
+        // Kiểm tra đầu vào
+        String errorMessage = validateInput();
+        if (!errorMessage.isEmpty()) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Invalid Input");
+            errorAlert.setHeaderText("Invalid Insertion");
+            errorAlert.setContentText(errorMessage);
+            errorAlert.showAndWait();
+            return;
+        }
+
         String checkQuery = "SELECT quantity FROM library.book WHERE ISBN = ?";
-        String updateQuery = "UPDATE library.book SET quantity = quantity + ?, title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, language = ?, pageNumber = ?, imageUrl = ?, description = ?, quantity = ?, WHERE ISBN = ?";
+        String updateQuery = "UPDATE library.book SET quantity = quantity + ?, title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, language = ?, pageNumber = ?, imageUrl = ?, description = ? WHERE ISBN = ?";
         String insertQuery = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement checkStmt = connection.prepareStatement(checkQuery)) {
@@ -61,14 +74,14 @@ public class AddBook implements Initializable {
                 ResultSet rs = checkStmt.executeQuery();
                 if (rs.next()) {
                     try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
-                        updateStmt.setInt(1, 1);
+                        updateStmt.setInt(1, Integer.parseInt(quantity.getText()));
                         updateStmt.setString(2, title.getText());
                         updateStmt.setString(3, author.getText());
                         updateStmt.setString(4, genre.getText());
                         updateStmt.setString(5, publisher.getText());
                         updateStmt.setString(6, publicationDate.getText());
                         updateStmt.setString(7, language.getText());
-                        updateStmt.setInt(8, Math.max(Integer.parseInt(pageNumber.getText()), 0));
+                        updateStmt.setInt(8, Integer.parseInt(pageNumber.getText()));
                         updateStmt.setString(9, imageUrl.getText());
                         updateStmt.setString(10, description.getText());
                         updateStmt.setString(11, ISBN.getText());
@@ -84,10 +97,10 @@ public class AddBook implements Initializable {
                         insertStmt.setString(5, publisher.getText());
                         insertStmt.setString(6, publicationDate.getText());
                         insertStmt.setString(7, language.getText());
-                        insertStmt.setInt(8, Math.max(Integer.parseInt(pageNumber.getText()), 0));
+                        insertStmt.setInt(8, Integer.parseInt(pageNumber.getText()));
                         insertStmt.setString(9, imageUrl.getText());
                         insertStmt.setString(10, description.getText());
-                        insertStmt.setInt(11, Math.max(Integer.parseInt(quantity.getText()), 1));
+                        insertStmt.setInt(11, Integer.parseInt(quantity.getText()));
                         insertStmt.executeUpdate();
                         System.out.println("Book added successfully");
                     }
@@ -97,8 +110,38 @@ public class AddBook implements Initializable {
             System.out.println("Book operation failed");
             e.printStackTrace();
         }
+
         bookController.initialize(null, null);
         cancelButtonOnAction(event);
+    }
+
+    private String validateInput() {
+        StringBuilder errorMessage = new StringBuilder();
+
+        if (ISBN.getText() == null || ISBN.getText().trim().isEmpty()) {
+            errorMessage.append("ISBN must not be empty.\n");
+        }
+        if (title.getText() == null || title.getText().trim().isEmpty()) {
+            errorMessage.append("Title must not be empty.\n");
+        }
+        try {
+            int pages = Integer.parseInt(pageNumber.getText());
+            if (pages <= 0) {
+                errorMessage.append("Page number must be a positive integer.\n");
+            }
+        } catch (NumberFormatException e) {
+            errorMessage.append("Page number must be a valid integer.\n");
+        }
+        try {
+            int qty = Integer.parseInt(quantity.getText());
+            if (qty < 0) {
+                errorMessage.append("Quantity must be a positive integer.\n");
+            }
+        } catch (NumberFormatException e) {
+            errorMessage.append("Quantity must be a valid integer.\n");
+        }
+
+        return errorMessage.toString();
     }
 
     public void cancelButtonOnAction(ActionEvent event) {
