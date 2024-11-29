@@ -18,7 +18,6 @@ import sourceCode.Services.DatabaseConnection;
 public class EditBook {
 
     public TextField ISBN;
-    public TextField titile;
     public TextField author;
     public TextField genre;
     public TextField publisher;
@@ -27,6 +26,8 @@ public class EditBook {
     public TextArea description;
     public TextField pageNumber;
     public TextField language;
+    public TextField quantity;
+    public TextField title;
     private BookController bookController;
 
     public void setBookController(BookController bookController) {
@@ -35,7 +36,7 @@ public class EditBook {
 
     public void setBook(Book book) {
         ISBN.setText(book.getISBN());
-        titile.setText(book.getTitle());
+        title.setText(book.getTitle());
         author.setText(book.getAuthor());
         genre.setText(book.getGenre());
         publisher.setText(book.getPublisher());
@@ -44,6 +45,7 @@ public class EditBook {
         description.setText(book.getDescription());
         pageNumber.setText(String.valueOf(book.getPageNumber()));
         language.setText(book.getLanguage());
+        quantity.setText(String.valueOf(book.getQuantity()));
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
@@ -58,11 +60,11 @@ public class EditBook {
         String query =
                 "UPDATE library.book SET title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, "
                         +
-                        "language = ?, pageNumber = ?, imageUrl = ?, description = ? WHERE ISBN = ?";
+                        "language = ?, pageNumber = ?, imageUrl = ?, description = ?, quantity = ? WHERE ISBN = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setString(1, titile.getText());
+                stmt.setString(1, title.getText());
                 stmt.setString(2, author.getText());
                 stmt.setString(3, genre.getText());
                 stmt.setString(4, publisher.getText());
@@ -71,7 +73,8 @@ public class EditBook {
                 stmt.setInt(7, Integer.parseInt(pageNumber.getText()));
                 stmt.setString(8, imageUrl.getText());
                 stmt.setString(9, description.getText());
-                stmt.setString(10, ISBN.getText());
+                stmt.setInt(10, Integer.parseInt(quantity.getText()));
+                stmt.setString(11, ISBN.getText());
                 stmt.executeUpdate();
                 System.out.println("Book edited successfully");
             }

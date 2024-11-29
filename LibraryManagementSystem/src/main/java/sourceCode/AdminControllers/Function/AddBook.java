@@ -21,7 +21,6 @@ import sourceCode.Services.DatabaseConnection;
 public class AddBook implements Initializable {
 
     public TextField ISBN;
-    public TextField titile;
     public TextField author;
     public TextField genre;
     public TextField publisher;
@@ -30,6 +29,8 @@ public class AddBook implements Initializable {
     public TextArea description;
     public TextField pageNumber;
     public TextField language;
+    public TextField quantity;
+    public TextField title;
     private BookController bookController;
 
     public void setBookController(BookController bookController) {
@@ -51,7 +52,7 @@ public class AddBook implements Initializable {
             return;
         }
         String checkQuery = "SELECT quantity FROM library.book WHERE ISBN = ?";
-        String updateQuery = "UPDATE library.book SET quantity = quantity + ?, title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, language = ?, pageNumber = ?, imageUrl = ?, description = ? WHERE ISBN = ?";
+        String updateQuery = "UPDATE library.book SET quantity = quantity + ?, title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, language = ?, pageNumber = ?, imageUrl = ?, description = ?, quantity = ?, WHERE ISBN = ?";
         String insertQuery = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
@@ -61,13 +62,13 @@ public class AddBook implements Initializable {
                 if (rs.next()) {
                     try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
                         updateStmt.setInt(1, 1);
-                        updateStmt.setString(2, titile.getText());
+                        updateStmt.setString(2, title.getText());
                         updateStmt.setString(3, author.getText());
                         updateStmt.setString(4, genre.getText());
                         updateStmt.setString(5, publisher.getText());
                         updateStmt.setString(6, publicationDate.getText());
                         updateStmt.setString(7, language.getText());
-                        updateStmt.setInt(8, Integer.parseInt(pageNumber.getText()));
+                        updateStmt.setInt(8, Math.max(Integer.parseInt(pageNumber.getText()), 0));
                         updateStmt.setString(9, imageUrl.getText());
                         updateStmt.setString(10, description.getText());
                         updateStmt.setString(11, ISBN.getText());
@@ -77,16 +78,16 @@ public class AddBook implements Initializable {
                 } else {
                     try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                         insertStmt.setString(1, ISBN.getText());
-                        insertStmt.setString(2, titile.getText());
+                        insertStmt.setString(2, title.getText());
                         insertStmt.setString(3, author.getText());
                         insertStmt.setString(4, genre.getText());
                         insertStmt.setString(5, publisher.getText());
                         insertStmt.setString(6, publicationDate.getText());
                         insertStmt.setString(7, language.getText());
-                        insertStmt.setInt(8, Integer.parseInt(pageNumber.getText()));
+                        insertStmt.setInt(8, Math.max(Integer.parseInt(pageNumber.getText()), 0));
                         insertStmt.setString(9, imageUrl.getText());
                         insertStmt.setString(10, description.getText());
-                        insertStmt.setInt(11, 1);
+                        insertStmt.setInt(11, Math.max(Integer.parseInt(quantity.getText()), 1));
                         insertStmt.executeUpdate();
                         System.out.println("Book added successfully");
                     }

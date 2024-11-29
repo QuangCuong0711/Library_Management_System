@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/BookController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/FeedbackController.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/AddBook.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/AddUser.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/EditBook.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/Function/EditUser.java" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/sourceCode/AdminControllers/HomeController.java" dialect="GenericSQL" />

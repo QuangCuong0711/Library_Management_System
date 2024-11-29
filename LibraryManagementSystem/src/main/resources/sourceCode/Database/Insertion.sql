@@ -250,3 +250,31 @@ lover, Daisy Buchanan.', 5),
         ('ZpYhtwAACAAJ', 'Độc đáo ẩm thực Thăng Long - Hà Nội', '', 'Food habits', null, '2010', 'vi', 188, null, null, 1),
         ('ZWXxBwAAQBAJ', 'Japan Pop: Inside the World of Japanese Popular Culture', 'Timothy J. Craig', 'Social Science', 'Routledge', '2015-04-08', 'en', 496, 'http://books.google.com/books/content?id=ZWXxBwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 'A fascinating illustrated look at various forms of Japanese popular culture: pop song, jazz, enka (a popular ballad genre of music), karaoke, comics, animated cartoons, video games, television dramas, films and "idols" -- teenage singers and actors. As pop culture not only entertains but is also a reflection of society, the book is also about Japan itself -- its similarities and differences with the rest of the world, and how Japan is changing. The book features 32 pages of manga plus 50 additional photos, illustrations, and shorter comic samples.', 1),
         ('zYCGDwAAQBAJ', 'một bộ phim buồn', 'trắng Thiên Chúa', 'Poetry', 'trắng Thiên Chúa', '2019-02-06', 'vi', 32, 'http://books.google.com/books/content?id=zYCGDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 'trắng Thiên Chúa', 1);
+INSERT INTO Feedback (userID, ISBN, comment, rating, date)
+VALUES
+    ('U001', 'WksfAQAAMAAJ', 'A bit boring', 3, '2024-11-13'),
+    ('U001', 'qHMIEQAAQBAJ', 'Great book, very informative!', 5, '2024-11-13'),
+    ('U002', 'CxiEQ6FxtvQC', 'Not what I expected.', 2, '2024-11-20'),
+    ('U003', 'DOjo0AEACAAJ', 'Good read, but a bit lengthy.', 4, '2024-11-15'),
+    ('U004', 'Bl6FHAAACAAJ', 'Excellent book, highly recommend!', 5, '2024-11-19'),
+    ('U005', 'bDBiDwAAQBAJ', 'Interesting perspective.', 3, '2024-11-26'),
+    ('U006', 'HbAhv1zAIQ8C', 'Insightful and well-written.', 5, '2024-11-23'),
+    ('U007', 'WksfAQAAMAAJ', 'Enjoyed the book a lot.', 4, '2024-11-27'),
+    ('U008', 'qHMIEQAAQBAJ', 'Engaging story, loved it.', 4, '2024-11-28'),
+    ('U011', 'ZWXxBwAAQBAJ', 'Classic masterpiece!', 5, '2024-11-28');
+
+INSERT INTO TICKET (userId, ISBN, borrowedDate, returnedDate, quantity)
+VALUES
+    ('U001', 'WksfAQAAMAAJ', '2024-11-10', '2024-11-12', 1),
+    ('U001', 'qHMIEQAAQBAJ', '2024-11-11', '2024-11-13', 1),
+    ('U002', 'CxiEQ6FxtvQC', '2024-11-12', '2024-11-20', 1),
+    ('U003', 'DOjo0AEACAAJ', '2024-11-13', '2024-12-15', 1),
+    ('U004', 'Bl6FHAAACAAJ', '2024-11-14', '2024-12-18', 1),
+    ('U005', 'bDBiDwAAQBAJ', '2024-11-17', '2024-12-26', 1),
+    ('U006', 'HbAhv1zAIQ8C', '2024-11-20', '2024-11-23', 1),
+    ('U001', 'y62YEAAAQBAJ', '2024-11-21', null, 1),
+    ('U007', 'WksfAQAAMAAJ', '2024-11-23', '2024-11-27', 1),
+    ('U008', 'qHMIEQAAQBAJ', '2024-11-25', '2024-11-28', 1),
+    ('U010', 'bDBiDwAAQBAJ', '2024-11-26', null, 1),
+    ('U011', 'ZWXxBwAAQBAJ', '2024-11-26', '2024-11-28', 1),
+    ('U012', 'HbAhv1zAIQ8C', '2024-11-27', null, 1);

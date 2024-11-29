@@ -33,7 +33,7 @@ import sourceCode.UserControllers.Function.UpdateFeedback;
 
 public class FeedbackController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery =
+    private static String selectAllQuery =
             "SELECT * FROM library.Feedback WHERE userId = " + "'"
                     + sourceCode.LoginController.currentUserId + "'";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
@@ -71,6 +71,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + "'" + sourceCode.LoginController.currentUserId + "'";
         selectFeedback(selectAllQuery);
     }
 

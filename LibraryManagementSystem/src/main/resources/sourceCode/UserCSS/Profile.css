@@ -102,3 +102,6 @@
     -fx-text-fill: #FFFFFF;
     -fx-border-width: 0;
 }
+#logout {
+    -fx-background-color: TRANSPARENT;
+}

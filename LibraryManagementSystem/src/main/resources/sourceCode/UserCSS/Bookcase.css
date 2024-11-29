@@ -170,4 +170,7 @@
 #myListView .track, #myListView .increment-arrow, #myListView .decrement-arrow {
     -fx-background-color: #F4EEFF;
 }
+#logout {
+    -fx-background-color: TRANSPARENT;
+}
 

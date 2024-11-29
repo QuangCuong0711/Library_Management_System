@@ -35,11 +35,11 @@ public class TicketController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = """
             SELECT *,CASE\
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'Trả đúng hạn'
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Trả muộn'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Đang mượn'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
-                    ELSE 'Không xác định'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                    ELSE 'Unknown'
                 END AS status FROM library.Ticket""";
     private static final ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Ngày mượn",

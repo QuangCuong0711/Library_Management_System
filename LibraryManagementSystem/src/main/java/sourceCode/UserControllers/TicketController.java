@@ -92,7 +92,8 @@ public class TicketController extends SwitchScene implements Initializable {
                 });
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        selectTicket(selectAllQuery);
+        selectTicket(selectAllQuery + " WHERE userId = '" + sourceCode.LoginController.currentUserId
+                + "'");
     }
 
     public void selectTicket(String query) {
