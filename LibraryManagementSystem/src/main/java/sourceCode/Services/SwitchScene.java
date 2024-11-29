@@ -1,11 +1,14 @@
 package sourceCode.Services;
 
+import java.util.Optional;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.HashMap;
@@ -82,7 +85,18 @@ public class SwitchScene {
     }
 
     public void switchToLogin(ActionEvent event) {
-        switchTo(event, "AdminFXML/Login");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Log out");
+        alert.setContentText("Do you want to log out?");
+        Optional<ButtonType> a = alert.showAndWait();
+        if (a.isEmpty() || a.get() != ButtonType.OK) {
+            return;
+        }
+        if (alert.getResult().getText().equals("OK")) {
+            switchTo(event, "AdminFXML/Login");
+        } else {
+            alert.close();
+        }
     }
 
     public void switchToLibrary(ActionEvent event) {

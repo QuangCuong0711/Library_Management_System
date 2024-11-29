@@ -57,4 +57,10 @@
   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchTicket" pickOnBounds="true" preserveRatio="true">
     <Image url="@../Image/searchIcon.png" />
   </ImageView>
+  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1128.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@../Image/logOut.png" />
+    </image>
+  </ImageView>
+  <Button layoutX="1133.0" layoutY="10.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="20.0" prefWidth="40.0" />
 </AnchorPane>

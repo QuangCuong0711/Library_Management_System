@@ -1,8 +1,5 @@
 package sourceCode.AdminControllers.Function;
 
-import java.util.HashMap;
-import java.util.Map;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,7 +8,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import sourceCode.LoginController;
 import sourceCode.Models.Book;
 
 import static sourceCode.LoginController.imageCache;
@@ -22,7 +18,7 @@ public class ShowBook {
     @FXML
     private ImageView image;
     @FXML
-    private Label title;
+    private TextArea title;
     @FXML
     private Label ISBN;
     @FXML

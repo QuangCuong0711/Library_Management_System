@@ -30,7 +30,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.Feedback";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Đánh giá",
+    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Điểm đánh giá",
             "Ngày đánh giá"};
     @FXML
     private TableColumn<FeedbackController, Integer> feedbackidColumn;
@@ -53,6 +53,11 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                searchFeedback();
+            }
+        });
         choiceBox.getItems().addAll(searchBy);
         choiceBox.setValue("Tìm kiếm theo");
         feedbackTableView.setItems(feedBackList);
@@ -103,7 +108,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
                 case "Mã sách":
                     query += "ISBN = '" + keyword + "'";
                     break;
-                case "Đánh giá":
+                case "Điểm đánh giá":
                     query += "rating = '" + keyword + "'";
                     break;
                 case "Ngày đánh giá":

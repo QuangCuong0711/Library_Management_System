@@ -35,7 +35,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + "'" + sourceCode.LoginController.currentUserId + "'";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã sách", "Đánh giá",
+    private static final String[] searchBy = {"Tất cả", "Mã sách", "Điểm đánh giá",
             "Ngày đánh giá"};
     @FXML
     private TableColumn<FeedbackController, Integer> feedbackidColumn;
@@ -56,6 +56,11 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                searchFeedback();
+            }
+        });
         choiceBox.getItems().addAll(searchBy);
         choiceBox.setValue("Tìm kiếm theo");
         feedbackTableView.setItems(feedBackList);
@@ -97,21 +102,23 @@ public class FeedbackController extends SwitchScene implements Initializable {
         } else {
             String keyword = searchBar.getText();
             String filter = choiceBox.getValue();
-            String query = "SELECT * FROM library.Feedback WHERE ";
+            String query = null;
             switch (filter) {
                 case "Mã sách":
-                    query += "ISBN = '" + keyword + "'";
+                    query = "SELECT * FROM library.Feedback WHERE ISBN = '" + keyword + "'";
                     break;
-                case "Đánh giá":
-                    query += "rating = '" + keyword + "'";
+                case "Điểm đánh giá":
+                    query = "SELECT * FROM library.Feedback WHERE rating = " + keyword;
                     break;
                 case "Ngày đánh giá":
-                    query += "date = '" + keyword + "'";
+                    query = "SELECT * FROM library.Feedback WHERE date = '" + keyword + "'";
                     break;
                 default:
                     break;
             }
-            selectFeedback(query);
+            if (query != null) {
+                selectFeedback(query);
+            }
         }
     }
 

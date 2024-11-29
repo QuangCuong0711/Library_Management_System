@@ -20,14 +20,14 @@
         </color>
       </DropShadow>
     </effect>
-    <Button alignment="BASELINE_LEFT" layoutX="43.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyFeedback" prefHeight="58.0" prefWidth="192.0" text="FEEDBACK" />
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="43.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyFeedback" prefHeight="58.0" prefWidth="192.0" text="FEEDBACK" />
     <Button id="homeButton" alignment="BASELINE_LEFT" layoutX="444.0" layoutY="6.0" mnemonicParsing="false" onAction="#switchToLibrary" prefHeight="86.0" prefWidth="230.0" text="LIBRARY">
     </Button>
     <Button id="currentButton" alignment="BASELINE_LEFT" layoutX="903.0" layoutY="20.0" mnemonicParsing="false" prefHeight="52.0" prefWidth="174.0" text="PROFILE">
     </Button>
-    <Button alignment="BASELINE_LEFT" layoutX="253.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyTicket" prefHeight="58.0" prefWidth="163.0" text="TICKET">
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="253.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyTicket" prefHeight="58.0" prefWidth="163.0" text="TICKET">
     </Button>
-    <Button alignment="BASELINE_LEFT" layoutX="716.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToBookcase" prefHeight="58.0" prefWidth="163.0" text="BOOKCASE">
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="716.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToBookcase" prefHeight="58.0" prefWidth="163.0" text="BOOKCASE">
     </Button>
   </Pane>
    <ImageView fitHeight="650.0" fitWidth="1144.0" layoutX="50.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
@@ -46,19 +46,26 @@
          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
       </columnResizePolicy>
    </TableView>
-   <Button layoutX="131.0" layoutY="657.0" mnemonicParsing="false" onAction="#editUser" text="Update" />
-   <Button layoutX="250.0" layoutY="657.0" mnemonicParsing="false" onAction="#removeUser" text="Remove" />
+   <Button id="updateProfile" layoutX="162.0" layoutY="684.0" mnemonicParsing="false" onAction="#updateProfile" prefHeight="20.0" prefWidth="83.0" text="Update" />
+   <Button id="deleteAccount" layoutX="264.0" layoutY="684.0" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="20.0" prefWidth="90.0" text="Delete" />
    <Label id="countLabel" fx:id="borrowingCount" alignment="CENTER" contentDisplay="CENTER" layoutX="483.0" layoutY="315.0" prefHeight="26.0" prefWidth="68.0" text="0" textAlignment="CENTER" />
    <Label id="countLabel" fx:id="ontimeCount" alignment="CENTER" contentDisplay="CENTER" layoutX="594.0" layoutY="315.0" prefHeight="26.0" prefWidth="83.0" text="0" textAlignment="CENTER" />
    <Label id="countLabel" fx:id="lateCount" alignment="CENTER" contentDisplay="CENTER" layoutX="721.0" layoutY="315.0" prefHeight="26.0" prefWidth="68.0" text="0" textAlignment="CENTER" />
    <Label id="countLabel" fx:id="overdueCount" alignment="CENTER" contentDisplay="CENTER" layoutX="825.0" layoutY="315.0" prefHeight="26.0" prefWidth="83.0" text="0" textAlignment="CENTER" />
    <Label id="countLabel" fx:id="feedbackCount" alignment="CENTER" contentDisplay="CENTER" layoutX="937.0" layoutY="315.0" prefHeight="26.0" prefWidth="90.0" text="0" textAlignment="CENTER" />
-   <Label id="infoLabel" fx:id="name" layoutX="197.0" layoutY="432.0" prefHeight="20.0" prefWidth="191.0" text="Label" textOverrun="CLIP" />
-   <Label id="infoLabel" fx:id="userId" layoutX="180.0" layoutY="457.0" prefHeight="20.0" prefWidth="163.0" text="Label" />
-   <Label id="infoLabel" fx:id="identityNumber" layoutX="247.0" layoutY="484.0" prefHeight="20.0" prefWidth="132.0" text="Label" />
-   <Label id="infoLabel" fx:id="birth" layoutX="227.0" layoutY="510.0" prefHeight="20.0" prefWidth="104.0" text="Label" />
-   <Label id="infoLabel" fx:id="gender" layoutX="181.0" layoutY="537.0" prefHeight="20.0" prefWidth="132.0" text="Label" />
-   <Label id="infoLabel" fx:id="phoneNumber" layoutX="234.0" layoutY="564.0" prefHeight="20.0" prefWidth="163.0" text="Label" />
-   <Label id="infoLabel" fx:id="email" layoutX="167.0" layoutY="590.0" prefHeight="20.0" prefWidth="230.0" text="Label" />
-   <Label id="infoLabel" fx:id="address" layoutX="189.0" layoutY="616.0" prefHeight="20.0" prefWidth="207.0" text="Label" textOverrun="CLIP" />
+   <Label id="infoLabel" fx:id="name" layoutX="207.0" layoutY="439.0" prefHeight="20.0" prefWidth="184.0" text="Label" textOverrun="CLIP" />
+   <Label id="infoLabel" fx:id="userId" layoutX="187.0" layoutY="466.0" prefHeight="20.0" prefWidth="163.0" text="Label" />
+   <Label id="infoLabel" fx:id="identityNumber" layoutX="250.0" layoutY="492.0" prefHeight="20.0" prefWidth="132.0" text="Label" />
+   <Label id="infoLabel" fx:id="birth" layoutX="231.0" layoutY="519.0" prefHeight="20.0" prefWidth="104.0" text="Label" />
+   <Label id="infoLabel" fx:id="gender" layoutX="189.0" layoutY="545.0" prefHeight="20.0" prefWidth="132.0" text="Label" />
+   <Label id="infoLabel" fx:id="phoneNumber" layoutX="239.0" layoutY="571.0" prefHeight="20.0" prefWidth="163.0" text="Label" />
+   <Label id="infoLabel" fx:id="email" layoutX="175.0" layoutY="598.0" prefHeight="20.0" prefWidth="230.0" text="Label" />
+   <Label id="infoLabel" fx:id="address" layoutX="198.0" layoutY="625.0" prefHeight="20.0" prefWidth="207.0" text="Label" textOverrun="CLIP" />
+   <Label id="infoLabel" fx:id="password" layoutX="213.0" layoutY="649.0" prefHeight="20.0" prefWidth="207.0" textOverrun="CLIP" />
+  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1135.0" layoutY="700.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@../Image/logOut.png" />
+    </image>
+  </ImageView>
+  <Button layoutX="1140.0" layoutY="700.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="20.0" prefWidth="40.0" visible="false" />
 </AnchorPane>

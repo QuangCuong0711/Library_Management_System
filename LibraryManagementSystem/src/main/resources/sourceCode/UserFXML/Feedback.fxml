@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
@@ -46,4 +48,15 @@
   <Button id="removeButton" layoutX="731.0" layoutY="719.0" mnemonicParsing="false" onAction="#removeFeedback" prefHeight="33.0" prefWidth="200.0" text="Remove Feedback" />
   <Button id="showButton" layoutX="273.0" layoutY="719.0" mnemonicParsing="false" onAction="#showBook" prefHeight="27.0" prefWidth="200.0" text="About Book" />
   <Button id="editButton" layoutX="495.0" layoutY="719.0" mnemonicParsing="false" onAction="#updateFeedback" prefHeight="25.0" prefWidth="211.0" text="Update Feedback" />
+   <ImageView fitHeight="46.0" fitWidth="46.0" layoutX="844.0" layoutY="116.0" onMouseClicked="#searchFeedback" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../Image/searchIcon.png" />
+      </image>
+   </ImageView>
+  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1135.0" layoutY="700.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@../Image/logOut.png" />
+    </image>
+  </ImageView>
+  <Button layoutX="1140.0" layoutY="700.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="20.0" prefWidth="40.0" visible="false" />
 </AnchorPane>

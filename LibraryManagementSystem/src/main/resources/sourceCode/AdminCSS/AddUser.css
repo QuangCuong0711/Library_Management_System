@@ -5,21 +5,17 @@
     -fx-border-width: 2;
     -fx-border-radius: 20;
     -fx-padding: 10px;
-    -fx-background-insets: 0;
 }
+
 .text-field {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 7;
     -fx-border-color: #424874;
     -fx-border-width: 1;
     -fx-border-radius: 7;
-    -fx-prompt-text-fill: #F4EEFF;
     -fx-font-family: "Open Sans";
-    -fx-font-weight: lighter;
     -fx-text-fill: #424874;
     -fx-padding: 5px;
-    -fx-background-insets: 0;
-    -fx-faint-focus-color: transparent;
 }
 
 .text-field:hover {
@@ -33,16 +29,27 @@
     -fx-border-width: 1;
     -fx-border-radius: 5;
 }
+
 .choice-box .label {
     -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
-    -fx-padding: 5px;
-    -fx-background-insets: 0;
 }
 
 .choice-box:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
+}
+
+#password {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 7;
+    -fx-border-color: #424874;
+    -fx-border-width: 1;
+    -fx-border-radius: 7;
+    -fx-prompt-text-fill: #F4EEFF;
+    -fx-font-family: "Times New Roman";
+    -fx-text-fill: #424874;
+    -fx-padding: 5px;
 }
 
 .button {
@@ -53,7 +60,6 @@
     -fx-alignment: BASELINE_CENTER;
     -fx-font-size: 20px;
     -fx-font-family: "Open Sans";
-    -fx-font-weight: lighter;
     -fx-background-radius: 15px;
     -fx-border-radius: 15px;
 }
@@ -69,20 +75,17 @@
     -fx-text-fill: WHITE;
     -fx-translate-y: 3px;
 }
+
 .date-picker {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 7;
-    -fx-border-color: #424874;
     -fx-border-width: 0;
     -fx-border-radius: 7;
     -fx-prompt-text-fill: #F4EEFF;
     -fx-font-family: "Open Sans";
-    -fx-font-weight: lighter;
     -fx-text-fill: #424874;
-    -fx-padding: 0px;
-    -fx-background-insets: 0;
-    -fx-faint-focus-color: transparent;
 }
+
 .text-area {
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 7;
@@ -92,6 +95,7 @@
     -fx-font-family: "Open Sans";
     -fx-text-fill: #424874;
 }
+
 .text-area:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }

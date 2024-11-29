@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sourceCode.AdminControllers.UserController;
@@ -26,6 +27,7 @@ public class AddUser implements Initializable {
     public TextField userID;
     public TextField mail;
     public DatePicker birth;
+    public PasswordField password;
     private UserController userController;
 
     public void setUserController(UserController userController) {
@@ -38,7 +40,7 @@ public class AddUser implements Initializable {
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
-        String query = "INSERT INTO library.user (name, userId, identityNumber, birth, gender, phoneNumber, email, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO library.user (name, userId, identityNumber, birth, gender, phoneNumber, email, address, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -50,6 +52,7 @@ public class AddUser implements Initializable {
                 stmt.setString(6, phoneNumber.getText());
                 stmt.setString(7, mail.getText());
                 stmt.setString(8, address.getText());
+                stmt.setString(9, password.getText());
                 stmt.executeUpdate();
                 System.out.println("User added successfully");
             }

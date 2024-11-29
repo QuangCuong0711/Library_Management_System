@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
@@ -45,4 +47,15 @@
   <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Nhập mã sách, ngày mượn, ngày trả, trạng thái..." />
   <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="898.0" layoutY="117.0" prefHeight="43.0" prefWidth="154.0" />
   <Button id="editButton" layoutX="519.0" layoutY="733.0" mnemonicParsing="false" onAction="#showBook" prefHeight="33.0" prefWidth="163.0" text="About this book" />
+   <ImageView fitHeight="46.0" fitWidth="50.0" layoutX="844.0" layoutY="116.0" onMouseClicked="#searchTicket" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../Image/searchIcon.png" />
+      </image>
+   </ImageView>
+  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1135.0" layoutY="700.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@../Image/logOut.png" />
+    </image>
+  </ImageView>
+  <Button layoutX="1140.0" layoutY="700.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="20.0" prefWidth="40.0" visible="false" />
 </AnchorPane>

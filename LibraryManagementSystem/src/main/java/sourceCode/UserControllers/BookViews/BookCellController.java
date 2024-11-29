@@ -2,6 +2,7 @@ package sourceCode.UserControllers.BookViews;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import sourceCode.Models.Book;
@@ -20,13 +21,13 @@ public class BookCellController {
     @FXML
     private Label isbnLabel;
     @FXML
-    private Label descriptionLabel;
+    private TextArea descriptionTextArea;
 
     public void setBook(Book book) {
         titleLabel.setText(book.getTitle());
         authorLabel.setText("Author: " + book.getAuthor());
         isbnLabel.setText("ISBN: " + book.getISBN());
-        descriptionLabel.setText("Description:" + '\n' + book.getDescription());
+        descriptionTextArea.setText("Description:" + '\n' + book.getDescription());
         if (book.getImageUrl() != null) {
             if (imageCache.containsKey(book.getImageUrl())) {
                 // Nếu ảnh đã có trong cache, sử dụng ảnh đó

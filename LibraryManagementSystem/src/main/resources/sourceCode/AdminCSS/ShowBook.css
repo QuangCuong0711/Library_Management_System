@@ -1,8 +1,7 @@
 #title {
-    -fx-font-size: 30;
+    -fx-font-size: 25;
     -fx-text-fill: #424874;
     -fx-font-family: "Times New Roman";
-    -fx-font-weight: bold;
 }
 .label {
     -fx-font-size: 12;
@@ -47,7 +46,7 @@
     -fx-background-color: WHITE;
 }
 .text-area .scroll-bar:vertical {
-    -fx-opacity: 0; /* Ẩn thanh trượt dọc */
+    -fx-opacity: 0;
 }
 
 .text-field {

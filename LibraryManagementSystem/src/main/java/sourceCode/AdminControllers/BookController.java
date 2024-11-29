@@ -61,6 +61,15 @@ public class BookController extends SwitchScene implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                if (choiceBox.getValue().equals("GoogleAPI")) {
+                    searchAPIBook();
+                } else {
+                    searchBook();
+                }
+            }
+        });
         choiceBox.getItems().addAll(searchBy);
         choiceBox.setValue("Tìm kiếm theo");
         bookTableView.setItems(bookList);
@@ -141,7 +150,7 @@ public class BookController extends SwitchScene implements Initializable {
                 if (rs.next()) {
                     try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
                         updateStmt.setString(1, book.getTitle());
-                        if(book.getAuthor() == null) {
+                        if (book.getAuthor() == null) {
                             updateStmt.setString(2, "");
                         } else {
                             updateStmt.setString(2, book.getAuthor());
@@ -161,7 +170,7 @@ public class BookController extends SwitchScene implements Initializable {
                     try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
                         insertStmt.setString(1, book.getISBN());
                         insertStmt.setString(2, book.getTitle());
-                        if(book.getAuthor() == null) {
+                        if (book.getAuthor() == null) {
                             insertStmt.setString(3, "");
                         } else {
                             insertStmt.setString(3, book.getAuthor());

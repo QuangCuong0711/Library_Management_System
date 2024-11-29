@@ -66,6 +66,11 @@ public class TicketController extends SwitchScene implements Initializable {
     private TableColumn<Ticket, String> statusColumn;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                searchTicket();
+            }
+        });
         choiceBox.getItems().addAll(searchBy);
         choiceBox.setValue("Tìm kiếm theo");
         ticketTableView.setItems(ticketList);
@@ -137,7 +142,7 @@ public class TicketController extends SwitchScene implements Initializable {
             selectTicket(
                     selectAllQuery + " WHERE borrowedDate LIKE '%" + searchBar.getText() + "%'");
         } else if (choiceBox.getValue().equals("Trạng thái")) {
-            selectTicket(selectAllQuery + " HAVING   status LIKE '%" + searchBar.getText() + "%'");
+            selectTicket(selectAllQuery + " HAVING status LIKE '%" + searchBar.getText() + "%'");
         }
     }
 

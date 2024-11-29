@@ -37,8 +37,7 @@ public class TicketController extends SwitchScene implements Initializable {
                     WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Đang mượn'
                     WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
                     ELSE 'Không xác định'
-                END AS status FROM library.Ticket WHERE USERID = '"""
-            + sourceCode.LoginController.currentUserId + "' ORDER BY borrowedDate DESC;";
+                END AS status FROM library.Ticket""";
     private static final ObservableList<sourceCode.Models.Ticket> ticketList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã sách", "Ngày mượn",
             "Ngày trả", "Trạng thái"};
@@ -62,6 +61,11 @@ public class TicketController extends SwitchScene implements Initializable {
     private TableColumn<sourceCode.Models.Ticket, Integer> quantityColumn;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                searchTicket();
+            }
+        });
         choiceBox.getItems().addAll(searchBy);
         choiceBox.setValue("Tìm kiếm theo");
         ticketTableView.setItems(ticketList);
@@ -119,29 +123,26 @@ public class TicketController extends SwitchScene implements Initializable {
 
     public void searchTicket() {
         ticketList.clear();
-        String searchValue = searchBar.getText();
-        switch (choiceBox.getValue()) {
-            case "Tất cả":
-                selectTicket(selectAllQuery);
-                break;
-            case "Mã người dùng":
-                selectTicket(selectAllQuery + " AND userId LIKE '%" + searchValue + "%'");
-                break;
-            case "Mã sách":
-                selectTicket(selectAllQuery + " AND ISBN LIKE '%" + searchValue + "%'");
-                break;
-            case "Ngày trả":
-                selectTicket(selectAllQuery + " AND returnedDate LIKE '%" + searchValue + "%'");
-                break;
-            case "Ngày mượn":
-                selectTicket(selectAllQuery + " AND borrowedDate LIKE '%" + searchValue + "%'");
-                break;
-            case "Trạng thái":
-                selectTicket(selectAllQuery + " AND status LIKE '%" + searchValue + "%'");
-                break;
-            default:
-                selectTicket(selectAllQuery);
-                break;
+        if (choiceBox.getValue().equals("Tất cả")) {
+            selectTicket(selectAllQuery);
+        } else if (choiceBox.getValue().equals("Mã sách")) {
+            selectTicket(selectAllQuery + " WHERE ISBN LIKE '%" + searchBar.getText() + "%'"
+                    + "AND userId = '"
+                    + sourceCode.LoginController.currentUserId + "'");
+        } else if (choiceBox.getValue().equals("Ngày trả")) {
+            selectTicket(
+                    selectAllQuery + " WHERE returnedDate LIKE '%" + searchBar.getText() + "%'"
+                            + "AND userId = '"
+                            + sourceCode.LoginController.currentUserId + "'");
+        } else if (choiceBox.getValue().equals("Ngày mượn")) {
+            selectTicket(
+                    selectAllQuery + " WHERE borrowedDate LIKE '%" + searchBar.getText() + "%'"
+                            + "AND userId = '"
+                            + sourceCode.LoginController.currentUserId + "'");
+        } else if (choiceBox.getValue().equals("Trạng thái")) {
+            selectTicket(selectAllQuery + " HAVING status LIKE '%" + searchBar.getText() + "%'"
+                    + "AND userId = '"
+                    + sourceCode.LoginController.currentUserId + "'");
         }
     }
 

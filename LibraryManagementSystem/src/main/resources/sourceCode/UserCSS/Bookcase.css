@@ -42,7 +42,7 @@
     -fx-faint-focus-color: transparent;
 }
 
-#searchBar:hover {
+#searchBar:hover, #choiceBox:hover {
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
 
@@ -61,10 +61,6 @@
     -fx-font-family: "Open Sans";
     -fx-font-weight: lighter;
     -fx-text-fill: #424874;
-}
-
-#choiceBox:hover {
-    -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
 }
 
 .list-view .cell {
@@ -89,9 +85,9 @@
 }
 
 .split-pane .split-pane-divider {
-    -fx-padding: 1; /* Khoảng cách xung quanh */
-    -fx-border-width: 5px; /* Độ dày của divider */
-    -fx-background-color: #A6B1E1;
+    -fx-padding: 1;
+    -fx-border-width: 5px;
+    -fx-background-color: transparent;
 }
 
 .stack-pane {
@@ -131,7 +127,6 @@
     -fx-font-size: 12;
     -fx-text-fill: #424874;
     -fx-font-family: "Open Sans";
-    -fx-effect: none;
 }
 
 #returnBook, #sendFeedback {
@@ -157,5 +152,22 @@
     -fx-effect: dropshadow(three-pass-box, rgb(66, 72, 116), 10, 0, 0, 0);
     -fx-background-color: #424874;
     -fx-text-fill: #FFFFFF;
+}
+
+#myListView .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 4px;
+}
+
+#myListView .list-cell:hover {
+    -fx-background-color: #A6B1E1;
+}
+
+#myListView .thumb {
+    -fx-background-color: #A6B1E1;
+}
+
+#myListView .track, #myListView .increment-arrow, #myListView .decrement-arrow {
+    -fx-background-color: #F4EEFF;
 }
 

@@ -34,7 +34,7 @@ import sourceCode.Services.SwitchScene;
 
 public class UserController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = "SELECT userId, name, identityNumber, birth, gender, phoneNumber, email, address, password FROM library.User";
+    private static final String selectAllQuery = "SELECT * FROM library.User";
     private static final ObservableList<User> userList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Họ và tên", "Số CCCD",
             "Ngày sinh"};
@@ -55,6 +55,11 @@ public class UserController extends SwitchScene implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                searchUser();
+            }
+        });
         choiceBox.getItems().addAll(searchBy);
         choiceBox.setValue("Tìm kiếm theo");
         userTableView.setItems(userList);

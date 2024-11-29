@@ -23,17 +23,17 @@
         </color>
       </DropShadow>
     </effect>
-    <Button alignment="BASELINE_LEFT" layoutX="43.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyFeedback" prefHeight="58.0" prefWidth="192.0" text="FEEDBACK" />
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="43.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyFeedback" prefHeight="58.0" prefWidth="192.0" text="FEEDBACK" />
     <Button id="homeButton" alignment="BASELINE_LEFT" layoutX="444.0" layoutY="6.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="230.0" text="LIBRARY">
     </Button>
-    <Button alignment="BASELINE_LEFT" layoutX="903.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToProfile" prefHeight="52.0" prefWidth="174.0" text="PROFILE">
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="903.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToProfile" prefHeight="52.0" prefWidth="174.0" text="PROFILE">
     </Button>
-    <Button alignment="BASELINE_LEFT" layoutX="253.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyTicket" prefHeight="58.0" prefWidth="163.0" text="TICKET">
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="253.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToMyTicket" prefHeight="58.0" prefWidth="163.0" text="TICKET">
     </Button>
-    <Button alignment="BASELINE_LEFT" layoutX="716.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToBookcase" prefHeight="58.0" prefWidth="163.0" text="BOOKCASE">
+    <Button id="switchButton" alignment="BASELINE_LEFT" layoutX="716.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToBookcase" prefHeight="58.0" prefWidth="163.0" text="BOOKCASE">
     </Button>
   </Pane>
-  <SplitPane id="mySplitPane" fx:id="mySplitPane" dividerPositions="0.9" layoutX="70.0" layoutY="113.0" orientation="VERTICAL" prefHeight="673.0" prefWidth="1061.0">
+  <SplitPane id="mySplitPane" fx:id="mySplitPane" dividerPositions="0.465" layoutX="70.0" layoutY="113.0" orientation="VERTICAL" prefHeight="673.0" prefWidth="1061.0">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="1059.0">
       <children>
         <ScrollPane fx:id="myScrollPane" hbarPolicy="NEVER" layoutX="87.0" prefHeight="600.0" prefWidth="887.0" vbarPolicy="NEVER">
@@ -44,14 +44,21 @@
       </children>
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="1059.0" style="-fx-background-color: transparent;">
-      <ListView layoutX="30.0" layoutY="73.0" orientation="HORIZONTAL" prefHeight="270.0" prefWidth="1000.0" style="-fx-background-color: lightblue;" />
-      <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="748.0" layoutY="14.0" prefHeight="43.0" prefWidth="218.0" />
-      <TextField id="searchBar" fx:id="searchBar" layoutX="93.0" layoutY="14.0" prefHeight="43.0" prefWidth="648.0" promptText="Nhập tên sách, mã sách, tên tác giả..." />
-      <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="698.0" layoutY="14.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
+      <ListView id="myListView" fx:id="recommendBookListView" layoutX="30.0" layoutY="67.0" orientation="HORIZONTAL" prefHeight="288.0" prefWidth="1000.0" style="-fx-border-color: #424874;" />
+      <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="865.0" layoutY="14.0" prefHeight="43.0" prefWidth="165.0" />
+      <TextField id="searchBar" fx:id="searchBar" layoutX="206.0" layoutY="14.0" prefHeight="43.0" prefWidth="648.0" promptText="Nhập tên sách, mã sách, tên tác giả..." />
+      <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="802.0" layoutY="14.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
         <image>
           <Image url="@../Image/searchIcon.png" />
         </image>
       </ImageView>
+         <Button id="showRecommendBook" fx:id="showRecommendBookButton" layoutX="30.0" layoutY="14.0" mnemonicParsing="false" onAction="#showRecommendedBook" prefHeight="43.0" prefWidth="165.0" text="Ẩn gợi ý sách" />
     </AnchorPane>
   </SplitPane>
+  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1135.0" layoutY="700.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@../Image/logOut.png" />
+    </image>
+  </ImageView>
+  <Button layoutX="1140.0" layoutY="700.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="20.0" prefWidth="40.0" visible="false" />
 </AnchorPane>

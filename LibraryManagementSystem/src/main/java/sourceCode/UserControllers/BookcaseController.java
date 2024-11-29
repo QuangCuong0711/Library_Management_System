@@ -81,6 +81,11 @@ public class BookcaseController extends SwitchScene implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        searchBar.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode().toString().equals("ENTER")) {
+                searchBook();
+            }
+        });
         splitPane.setDividerPositions(1);
         choiceBox.setValue("Tìm kiếm theo");
         choiceBox.getItems().addAll(searchBy);
@@ -243,6 +248,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
             e.printStackTrace();
             System.out.println("Lỗi kết nối cơ sở dữ liệu.");
         }
+        initialize(null, null);
     }
 
     public void sendFeedback() {

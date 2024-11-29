@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -17,10 +18,11 @@ import sourceCode.Models.Book;
 
 public class BookGridController {
 
+
     @FXML
     private ImageView bookCover;
     @FXML
-    private Text bookTitle;
+    public TextArea bookTitle;
     private Book book;
 
     public void setBook(Book book) {

@@ -38,11 +38,11 @@
   <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="898.0" layoutY="117.0" prefHeight="43.0" prefWidth="154.0" />
   <SplitPane fx:id="splitPane" dividerPositions="0.5978473581213307" layoutX="90.0" layoutY="180.0" prefHeight="590.0" prefWidth="1034.0">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="406.0">
-      <ListView fx:id="bookListView" fixedCellSize="0.0" prefHeight="598.0" prefWidth="616.0" />
+      <ListView id="myListView" fx:id="bookListView" fixedCellSize="0.0" prefHeight="590.0" prefWidth="616.0" />
     </AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="588.0" prefWidth="426.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="588.0" prefWidth="426.0" style="-fx-background-color: #f0edf4;;">
       <ScrollPane id="myScrollPane" hbarPolicy="NEVER" layoutX="12.0" layoutY="356.0" prefHeight="155.0" prefWidth="391.0" vbarPolicy="NEVER">
-        <AnchorPane fx:id="bookDetail" minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="297.0">
+        <AnchorPane fx:id="bookDetail" minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="390.0">
           <Label fx:id="bookISBN" layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="342.0" text="ISBN: " />
           <Label fx:id="bookAuthor" layoutX="14.0" layoutY="38.0" prefHeight="17.0" prefWidth="342.0" text="Author:" />
           <Label fx:id="bookPublisher" layoutX="14.0" layoutY="62.0" prefHeight="17.0" prefWidth="342.0" text="Publisher:" />
@@ -67,4 +67,15 @@
          </StackPane>
     </AnchorPane>
   </SplitPane>
+   <ImageView fitHeight="45.0" fitWidth="45.0" layoutX="844.0" layoutY="116.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../Image/searchIcon.png" />
+      </image>
+   </ImageView>
+  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1135.0" layoutY="700.0" pickOnBounds="true" preserveRatio="true">
+    <image>
+      <Image url="@../Image/logOut.png" />
+    </image>
+  </ImageView>
+  <Button layoutX="1140.0" layoutY="700.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="20.0" prefWidth="40.0" visible="false" />
 </AnchorPane>

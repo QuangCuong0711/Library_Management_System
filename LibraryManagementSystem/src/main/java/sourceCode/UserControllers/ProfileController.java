@@ -69,6 +69,8 @@ public class ProfileController extends SwitchScene implements Initializable {
     private Label email;
     @FXML
     private Label address;
+    @FXML
+    private Label password;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -133,7 +135,7 @@ public class ProfileController extends SwitchScene implements Initializable {
         }
     }
 
-    private void initProfilePane() {
+    public void initProfilePane() {
         String query = "SELECT * FROM library.user WHERE userId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
@@ -149,6 +151,7 @@ public class ProfileController extends SwitchScene implements Initializable {
                         phoneNumber.setText(rs.getString("phoneNumber"));
                         email.setText(rs.getString("email"));
                         address.setText(rs.getString("address"));
+                        password.setText("*************");
                     }
                 }
             }
@@ -168,7 +171,15 @@ public class ProfileController extends SwitchScene implements Initializable {
                 new SimpleStringProperty(cellData.getValue()[3]));
 
         favouriteBooks.setItems(bookList);
-        String query = "SELECT f.rating, b.title, b.author, b.genre FROM library.book b JOIN library.feedback f ON b.ISBN = f.ISBN WHERE f.userID = ? ORDER BY f.rating DESC LIMIT 10";
+        String query =
+                "SELECT DISTINCT b.title, b.author, b.genre, MAX(f.rating) AS max_rating, f.userID "
+                        +
+                        "FROM library.book b " +
+                        "JOIN library.feedback f ON b.ISBN = f.ISBN " +
+                        "GROUP BY b.ISBN, b.title, b.author, b.genre, f.userID " +
+                        "HAVING f.userID = ? " +
+                        "ORDER BY max_rating DESC " +
+                        "LIMIT 10";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -180,7 +191,7 @@ public class ProfileController extends SwitchScene implements Initializable {
                                 rs.getString("title"),
                                 rs.getString("author"),
                                 rs.getString("genre"),
-                                rs.getString("rating")
+                                rs.getString("max_rating")
                         };
                         bookList.add(bookData);
                     }
@@ -192,12 +203,12 @@ public class ProfileController extends SwitchScene implements Initializable {
         }
     }
 
-    public void removeUser(ActionEvent event) {
+    public void deleteAccount(ActionEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Account");
         alert.setHeaderText("Can't restore this account after removing");
         alert.setContentText(
-                "Do you want to delete this account ?, after you press OK, you gonna back to Login");
+                "Do you want to delete this account ?\nAll your data will be lost");
         Optional<ButtonType> a = alert.showAndWait();
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;
@@ -217,7 +228,7 @@ public class ProfileController extends SwitchScene implements Initializable {
         switchToLogin(event);
     }
 
-    public void editUser() {
+    public void updateProfile() {
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             String query = "SELECT * FROM library.user WHERE userId = '"
                     + sourceCode.LoginController.currentUserId + "'";
@@ -241,6 +252,7 @@ public class ProfileController extends SwitchScene implements Initializable {
                             rs.getString("password")
                     );
                     editUser.setUser(user);
+                    editUser.setProfileController(this);
                 }
             }
             Stage stage = new Stage();

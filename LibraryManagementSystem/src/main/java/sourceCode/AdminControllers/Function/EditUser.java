@@ -8,10 +8,12 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import sourceCode.AdminControllers.UserController;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.UserControllers.ProfileController;
 
 public class EditUser {
 
@@ -23,7 +25,9 @@ public class EditUser {
     public TextField phoneNumber;
     public TextField address;
     public DatePicker birth;
+    public PasswordField password;
     private UserController userController;
+    private ProfileController profileController;
 
     public void setUser(sourceCode.Models.User user) {
         name.setText(user.getName());
@@ -34,14 +38,19 @@ public class EditUser {
         address.setText(user.getAddress());
         phoneNumber.setText(user.getPhoneNumber());
         gender.setValue(user.getGender());
+        password.setText(user.getPassword());
     }
 
     public void setUserController(UserController userController) {
         this.userController = userController;
     }
 
+    public void setProfileController(ProfileController profileController) {
+        this.profileController = profileController;
+    }
+
     public void confirmButtonOnAction(ActionEvent event) {
-        String query = "UPDATE library.user SET name = ?, identityNumber = ?, birth = ?, gender = ?, phoneNumber = ?, email = ?, address = ? WHERE userId = ?";
+        String query = "UPDATE library.user SET name = ?, identityNumber = ?, birth = ?, gender = ?, phoneNumber = ?, email = ?, address = ?, password = ? WHERE userId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -52,7 +61,8 @@ public class EditUser {
                 stmt.setString(5, phoneNumber.getText());
                 stmt.setString(6, mail.getText());
                 stmt.setString(7, address.getText());
-                stmt.setString(8, userID.getText());
+                stmt.setString(8, password.getText());
+                stmt.setString(9, userID.getText());
                 stmt.executeUpdate();
                 System.out.println("User edited successfully");
             }
@@ -60,7 +70,12 @@ public class EditUser {
             System.out.println("Can't edit this user");
             e.printStackTrace();
         }
-        userController.initialize(null, null);
+        if (userController != null) {
+            userController.initialize(null, null);
+        }
+        if (profileController != null) {
+            profileController.initProfilePane();
+        }
         cancelButtonOnAction(event);
     }
 
