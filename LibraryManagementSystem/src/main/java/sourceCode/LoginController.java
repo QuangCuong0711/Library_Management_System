@@ -21,11 +21,11 @@ import sourceCode.Services.SwitchScene;
 
 public class LoginController {
 
+    public static final Map<String, Image> imageCache = new HashMap<>();
     public static Image imagedefault = new Image(
             LoginController.class.getResource("/sourceCode/Image/templateCover.png")
                     .toExternalForm()
     );
-    public static final Map<String, Image> imageCache = new HashMap<>();
     public static String currentUserId = null;
     @FXML
     private TextField usernameField;
@@ -55,6 +55,11 @@ public class LoginController {
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next() && resultSet.getInt(1) == 1) {
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Thông báo");
+//                    alert.setHeaderText(null); // Không có tiêu đề phụ
+//                    alert.setContentText("Hành động của bạn đã được hoàn tất!");
+//                    alert.showAndWait();
                     currentUserId = username;
                     Platform.runLater(() -> {
                         try {
@@ -83,6 +88,11 @@ public class LoginController {
                     );
                 } else {
                     Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Login failed");
+                        alert.setHeaderText("Invalid username or password!");
+                        alert.setContentText("Please try again");
+                        alert.showAndWait();
                         usernameField.clear();
                         passwordField.clear();
                         System.out.println("Invalid username or password");

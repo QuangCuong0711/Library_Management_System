@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -25,10 +28,18 @@ public class AddFeedback {
     }
 
     public void setISBN(String ISBN) {
-        this.isbn = ISBN.substring(5);
+        this.isbn = ISBN.substring(6);
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Add Feedback");
+        alert.setHeaderText("Confirm Feedback Addition");
+        alert.setContentText("Are you sure you want to add this feedback?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String query = "INSERT INTO library.Feedback (ISBN, userID, comment, rating, date) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;

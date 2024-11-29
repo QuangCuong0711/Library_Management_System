@@ -154,6 +154,12 @@ public class TicketController extends SwitchScene implements Initializable {
         sourceCode.Models.Ticket selectedTicket = ticketTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedTicket == null) {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                    javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a ticket from the table.");
+            alert.showAndWait();
             return;
         }
         String query =

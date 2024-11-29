@@ -5,10 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -39,6 +42,14 @@ public class AddBook implements Initializable {
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Add");
+        confirmationAlert.setHeaderText("Are you sure you want to save the changes?");
+        confirmationAlert.setContentText("Please confirm your action.");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String checkQuery = "SELECT quantity FROM library.book WHERE ISBN = ?";
         String updateQuery = "UPDATE library.book SET quantity = quantity + ?, title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, language = ?, pageNumber = ?, imageUrl = ?, description = ? WHERE ISBN = ?";
         String insertQuery = "INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

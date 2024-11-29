@@ -33,7 +33,9 @@ import sourceCode.UserControllers.Function.UpdateFeedback;
 
 public class FeedbackController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + "'" + sourceCode.LoginController.currentUserId + "'";
+    private static final String selectAllQuery =
+            "SELECT * FROM library.Feedback WHERE userId = " + "'"
+                    + sourceCode.LoginController.currentUserId + "'";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "Mã sách", "Điểm đánh giá",
             "Ngày đánh giá"};
@@ -130,6 +132,11 @@ public class FeedbackController extends SwitchScene implements Initializable {
         sourceCode.Models.Feedback selectedFeedback = feedbackTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedFeedback == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Feedback Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a feedback to view the book details.");
+            alert.showAndWait();
             return;
         }
         String query =

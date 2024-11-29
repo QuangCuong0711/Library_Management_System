@@ -36,8 +36,7 @@ public class UserController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.User";
     private static final ObservableList<User> userList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Họ và tên", "Số CCCD",
-            "Ngày sinh"};
+    private static final String[] searchBy = {"All", "User ID", "Full Name", "Identity Number", "Birth"};
     @FXML
     private TableView<User> userTableView;
     @FXML
@@ -61,7 +60,7 @@ public class UserController extends SwitchScene implements Initializable {
             }
         });
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tìm kiếm theo");
+        choiceBox.setValue("Search by");
         userTableView.setItems(userList);
         useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -103,22 +102,40 @@ public class UserController extends SwitchScene implements Initializable {
 
     public void searchUser() {
         userList.clear();
-        if (choiceBox.getValue().equals("Tất cả")) {
+        if (choiceBox.getValue().equals("All")) {
             selectUser(selectAllQuery);
-        } else if (choiceBox.getValue().equals("Mã người dùng")) {
+        } else if (choiceBox.getValue().equals("User ID")) {
             selectUser(selectAllQuery + " WHERE userId LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Họ và tên")) {
+        } else if (choiceBox.getValue().equals("Full Name")) {
             selectUser(selectAllQuery + " WHERE name LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Số CCCD")) {
+        } else if (choiceBox.getValue().equals("Identity Number")) {
             selectUser(
                     selectAllQuery + " WHERE identityNumber LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Ngày sinh")) {
+        } else if (choiceBox.getValue().equals("Birth")) {
             selectUser(selectAllQuery + " WHERE birth LIKE '%" + searchBar.getText() + "%'");
         }
     }
 
     public void showUser() {
         User user = userTableView.getSelectionModel().getSelectedItem();
+        if (user == null) {
+            Alert alrt = new Alert(Alert.AlertType.WARNING);
+            alrt.setTitle("No User Selected");
+            alrt.setHeaderText(null);
+            alrt.setContentText("Please select a user to show information.");
+            System.out.println("No user selected");
+            alrt.showAndWait();
+            return;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Remove User");
+            alert.setHeaderText("Can't restore this user after removing");
+            alert.setContentText("Do you want to remove this User ?");
+            Optional<ButtonType> a = alert.showAndWait();
+            if (a.isEmpty() || a.get() != ButtonType.OK) {
+                return;
+            }
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/sourceCode/AdminFXML/ShowUser.fxml"));
@@ -147,7 +164,12 @@ public class UserController extends SwitchScene implements Initializable {
         }
         User user = userTableView.getSelectionModel().getSelectedItem();
         if (user == null) {
+            Alert alrt = new Alert(Alert.AlertType.WARNING);
+            alrt.setTitle("No User Selected");
+            alrt.setHeaderText(null);
+            alrt.setContentText("Please select a user to remove.");
             System.out.println("No user selected");
+            alrt.showAndWait();
             return;
         }
         String query = "DELETE FROM library.user WHERE userId = ?";
@@ -167,6 +189,15 @@ public class UserController extends SwitchScene implements Initializable {
 
     public void editUser() {
         User user = userTableView.getSelectionModel().getSelectedItem();
+        if (user == null) {
+            Alert alrt = new Alert(Alert.AlertType.WARNING);
+            alrt.setTitle("No User Selected");
+            alrt.setHeaderText(null);
+            alrt.setContentText("Please select a user to edit.");
+            System.out.println("No user selected");
+            alrt.showAndWait();
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/sourceCode/AdminFXML/EditUser.fxml"));

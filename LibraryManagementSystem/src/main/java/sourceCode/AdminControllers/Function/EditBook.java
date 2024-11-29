@@ -3,8 +3,11 @@ package sourceCode.AdminControllers.Function;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -44,6 +47,14 @@ public class EditBook {
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Edit");
+        confirmationAlert.setHeaderText("Are you sure you want to save the changes?");
+        confirmationAlert.setContentText("Please confirm your action.");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String query =
                 "UPDATE library.book SET title = ?, author = ?, genre = ?, publisher = ?, publicationDate = ?, "
                         +

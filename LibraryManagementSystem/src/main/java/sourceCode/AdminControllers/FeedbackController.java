@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,8 +31,7 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.Feedback";
     private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Điểm đánh giá",
-            "Ngày đánh giá"};
+    private static final String[] searchBy = {"All", "User ID", "Book ID", "Rating", "Date"};
     @FXML
     private TableColumn<FeedbackController, Integer> feedbackidColumn;
     @FXML
@@ -95,23 +95,23 @@ public class FeedbackController extends SwitchScene implements Initializable {
 
     public void searchFeedback() {
         feedBackList.clear();
-        if (searchBar.getText().isEmpty() || choiceBox.getValue().equals("Tất cả")) {
+        if (searchBar.getText().isEmpty() || choiceBox.getValue().equals("All")) {
             selectFeedback(selectAllQuery);
         } else {
             String keyword = searchBar.getText();
             String filter = choiceBox.getValue();
             String query = "SELECT * FROM library.Feedback WHERE ";
             switch (filter) {
-                case "Mã người dùng":
+                case "User ID":
                     query += "userId = '" + keyword + "'";
                     break;
-                case "Mã sách":
+                case "ISBN":
                     query += "ISBN = '" + keyword + "'";
                     break;
-                case "Điểm đánh giá":
+                case "Rating":
                     query += "rating = '" + keyword + "'";
                     break;
-                case "Ngày đánh giá":
+                case "Date":
                     query += "date = '" + keyword + "'";
                     break;
                 default:
@@ -129,6 +129,11 @@ public class FeedbackController extends SwitchScene implements Initializable {
         sourceCode.Models.Feedback selectedFeedback = feedbackTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedFeedback == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Feedback Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a feedback to show user information.");
+            alert.showAndWait();
             return;
         }
         String query =
@@ -171,6 +176,11 @@ public class FeedbackController extends SwitchScene implements Initializable {
         sourceCode.Models.Feedback selectedFeedback = feedbackTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedFeedback == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Feedback Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a feedback to show book information.");
+            alert.showAndWait();
             return;
         }
         String query =

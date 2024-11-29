@@ -19,6 +19,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -42,10 +45,10 @@ public class BookcaseController extends SwitchScene implements Initializable {
     private static final String selectAllQuery
             = "SELECT * FROM library.ticket t JOIN library.book b ON t.ISBN = b.ISBN "
             + "WHERE t.returnedDate IS NULL AND t.userID = ?";
-    private final ExecutorService executor = Executors.newFixedThreadPool(3);
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
             "Thể loại"};
+    private final ExecutorService executor = Executors.newFixedThreadPool(3);
     @FXML
     public AnchorPane bookDetail;
     @FXML
@@ -118,7 +121,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         if (newValue.getImageUrl() != null) {
-                            try{
+                            try {
                                 Image image = new Image(newValue.getImageUrl());
                                 if (image.isError()) {
                                     bookImage.setImage(imagedefault); // Gán ảnh mặc định
@@ -144,7 +147,7 @@ public class BookcaseController extends SwitchScene implements Initializable {
                         splitPane.setDividerPositions(0.6);
                     }
                 });
-                loadBooksFromDatabase(selectAllQuery);
+        loadBooksFromDatabase(selectAllQuery);
     }
 
     private void loadBooksFromDatabase(String query) {
@@ -203,52 +206,64 @@ public class BookcaseController extends SwitchScene implements Initializable {
     }
 
     public void returnBook() {
+
         sourceCode.Models.Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
         if (selectedBook == null) {
             System.out.println("Vui lòng chọn sách để trả!");
             return;
         }
-        String currentUserID = sourceCode.LoginController.currentUserId;
-        String returnticketQuery = """
-                    UPDATE library.ticket
-                    SET returnedDate = CURRENT_DATE
-                    WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
-                    LIMIT 1;
-                """;
-        String  updatequantityQuery = """
-                    UPDATE library.book
-                    SET quantity = quantity + 1
-                    WHERE ISBN = ?;
-                """;
+        Alert alert = new Alert(AlertType.CONFIRMATION,
+                "Bạn có chắc chắn muốn trả sách \"" + selectedBook.getTitle() + "\"?",
+                ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Xác nhận trả sách");
+        alert.setHeaderText(null);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                String currentUserID = sourceCode.LoginController.currentUserId;
+                String returnticketQuery = """
+                            UPDATE library.ticket
+                            SET returnedDate = CURRENT_DATE
+                            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+                            LIMIT 1;
+                        """;
+                String updatequantityQuery = """
+                            UPDATE library.book
+                            SET quantity = quantity + 1
+                            WHERE ISBN = ?;
+                        """;
 
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            try (PreparedStatement pstmt = conn.prepareStatement(returnticketQuery)) {
-                pstmt.setString(1, currentUserID);
-                pstmt.setString(2, selectedBook.getISBN());
-                int rowsAffected = pstmt.executeUpdate();
-                if (rowsAffected > 0) {
-                    try (PreparedStatement pstmt1 = conn.prepareStatement(updatequantityQuery)) {
-                        pstmt1.setString(1,selectedBook.getISBN());
-                        rowsAffected = pstmt1.executeUpdate();
+                try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+                    try (PreparedStatement pstmt = conn.prepareStatement(returnticketQuery)) {
+                        pstmt.setString(1, currentUserID);
+                        pstmt.setString(2, selectedBook.getISBN());
+                        int rowsAffected = pstmt.executeUpdate();
                         if (rowsAffected > 0) {
-                            System.out.println("Trả sách thành công: " + selectedBook.getTitle());
-                            loadBooksFromDatabase(selectAllQuery);
+                            try (PreparedStatement pstmt1 = conn.prepareStatement(
+                                    updatequantityQuery)) {
+                                pstmt1.setString(1, selectedBook.getISBN());
+                                rowsAffected = pstmt1.executeUpdate();
+                                if (rowsAffected > 0) {
+                                    System.out.println(
+                                            "Trả sách thành công: " + selectedBook.getTitle());
+                                    loadBooksFromDatabase(selectAllQuery);
+                                } else {
+                                    System.out.println("Không thể trả sách, vui lòng thử lại.");
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                System.out.println("Lỗi kết nối cơ sở dữ liệu.");
+                            }
                         } else {
                             System.out.println("Không thể trả sách, vui lòng thử lại.");
                         }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                        System.out.println("Lỗi kết nối cơ sở dữ liệu.");
                     }
-                } else {
-                    System.out.println("Không thể trả sách, vui lòng thử lại.");
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println("Lỗi kết nối cơ sở dữ liệu.");
                 }
+                initialize(null, null);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Lỗi kết nối cơ sở dữ liệu.");
-        }
-        initialize(null, null);
+        });
     }
 
     public void sendFeedback() {

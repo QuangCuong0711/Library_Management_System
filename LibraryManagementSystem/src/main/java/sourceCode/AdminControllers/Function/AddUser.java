@@ -5,10 +5,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -40,6 +43,14 @@ public class AddUser implements Initializable {
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Add");
+        confirmationAlert.setHeaderText("Are you sure you want to save the changes?");
+        confirmationAlert.setContentText("Please confirm your action.");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String query = "INSERT INTO library.user (name, userId, identityNumber, birth, gender, phoneNumber, email, address, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;

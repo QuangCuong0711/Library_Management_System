@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -50,6 +53,14 @@ public class EditUser {
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Edit");
+        confirmationAlert.setHeaderText("Are you sure you want to save the changes?");
+        confirmationAlert.setContentText("Please confirm your action.");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String query = "UPDATE library.user SET name = ?, identityNumber = ?, birth = ?, gender = ?, phoneNumber = ?, email = ?, address = ?, password = ? WHERE userId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;

@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -51,6 +54,14 @@ public class UpdateFeedback {
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Update Feedback");
+        alert.setHeaderText("Confirm Feedback Update");
+        alert.setContentText("Are you sure you want to update this feedback?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String query = "UPDATE library.Feedback SET comment = ?, rating = ?, date = ? WHERE feedbackId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;

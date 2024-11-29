@@ -7,13 +7,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -71,7 +74,8 @@ public class BookDetailController {
                         System.out.println("Image loaded and cached: " + book.getImageUrl());
                     } else {
                         // Nếu ảnh có lỗi, sử dụng ảnh mặc định
-                        System.out.println("Image error, using default for URL: " + book.getImageUrl());
+                        System.out.println(
+                                "Image error, using default for URL: " + book.getImageUrl());
                         image.setImage(imagedefault);
                     }
                 } catch (Exception e) {
@@ -86,6 +90,14 @@ public class BookDetailController {
     }
 
     public void borrowBook() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Borrow Book");
+        alert.setHeaderText("Confirm Book Borrowing");
+        alert.setContentText("Are you sure you want to borrow this book?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) {
+            return;
+        }
         String checkQuery = "SELECT quantity FROM library.book WHERE ISBN = ?";
         String returnLateQuery = "SELECT COUNT(*) FROM library.ticket t WHERE userId = ? AND returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30";
         String lateQuery = "SELECT COUNT(*) FROM library.ticket t WHERE userId = ? AND returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30";
@@ -150,19 +162,23 @@ public class BookDetailController {
             int lateCount = lateFuture.get();
             int borrowCount = borrowFuture.get();
             if (lateCount >= 1) {
-                System.out.println("Người dùng không được phép mượn sách do có quá nhiều sách trả muộn hoặc quá hạn.");
+                showAlert(Alert.AlertType.ERROR, "Borrowing Error",
+                        "You have too many overdue books.");
                 return;
             }
             if (returnLateCount >= 3) {
-                System.out.println("Người dùng không được phép mượn sách do có quá nhiều sách trả muộn hoặc quá hạn.");
+                showAlert(Alert.AlertType.ERROR, "Borrowing Error",
+                        "You have too many late returns.");
                 return;
             }
             if (borrowCount >= 5) {
-                System.out.println("Người dùng đã mượn quá số lượng sách cho phép.");
+                showAlert(Alert.AlertType.ERROR, "Borrowing Error",
+                        "You have borrowed the maximum number of books allowed.");
                 return;
             }
             if (bookQuantity <= 0) {
-                System.out.println("Sách không có sẵn để mượn.");
+                showAlert(Alert.AlertType.ERROR, "Borrowing Error",
+                        "The book is not available for borrowing.");
                 return;
             }
             System.out.println(insertQuery);
@@ -179,15 +195,22 @@ public class BookDetailController {
 
         } catch (SQLException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            System.out.println("Book borrowing failed");
+            showAlert(Alert.AlertType.ERROR, "Borrowing Error", "Book borrowing failed.");
         } finally {
             executor.shutdown();
         }
+    }
+
+    public void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
-
 }

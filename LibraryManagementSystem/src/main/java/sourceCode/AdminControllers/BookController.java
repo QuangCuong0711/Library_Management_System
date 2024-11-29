@@ -40,8 +40,7 @@ public class BookController extends SwitchScene implements Initializable {
 
     private static final String selectAllQuery = "SELECT * FROM library.book";
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "GoogleAPI", "ISBN", "Tiêu đề", "Tác giả",
-            "Thể loại"};
+    private static final String[] searchBy = {"All", "GoogleAPI", "ISBN", "Title", "Author", "Genre"};
     @FXML
     private TableView<Book> bookTableView;
     @FXML
@@ -71,7 +70,7 @@ public class BookController extends SwitchScene implements Initializable {
             }
         });
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tìm kiếm theo");
+        choiceBox.setValue("Search by");
         bookTableView.setItems(bookList);
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -200,15 +199,15 @@ public class BookController extends SwitchScene implements Initializable {
      */
     public void searchBook() {
         bookList.clear();
-        if (choiceBox.getValue().equals("Tất cả")) {
+        if (choiceBox.getValue().equals("All")) {
             selectBook(selectAllQuery);
         } else if (choiceBox.getValue().equals("ISBN")) {
             selectBook(selectAllQuery + " WHERE ISBN LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Tiêu đề")) {
+        } else if (choiceBox.getValue().equals("Title")) {
             selectBook(selectAllQuery + " WHERE title LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Tác giả")) {
+        } else if (choiceBox.getValue().equals("Author")) {
             selectBook(selectAllQuery + " WHERE author LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Thể loại")) {
+        } else if (choiceBox.getValue().equals("Genre")) {
             selectBook(selectAllQuery + " WHERE genre LIKE '%" + searchBar.getText() + "%'");
         } else if (choiceBox.getValue().equals("GoogleAPI")) {
             searchAPIBook();
@@ -220,6 +219,13 @@ public class BookController extends SwitchScene implements Initializable {
      */
     public void showBook() {
         sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
+        if (book == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Book Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to show information.");
+            alert.showAndWait();
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
                     "/sourceCode/AdminFXML/ShowBook.fxml"));
@@ -241,18 +247,23 @@ public class BookController extends SwitchScene implements Initializable {
      * This method is used to remove a Document from the database.
      */
     public void removeBook() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Remove Book");
-        alert.setHeaderText("Can't restore this book after removing");
-        alert.setContentText("Do you want to remove this Book ?");
-        Optional<ButtonType> a = alert.showAndWait();
-        if (a.isEmpty() || a.get() != ButtonType.OK) {
-            return;
-        }
+
         sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
         if (book == null) {
-            System.out.println("No book selected");
-            return;
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Book Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to edit.");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Remove Book");
+            alert.setHeaderText("Can't restore this book after removing");
+            alert.setContentText("Do you want to remove this Book ?");
+            Optional<ButtonType> a = alert.showAndWait();
+            if (a.isEmpty() || a.get() != ButtonType.OK) {
+                return;
+            }
         }
         String query = "DELETE FROM library.book WHERE ISBN = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
@@ -293,6 +304,13 @@ public class BookController extends SwitchScene implements Initializable {
 
     public void editBook() {
         sourceCode.Models.Book book = bookTableView.getSelectionModel().getSelectedItem();
+        if (book == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Book Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to edit.");
+            alert.showAndWait();
+        }
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/sourceCode/AdminFXML/EditBook.fxml"));

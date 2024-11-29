@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -154,6 +155,11 @@ public class TicketController extends SwitchScene implements Initializable {
         Ticket selectedTicket = ticketTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedTicket == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Ticket Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a ticket to show user information.");
+            alert.showAndWait();
             return;
         }
         String userID = selectedTicket.getUserID();
@@ -196,6 +202,11 @@ public class TicketController extends SwitchScene implements Initializable {
         Ticket selectedTicket = ticketTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedTicket == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Ticket Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a ticket to show book information.");
+            alert.showAndWait();
             return;
         }
         String query =
