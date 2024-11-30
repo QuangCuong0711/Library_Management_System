@@ -1,13 +1,11 @@
 package sourceCode.AdminControllers.Function;
 
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -18,28 +16,34 @@ import javafx.stage.Stage;
 import sourceCode.AdminControllers.BookController;
 import sourceCode.Services.DatabaseConnection;
 
-public class AddBook implements Initializable {
+public class AddBook {
 
-    public TextField ISBN;
-    public TextField author;
-    public TextField genre;
-    public TextField publisher;
-    public TextField imageUrl;
-    public TextField publicationDate;
-    public TextArea description;
-    public TextField pageNumber;
-    public TextField language;
-    public TextField quantity;
-    public TextField title;
+    @FXML
+    private TextField ISBN;
+    @FXML
+    private TextField author;
+    @FXML
+    private TextField genre;
+    @FXML
+    private TextField publisher;
+    @FXML
+    private TextField imageUrl;
+    @FXML
+    private TextField publicationDate;
+    @FXML
+    private TextArea description;
+    @FXML
+    private TextField pageNumber;
+    @FXML
+    private TextField language;
+    @FXML
+    private TextField quantity;
+    @FXML
+    private TextField title;
     private BookController bookController;
 
     public void setBookController(BookController bookController) {
         this.bookController = bookController;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resource) {
-
     }
 
     public void confirmButtonOnAction(ActionEvent event) {
@@ -51,8 +55,6 @@ public class AddBook implements Initializable {
         if (result.isEmpty() || result.get() != ButtonType.OK) {
             return;
         }
-
-        // Kiểm tra đầu vào
         String errorMessage = validateInput();
         if (!errorMessage.isEmpty()) {
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -111,7 +113,7 @@ public class AddBook implements Initializable {
             e.printStackTrace();
         }
 
-        bookController.initialize(null, null);
+        bookController.refreshList();
         cancelButtonOnAction(event);
     }
 

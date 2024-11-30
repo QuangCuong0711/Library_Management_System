@@ -30,13 +30,12 @@ import sourceCode.AdminControllers.Function.EditUser;
 import sourceCode.AdminControllers.Function.ShowUser;
 import sourceCode.Models.User;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 
 public class UserController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = "SELECT * FROM library.User";
     private static final ObservableList<User> userList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"All", "User ID", "Full Name", "Identity Number", "Birth"};
     @FXML
     private TableView<User> userTableView;
     @FXML
@@ -59,61 +58,49 @@ public class UserController extends SwitchScene implements Initializable {
                 searchUser();
             }
         });
+        String[] searchBy = {"All", "User ID", "Full Name", "Identity Number",
+                "Birth"};
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Search by");
+        choiceBox.setValue(searchBy[0]);
         userTableView.setItems(userList);
         useridColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         fullnameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         identitynumberColumn.setCellValueFactory(new PropertyValueFactory<>("identityNumber"));
         birthColumn.setCellValueFactory(new PropertyValueFactory<>("birth"));
-        selectUser(selectAllQuery);
+        refreshList();
     }
 
-    public void selectUser(String query) {
-        userList.clear();
-        Runnable task = () -> {
-            try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
-                assert connection != null;
-                try (Statement stmt = connection.createStatement();
-                        ResultSet rs = stmt.executeQuery(query)) {
-                    while (rs.next()) {
-                        User user = new User(
-                                rs.getString("userId"),
-                                rs.getString("name"),
-                                rs.getString("identityNumber"),
-                                rs.getDate("birth").toLocalDate(),
-                                rs.getString("gender"),
-                                rs.getString("phoneNumber"),
-                                rs.getString("email"),
-                                rs.getString("address"),
-                                rs.getString("password")
-                        );
-                        userList.add(user);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        };
-        Thread thread = new Thread(task);
-        thread.setDaemon(true);
-        thread.start();
+    public void refreshList() {
+        DatabaseOperation.loadUserfromDatabase("SELECT * FROM library.user", userList);
     }
 
     public void searchUser() {
-        userList.clear();
-        if (choiceBox.getValue().equals("All")) {
-            selectUser(selectAllQuery);
-        } else if (choiceBox.getValue().equals("User ID")) {
-            selectUser(selectAllQuery + " WHERE userId LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Full Name")) {
-            selectUser(selectAllQuery + " WHERE name LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Identity Number")) {
-            selectUser(
-                    selectAllQuery + " WHERE identityNumber LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Birth")) {
-            selectUser(selectAllQuery + " WHERE birth LIKE '%" + searchBar.getText() + "%'");
+        if (searchBar.getText().isEmpty()) {
+            refreshList();
+            return;
         }
+        String query = "SELECT * FROM library.user WHERE ";
+        switch (choiceBox.getValue()) {
+            case "User ID":
+                query += "userId = '" + searchBar.getText() + "'";
+                break;
+            case "Full Name":
+                query += "name LIKE '%" + searchBar.getText() + "%'";
+                break;
+            case "Identity Number":
+                query += "identityNumber = '" + searchBar.getText() + "'";
+                break;
+            case "Birth":
+                query += "birth = '" + searchBar.getText() + "'";
+                break;
+            default:
+                query += "userId LIKE '%" + searchBar.getText() + "%' OR "
+                        + "name LIKE '%" + searchBar.getText() + "%' OR "
+                        + "identityNumber LIKE '%" + searchBar.getText() + "%' OR "
+                        + "birth LIKE '%" + searchBar.getText() + "%'";
+                break;
+        }
+        DatabaseOperation.loadUserfromDatabase(query, userList);
     }
 
     public void showUser() {
@@ -126,15 +113,6 @@ public class UserController extends SwitchScene implements Initializable {
             System.out.println("No user selected");
             alrt.showAndWait();
             return;
-        } else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Remove User");
-            alert.setHeaderText("Can't restore this user after removing");
-            alert.setContentText("Do you want to remove this User ?");
-            Optional<ButtonType> a = alert.showAndWait();
-            if (a.isEmpty() || a.get() != ButtonType.OK) {
-                return;
-            }
         }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(
@@ -154,14 +132,6 @@ public class UserController extends SwitchScene implements Initializable {
     }
 
     public void removeUser() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Remove User");
-        alert.setHeaderText("Can't restore this user after removing");
-        alert.setContentText("Do you want to remove this user ?");
-        Optional<ButtonType> a = alert.showAndWait();
-        if (a.isEmpty() || a.get() != ButtonType.OK) {
-            return;
-        }
         User user = userTableView.getSelectionModel().getSelectedItem();
         if (user == null) {
             Alert alrt = new Alert(Alert.AlertType.WARNING);
@@ -172,6 +142,15 @@ public class UserController extends SwitchScene implements Initializable {
             alrt.showAndWait();
             return;
         }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Remove User");
+        alert.setHeaderText("Can't restore this user after removing");
+        alert.setContentText("Do you want to remove this user ?");
+        Optional<ButtonType> a = alert.showAndWait();
+        if (a.isEmpty() || a.get() != ButtonType.OK) {
+            return;
+        }
+
         String query = "DELETE FROM library.user WHERE userId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
@@ -179,6 +158,11 @@ public class UserController extends SwitchScene implements Initializable {
                 stmt.setString(1, user.getUserId());
                 stmt.executeUpdate();
                 userList.remove(user);
+                Alert alrt = new Alert(Alert.AlertType.INFORMATION);
+                alrt.setTitle("User Removed");
+                alrt.setHeaderText(null);
+                alrt.setContentText("User removed successfully");
+                alrt.showAndWait();
                 System.out.println("User removed successfully");
             }
         } catch (SQLException e) {

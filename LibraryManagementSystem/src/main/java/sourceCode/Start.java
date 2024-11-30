@@ -22,6 +22,7 @@ public class Start extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Library Management System");
             primaryStage.setResizable(false);
+            primaryStage.centerOnScreen();
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();

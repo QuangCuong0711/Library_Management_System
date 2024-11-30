@@ -102,7 +102,7 @@
        <NumberAxis side="LEFT" />
      </yAxis>
    </BarChart>
-   <TableView fx:id="ticketTableView" layoutX="614.0" layoutY="447.0" prefHeight="310.0" prefWidth="514.0">
+   <TableView fx:id="myTableView" layoutX="614.0" layoutY="447.0" prefHeight="310.0" prefWidth="514.0">
      <columns>
        <TableColumn fx:id="uidColumn" prefWidth="117.0" text="UserID" />
        <TableColumn fx:id="isbnColumn" prefWidth="168.0" text="ISBN" />

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -20,15 +21,24 @@ import sourceCode.UserControllers.ProfileController;
 
 public class EditUser {
 
-    public TextField userID;
-    public TextField name;
-    public TextField identityNumber;
-    public ChoiceBox<String> gender;
-    public TextField mail;
-    public TextField phoneNumber;
-    public TextField address;
-    public DatePicker birth;
-    public PasswordField password;
+    @FXML
+    private TextField userID;
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField identityNumber;
+    @FXML
+    private ChoiceBox<String> gender;
+    @FXML
+    private TextField mail;
+    @FXML
+    private TextField phoneNumber;
+    @FXML
+    private TextField address;
+    @FXML
+    private DatePicker birth;
+    @FXML
+    private PasswordField password;
     private UserController userController;
     private ProfileController profileController;
 
@@ -75,6 +85,11 @@ public class EditUser {
                 stmt.setString(8, password.getText());
                 stmt.setString(9, userID.getText());
                 stmt.executeUpdate();
+                Alert alrt = new Alert(Alert.AlertType.INFORMATION);
+                alrt.setTitle("User Edited");
+                alrt.setHeaderText(null);
+                alrt.setContentText("User edited successfully");
+                alrt.showAndWait();
                 System.out.println("User edited successfully");
             }
         } catch (SQLException e) {
@@ -82,9 +97,8 @@ public class EditUser {
             e.printStackTrace();
         }
         if (userController != null) {
-            userController.initialize(null, null);
-        }
-        if (profileController != null) {
+            userController.refreshList();
+        } else {
             profileController.initProfilePane();
         }
         cancelButtonOnAction(event);

@@ -36,12 +36,12 @@
       </DropShadow>
     </effect>
   </Pane>
-  <TextField id="searchBar" fx:id="searchBar" layoutX="124.0" layoutY="142.0" prefHeight="43.0" prefWidth="756.0" promptText="Nhập mã người dùng, tên, mã định danh..." />
+  <TextField id="searchBar" fx:id="searchBar" layoutX="124.0" layoutY="142.0" prefHeight="43.0" prefWidth="756.0" promptText="Type User ID, name, identity number..." />
   <ChoiceBox id="choiceButton" fx:id="choiceBox" layoutX="886.0" layoutY="142.0" prefHeight="43.0" prefWidth="190.0" />
   <TableView fx:id="userTableView" layoutX="124.0" layoutY="194.0" prefHeight="508.0" prefWidth="952.0">
     <columns>
-      <TableColumn id="useridColumn" fx:id="useridColumn" editable="false" prefWidth="187.0" sortable="false" text="UserID" />
-      <TableColumn id="fullnameColumn" fx:id="fullnameColumn" editable="false" prefWidth="254.0" sortable="false" text="FullName" />
+      <TableColumn id="useridColumn" fx:id="useridColumn" editable="false" prefWidth="167.0" sortable="false" text="UserID" />
+      <TableColumn id="fullnameColumn" fx:id="fullnameColumn" editable="false" prefWidth="308.0" sortable="false" text="FullName" />
       <TableColumn id="identitynumberColumn" fx:id="identitynumberColumn" editable="false" prefWidth="250.0" sortable="false" text="IdentityNumber" />
       <TableColumn id="birthColumn" fx:id="birthColumn" editable="false" prefWidth="190.0" sortable="false" text="Birth" />
     </columns>
@@ -49,10 +49,10 @@
       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
     </columnResizePolicy>
   </TableView>
-   <Button id="addButton" layoutX="124.0" layoutY="711.0" mnemonicParsing="false" onAction="#addUser" prefHeight="52.0" prefWidth="226.0" text="Add User" />
-   <Button id="removeButton" layoutX="850.0" layoutY="711.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="52.0" prefWidth="226.0" text="Remove User" />
-   <Button id="showButton" layoutX="357.0" layoutY="711.0" mnemonicParsing="false" onAction="#showUser" prefHeight="52.0" prefWidth="241.0" text="Show User" />
-   <Button id="editButton" layoutX="603.0" layoutY="711.0" mnemonicParsing="false" onAction="#editUser" prefHeight="52.0" prefWidth="241.0" text="Edit User" />
+   <Button id="addButton" layoutX="124.0" layoutY="720.0" mnemonicParsing="false" onAction="#addUser" prefHeight="40.0" prefWidth="220.0" text="Add User" />
+   <Button id="removeButton" layoutX="857.0" layoutY="720.0" mnemonicParsing="false" onAction="#removeUser" prefHeight="40.0" prefWidth="213.0" text="Remove User" />
+   <Button id="showButton" layoutX="370.0" layoutY="720.0" mnemonicParsing="false" onAction="#showUser" prefHeight="40.0" prefWidth="220.0" text="Show User" />
+   <Button id="editButton" layoutX="614.0" layoutY="720.0" mnemonicParsing="false" onAction="#editUser" prefHeight="40.0" prefWidth="220.0" text="Edit User" />
   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="840.0" layoutY="144.0" onMouseClicked="#searchUser" pickOnBounds="true" preserveRatio="true">
     <Image url="@../Image/searchIcon.png" />
   </ImageView>

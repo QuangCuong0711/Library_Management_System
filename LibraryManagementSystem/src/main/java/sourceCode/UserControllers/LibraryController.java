@@ -1,12 +1,14 @@
 package sourceCode.UserControllers;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
-import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
@@ -34,19 +36,23 @@ import sourceCode.UserControllers.BookViews.BookGridController;
 
 public class LibraryController extends SwitchScene implements Initializable {
 
-    private static final ObservableList<Book> databaseBookList = FXCollections.observableArrayList();
+    private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
     private static final ObservableList<Book> recommendBookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
-            "Thể loại"};
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
-    public SplitPane mySplitPane;
-    public ScrollPane myScrollPane;
-    public TilePane myTilePane;
-    public TextField searchBar;
-    public ChoiceBox<String> choiceBox;
-    public ListView<Book> recommendBookListView;
     @FXML
-    private Button showRecommendBookButton;
+    private SplitPane mySplitPane;
+    @FXML
+    private ScrollPane myScrollPane;
+    @FXML
+    private TilePane myTilePane;
+    @FXML
+    private ListView<Book> myListView;
+    @FXML
+    private TextField searchBar;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private Button showRecommendedBook;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,17 +64,19 @@ public class LibraryController extends SwitchScene implements Initializable {
         mySplitPane.setDividerPositions(0.465);
         myTilePane.setVisible(false);
         myScrollPane.setVisible(false);
+        String[] searchBy = {"All", "ISBN", "Title", "Author", "Genre"};
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tất cả");
+        choiceBox.setValue(searchBy[0]);
+        showRecommendedBook.setText("Hide Recommend");
         initRecommendBookList();
     }
 
     public void initRecommendBookList() {
-        String query = "SELECT * FROM library.Book LIMIT 10";
+        String query = "SELECT * FROM library.Book LIMIT 20";
         recommendBookList.clear();
         DatabaseOperation.loadBookfromDatabase(query, recommendBookList);
-        recommendBookListView.setItems(recommendBookList);
-        recommendBookListView.setCellFactory(lv -> new ListCell<>() {
+        myListView.setItems(recommendBookList);
+        myListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(Book book, boolean empty) {
                 super.updateItem(book, empty);
@@ -103,11 +111,11 @@ public class LibraryController extends SwitchScene implements Initializable {
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
-                    int currentIndex = recommendBookListView.getFocusModel().getFocusedIndex();
+                    int currentIndex = myListView.getFocusModel().getFocusedIndex();
                     int nextIndex = (currentIndex + 1) % recommendBookList.size();
-                    ListCell<Book> currentCell = (ListCell<Book>) recommendBookListView.lookup(
+                    ListCell<Book> currentCell = (ListCell<Book>) myListView.lookup(
                             ".list-cell:nth-child(" + (currentIndex + 1) + ")");
-                    ListCell<Book> nextCell = (ListCell<Book>) recommendBookListView.lookup(
+                    ListCell<Book> nextCell = (ListCell<Book>) myListView.lookup(
                             ".list-cell:nth-child(" + (nextIndex + 1) + ")");
                     if (currentCell != null && nextCell != null) {
                         TranslateTransition transition = new TranslateTransition(
@@ -116,27 +124,27 @@ public class LibraryController extends SwitchScene implements Initializable {
                         transition.setToX(0);
                         transition.play();
                     }
-                    recommendBookListView.scrollTo(nextIndex);
-                    recommendBookListView.getFocusModel().focus(nextIndex);
+                    myListView.scrollTo(nextIndex);
+                    myListView.getFocusModel().focus(nextIndex);
                 })
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        Platform.runLater(timeline::play);
     }
 
     public void populateTilePane() {
         myTilePane.getChildren().clear();
         int batchSize = 15;
 
-        for (int i = 0; i < databaseBookList.size(); i += batchSize) {
+        for (int i = 0; i < bookList.size(); i += batchSize) {
             int start = i;
-            int end = Math.min(i + batchSize, databaseBookList.size());
+            int end = Math.min(i + batchSize, bookList.size());
 
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
                     for (int j = start; j < end; j++) {
-                        Book book = databaseBookList.get(j);
+                        Book book = bookList.get(j);
                         FXMLLoader loader = new FXMLLoader(
                                 getClass().getResource("/sourceCode/UserFXML/BookGrid.fxml"));
                         Pane bookPane = loader.load();
@@ -159,48 +167,35 @@ public class LibraryController extends SwitchScene implements Initializable {
         }
     }
 
-
-    public void selectBook(String query) {
-        DatabaseOperation.loadBookfromDatabase(query, databaseBookList);
-    }
-
     public void searchBook() {
-        if (choiceBox.getValue().equals("Tất cả")) {
-            selectBook(
+        if (choiceBox.getValue().equals("All")) {
+            DatabaseOperation.loadBookfromDatabase(
                     "SELECT * FROM library.Book WHERE ISBN LIKE '%" + searchBar.getText()
                             + "%' OR title LIKE '%" + searchBar.getText() + "%' OR author LIKE '%"
                             + searchBar.getText() + "%' OR genre LIKE '%" + searchBar.getText()
-                            + "%'");
-        } else if (choiceBox.getValue().equals("ISBN")) {
-            selectBook(
-                    "SELECT * FROM library.Book WHERE ISBN LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Tiêu đề")) {
-            selectBook(
-                    "SELECT * FROM library.Book WHERE title LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Tác giả")) {
-            selectBook(
-                    "SELECT * FROM library.Book WHERE author LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Thể loại")) {
-            selectBook(
-                    "SELECT * FROM library.Book WHERE genre LIKE '%" + searchBar.getText() + "%'");
+                            + "%'", bookList);
+        } else {
+            DatabaseOperation.loadBookfromDatabase(
+                    "SELECT * FROM library.Book WHERE " + choiceBox.getValue() + " LIKE '%"
+                            + searchBar.getText() + "%'", bookList);
         }
         populateTilePane();
         myTilePane.setVisible(true);
         myScrollPane.setVisible(true);
         mySplitPane.setDividerPositions(0.9);
-        recommendBookListView.setVisible(false);
-        showRecommendBookButton.setText("Hiện gợi ý sách");
+        myListView.setVisible(false);
+        showRecommendedBook.setText("Show Recommend");
     }
 
     public void showRecommendedBook() {
-        if (recommendBookListView.isVisible()) {
-            recommendBookListView.setVisible(false);
+        if (myListView.isVisible()) {
+            myListView.setVisible(false);
             mySplitPane.setDividerPositions(0.9);
-            showRecommendBookButton.setText("Hiện gợi ý sách");
+            showRecommendedBook.setText("Show Recommend");
         } else {
-            recommendBookListView.setVisible(true);
+            myListView.setVisible(true);
             mySplitPane.setDividerPositions(0.465);
-            showRecommendBookButton.setText("Ẩn gợi ý sách");
+            showRecommendedBook.setText("Hide Recommend");
         }
     }
 }

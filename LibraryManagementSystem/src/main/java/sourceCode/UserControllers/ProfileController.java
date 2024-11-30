@@ -249,7 +249,8 @@ public class ProfileController extends SwitchScene implements Initializable {
                             rs.getString("phoneNumber"),
                             rs.getString("email"),
                             rs.getString("address"),
-                            rs.getString("password")
+                            rs.getString("password"),
+                            rs.getString("role")
                     );
                     editUser.setUser(user);
                     editUser.setProfileController(this);

@@ -24,11 +24,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import sourceCode.Models.Ticket;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 
 public class HomeController extends SwitchScene implements Initializable {
 
-    private static final ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
     @FXML
     private Label bookCount;
     @FXML
@@ -38,7 +38,11 @@ public class HomeController extends SwitchScene implements Initializable {
     @FXML
     private Label feedbackCount;
     @FXML
-    private TableView<Ticket> ticketTableView;
+    private PieChart myPieChart;
+    @FXML
+    private BarChart<String, Integer> myBarChart;
+    @FXML
+    private TableView<Ticket> myTableView;
     @FXML
     private TableColumn<Ticket, String> uidColumn;
     @FXML
@@ -47,10 +51,7 @@ public class HomeController extends SwitchScene implements Initializable {
     private TableColumn<Ticket, Integer> quantityColumn;
     @FXML
     private TableColumn<Ticket, LocalDate> borrowedDateColumn;
-    @FXML
-    private PieChart myPieChart;
-    @FXML
-    private BarChart<String, Integer> myBarChart;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -87,7 +88,6 @@ public class HomeController extends SwitchScene implements Initializable {
                     ticketCount.setText(rs.getString(1));
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -121,11 +121,11 @@ public class HomeController extends SwitchScene implements Initializable {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
         String query = """
                 SELECT CASE
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'Trả đúng hạn'
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Trả muộn'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Đang mượn'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
-                    ELSE 'Không xác định'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                    ELSE 'Unknown'
                 END AS status, COUNT(*) AS statusCount FROM library.ticket GROUP BY status""";
         try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
             assert conn != null;
@@ -137,14 +137,16 @@ public class HomeController extends SwitchScene implements Initializable {
                     data.nodeProperty().addListener((obs, oldNode, newNode) -> {
                         if (newNode != null) {
                             newNode.setOnMouseEntered(e -> {
-                                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300),
+                                ScaleTransition scaleTransition = new ScaleTransition(
+                                        Duration.millis(300),
                                         newNode);
                                 scaleTransition.setToY(1.1);
                                 scaleTransition.setToX(1.1);
                                 scaleTransition.play();
                             });
                             newNode.setOnMouseExited(e -> {
-                                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300),
+                                ScaleTransition scaleTransition = new ScaleTransition(
+                                        Duration.millis(300),
                                         newNode);
                                 scaleTransition.setToY(1);
                                 scaleTransition.setToX(1);
@@ -162,40 +164,20 @@ public class HomeController extends SwitchScene implements Initializable {
     }
 
     private void initTableView() {
+        ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
         String query = """
                 SELECT *,CASE\
-                        WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'Trả đúng hạn'
-                        WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Trả muộn'
-                        WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Đang mượn'
-                        WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
-                        ELSE 'Không xác định'
+                        WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                        WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                        WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                        WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                        ELSE 'Unknown'
                     END AS status FROM library.Ticket""";
-        ticketTableView.setItems(ticketList);
+        myTableView.setItems(ticketList);
         uidColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         borrowedDateColumn.setCellValueFactory(new PropertyValueFactory<>("borrowedDate"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    Ticket ticket = new Ticket(
-                            rs.getInt("ticketId"),
-                            rs.getString("ISBN"),
-                            rs.getString("userId"),
-                            rs.getDate("borrowedDate") != null ? rs.getDate("borrowedDate")
-                                    .toLocalDate() : null,
-                            rs.getDate("returnedDate") != null ? rs.getDate("returnedDate")
-                                    .toLocalDate() : null,
-                            rs.getInt("quantity"),
-                            rs.getString("status")
-                    );
-                    ticketList.add(ticket);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        DatabaseOperation.loadTicketfromDatabase(query, ticketList);
     }
 }

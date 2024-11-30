@@ -35,27 +35,22 @@
     <columns>
       <TableColumn id="ticketID" fx:id="ticketIDColumn" editable="false" prefWidth="107.0" sortable="false" text="TicketID" />
       <TableColumn id="isbn" fx:id="isbnColumn" editable="false" prefWidth="170.0" sortable="false" text="ISBN" />
-      <TableColumn id="borrowedDateColumn" fx:id="borrowedDateColumn" editable="false" prefWidth="159.0" sortable="false" text="Ngày mượn" />
-      <TableColumn id="returnedDateColumn" fx:id="returnedDateColumn" editable="false" prefWidth="162.0" sortable="false" text="Ngày trả" />
-      <TableColumn id="quantity" fx:id="quantityColumn" editable="false" prefWidth="57.0" sortable="false" text="SL" />
-      <TableColumn id="status" fx:id="statusColumn" editable="false" prefWidth="127.0" sortable="false" text="Trạng thái" />
+      <TableColumn id="borrowedDateColumn" fx:id="borrowedDateColumn" editable="false" prefWidth="159.0" sortable="false" text="Borrowed Date" />
+      <TableColumn id="returnedDateColumn" fx:id="returnedDateColumn" editable="false" prefWidth="162.0" sortable="false" text="Returned Date" />
+      <TableColumn id="quantity" fx:id="quantityColumn" editable="false" prefWidth="57.0" sortable="false" text="Qty" />
+      <TableColumn id="status" fx:id="statusColumn" editable="false" prefWidth="127.0" sortable="false" text="Status" />
     </columns>
     <columnResizePolicy>
       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
     </columnResizePolicy>
   </TableView>
-  <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Nhập mã sách, ngày mượn, ngày trả, trạng thái..." />
+  <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Type ISBN, status, returned date, borrowed date..." />
   <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="898.0" layoutY="117.0" prefHeight="43.0" prefWidth="154.0" />
-  <Button id="editButton" layoutX="519.0" layoutY="733.0" mnemonicParsing="false" onAction="#showBook" prefHeight="33.0" prefWidth="163.0" text="About this book" />
+  <Button id="editButton" layoutX="522.0" layoutY="736.0" mnemonicParsing="false" onAction="#showBook" prefHeight="40.0" prefWidth="160.0" text="About this book" />
    <ImageView fitHeight="46.0" fitWidth="50.0" layoutX="844.0" layoutY="116.0" onMouseClicked="#searchTicket" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../Image/searchIcon.png" />
       </image>
    </ImageView>
   <Button id="logout" layoutX="1120.0" layoutY="694.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="58.0" prefWidth="43.0" />
-<ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1110.0" layoutY="727.0" pickOnBounds="true" preserveRatio="true">
-  <image>
-    <Image url="@../Image/logOut.png" />
-  </image>
-</ImageView>
 </AnchorPane>

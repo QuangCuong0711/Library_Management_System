@@ -41,10 +41,10 @@ public class LoginController {
         String fxmlFile;
 
         if (checkBox.isSelected()) {
-            query = "SELECT COUNT(*) FROM library.admin WHERE adminId = ? AND password = ?";
+            query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ? AND role = 'admin'";
             fxmlFile = "AdminFXML/Home.fxml";
         } else {
-            query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ?";
+            query = "SELECT COUNT(*) FROM library.user WHERE userId = ? AND password = ? AND role is null";
             fxmlFile = "UserFXML/Library.fxml";
         }
         new Thread(() -> {
@@ -55,11 +55,6 @@ public class LoginController {
                 preparedStatement.setString(2, password);
                 ResultSet resultSet = preparedStatement.executeQuery();
                 if (resultSet.next() && resultSet.getInt(1) == 1) {
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Thông báo");
-//                    alert.setHeaderText(null); // Không có tiêu đề phụ
-//                    alert.setContentText("Hành động của bạn đã được hoàn tất!");
-//                    alert.showAndWait();
                     currentUserId = username;
                     Platform.runLater(() -> {
                         try {

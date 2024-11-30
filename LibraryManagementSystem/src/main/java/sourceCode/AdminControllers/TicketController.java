@@ -22,6 +22,7 @@ import sourceCode.AdminControllers.Function.ShowBook;
 import sourceCode.AdminControllers.Function.ShowUser;
 import sourceCode.Models.Ticket;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -32,19 +33,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class TicketController extends SwitchScene implements Initializable {
-
-    private static final String selectAllQuery = """
-            SELECT *,CASE\
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
-                    ELSE 'Unknown'
-                END AS status FROM library.Ticket""";
     private static final ObservableList<Ticket> ticketList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã người dùng", "Mã sách", "Ngày mượn",
-            "Ngày trả", "Trạng thái"};
-
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
@@ -72,8 +61,11 @@ public class TicketController extends SwitchScene implements Initializable {
                 searchTicket();
             }
         });
+        String[] searchBy = {"All", "User ID", "ISBN", "Borrowed Date", "Returned Date",
+                "Status"};
+
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tìm kiếm theo");
+        choiceBox.setValue(searchBy[0]);
         ticketTableView.setItems(ticketList);
         ticketIDColumn.setCellValueFactory(new PropertyValueFactory<>("ticketID"));
         uidColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
@@ -91,7 +83,7 @@ public class TicketController extends SwitchScene implements Initializable {
                         } else if (item == null && ticket.getTicketID() != 0) {
                             setText("-");
                         } else if (item != null) {
-                            setText(item.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                            setText(item.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                         } else {
                             setText(null);
                         }
@@ -99,52 +91,92 @@ public class TicketController extends SwitchScene implements Initializable {
                 });
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        selectTicket(selectAllQuery);
+        refreshList();
     }
 
-    public void selectTicket(String query) {
-        ticketList.clear();
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    Ticket ticket = new Ticket(
-                            rs.getInt("ticketId"),
-                            rs.getString("ISBN"),
-                            rs.getString("userId"),
-                            rs.getDate("borrowedDate") != null ? rs.getDate("borrowedDate")
-                                    .toLocalDate() : null,
-                            rs.getDate("returnedDate") != null ? rs.getDate("returnedDate")
-                                    .toLocalDate() : null,
-                            rs.getInt("quantity"),
-                            rs.getString("status")
-                    );
-                    ticketList.add(ticket);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void refreshList() {
+        String query = """
+            SELECT *,CASE\
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                    ELSE 'Unknown'
+                END AS status FROM library.Ticket""";
+        DatabaseOperation.loadTicketfromDatabase(query, ticketTableView.getItems());
     }
 
     public void searchTicket() {
-        ticketList.clear();
-        if (choiceBox.getValue().equals("Tất cả")) {
-            selectTicket(selectAllQuery);
-        } else if (choiceBox.getValue().equals("Mã người dùng")) {
-            selectTicket(selectAllQuery + " WHERE userId LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Mã sách")) {
-            selectTicket(selectAllQuery + " WHERE ISBN LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Ngày trả")) {
-            selectTicket(
-                    selectAllQuery + " WHERE returnedDate LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Ngày mượn")) {
-            selectTicket(
-                    selectAllQuery + " WHERE borrowedDate LIKE '%" + searchBar.getText() + "%'");
-        } else if (choiceBox.getValue().equals("Trạng thái")) {
-            selectTicket(selectAllQuery + " HAVING status LIKE '%" + searchBar.getText() + "%'");
+        String searchBy = choiceBox.getValue();
+        String searchValue = searchBar.getText();
+        String query = "";
+        switch (searchBy) {
+            case "All" -> query = """
+                    SELECT *,CASE\
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                            ELSE 'Unknown'
+                        END AS status FROM library.Ticket
+                    WHERE ticketId LIKE '%%%s%%' OR userId LIKE '%%%s%%' OR ISBN LIKE '%%%s%%'
+                    OR borrowedDate LIKE '%%%s%%' OR returnedDate LIKE '%%%s%%' OR status LIKE '%%%s%%'"""
+                    .formatted(searchValue, searchValue, searchValue, searchValue, searchValue,
+                            searchValue);
+            case "User ID" -> query = """
+                    SELECT *,CASE\
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                            ELSE 'Unknown'
+                        END AS status FROM library.Ticket
+                    WHERE userId LIKE '%%%s%%'""".formatted(searchValue);
+            case "ISBN" -> query = """
+                    SELECT *,CASE\
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                            ELSE 'Unknown'
+                        END AS status FROM library.Ticket
+                    WHERE ISBN LIKE '%%%s%%'""".formatted(searchValue);
+            case "Borrowed Date" -> query = """
+                    SELECT *,CASE\
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                            ELSE 'Unknown'
+                        END AS status FROM library.Ticket
+                    WHERE borrowedDate LIKE '%%%s%%'""".formatted(searchValue);
+            case "Returned Date" -> query = """
+                    SELECT *,CASE\
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                            ELSE 'Unknown'
+                        END AS status FROM library.Ticket
+                    WHERE returnedDate LIKE '%%%s%%'""".formatted(searchValue);
+            case "Status" -> query = """
+                    SELECT *,CASE\
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                            WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                            WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                            ELSE 'Unknown'
+                        END AS status FROM library.Ticket
+                    WHERE status LIKE '%%%s%%'""".formatted(searchValue);
+            default -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Invalid Search By");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a valid search by option.");
+                alert.showAndWait();
+            }
         }
+        DatabaseOperation.loadTicketfromDatabase(query, ticketTableView.getItems());
     }
 
     public void showUser() throws IOException {
@@ -178,7 +210,8 @@ public class TicketController extends SwitchScene implements Initializable {
                             rs.getString("phoneNumber"),
                             rs.getString("email"),
                             rs.getString("address"),
-                            rs.getString("password")
+                            rs.getString("password"),
+                            rs.getString("role")
                     );
                     showUser.setUser(user);
                 }

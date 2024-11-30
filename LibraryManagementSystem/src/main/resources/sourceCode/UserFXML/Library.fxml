@@ -49,21 +49,16 @@
       </children>
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="314.0" prefWidth="1059.0" style="-fx-background-color: transparent;">
-      <ListView id="myListView" fx:id="recommendBookListView" layoutX="30.0" layoutY="67.0" orientation="HORIZONTAL" prefHeight="288.0" prefWidth="1000.0" style="-fx-border-color: #424874;" />
+      <ListView id="myListView" fx:id="myListView" layoutX="30.0" layoutY="67.0" orientation="HORIZONTAL" prefHeight="288.0" prefWidth="1000.0" style="-fx-border-color: #424874;" />
       <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="865.0" layoutY="14.0" prefHeight="43.0" prefWidth="165.0" />
-      <TextField id="searchBar" fx:id="searchBar" layoutX="206.0" layoutY="14.0" prefHeight="43.0" prefWidth="648.0" promptText="Nhập tên sách, mã sách, tên tác giả..." />
+      <TextField id="searchBar" fx:id="searchBar" layoutX="206.0" layoutY="14.0" prefHeight="43.0" prefWidth="648.0" promptText="Type title, author name, isbn..." />
       <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="802.0" layoutY="14.0" onMouseClicked="#searchBook" pickOnBounds="true" preserveRatio="true">
         <image>
           <Image url="@../Image/searchIcon.png" />
         </image>
       </ImageView>
-         <Button id="showRecommendBook" fx:id="showRecommendBookButton" layoutX="30.0" layoutY="14.0" mnemonicParsing="false" onAction="#showRecommendedBook" prefHeight="43.0" prefWidth="165.0" text="Ẩn gợi ý sách" />
+         <Button id="showRecommendBook" fx:id="showRecommendedBook" layoutX="30.0" layoutY="14.0" mnemonicParsing="false" onAction="#showRecommendedBook" prefHeight="43.0" prefWidth="165.0" text="Ẩn gợi ý sách" />
     </AnchorPane>
   </SplitPane>
   <Button id="logout" layoutX="1120.0" layoutY="694.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="58.0" prefWidth="43.0" />
-  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1117.0" layoutY="727.0" pickOnBounds="true" preserveRatio="true">
-    <image>
-      <Image url="@../Image/logOut.png" />
-    </image>
-  </ImageView>
 </AnchorPane>

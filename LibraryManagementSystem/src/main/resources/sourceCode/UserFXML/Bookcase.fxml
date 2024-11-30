@@ -34,7 +34,7 @@
     <Button id="currentButton" alignment="BASELINE_LEFT" layoutX="716.0" layoutY="20.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="163.0" text="BOOKCASE">
     </Button>
   </Pane>
-  <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Nhập tên sách, mã sách, tên tác giả..." />
+  <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Type title, isbn, author..." />
   <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="898.0" layoutY="117.0" prefHeight="43.0" prefWidth="154.0" />
   <SplitPane fx:id="splitPane" dividerPositions="0.5978473581213307" layoutX="90.0" layoutY="180.0" prefHeight="590.0" prefWidth="1034.0">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="406.0">
@@ -50,7 +50,7 @@
           <Label fx:id="bookGenre" layoutX="14.0" layoutY="110.0" prefHeight="17.0" prefWidth="342.0" text="Genre:" />
           <Label fx:id="bookLanguage" layoutX="14.0" layoutY="134.0" prefHeight="17.0" prefWidth="342.0" text="Language:" />
           <Label fx:id="bookPageNumber" layoutX="14.0" layoutY="158.0" prefHeight="17.0" prefWidth="342.0" text="Page number:" />
-          <Label fx:id="bookDescription" layoutX="14.0" layoutY="184.0" prefHeight="17.0" prefWidth="342.0" text="Description:" />
+          <Label fx:id="bookDescription" layoutX="14.0" layoutY="184.0" prefHeight="176.0" prefWidth="342.0" text="Description:" wrapText="true" />
         </AnchorPane>
       </ScrollPane>
       <Button id="returnBook" layoutX="54.0" layoutY="531.0" mnemonicParsing="false" onAction="#returnBook" prefHeight="43.0" prefWidth="150.0" text="Return Book" />
@@ -72,12 +72,5 @@
          <Image url="@../Image/searchIcon.png" />
       </image>
    </ImageView>
-  <Button id="logout" layoutX="1120.0" layoutY="694.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="58.0" prefWidth="43.0">
-    <graphic>
-      <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-        <image>
-          <Image url="@../Image/logOut.png" />
-        </image>
-      </ImageView>
-    </graphic></Button>
+  <Button id="logout" layoutX="1120.0" layoutY="694.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="58.0" prefWidth="43.0" />
 </AnchorPane>

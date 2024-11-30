@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -17,17 +18,28 @@ import sourceCode.Services.DatabaseConnection;
 
 public class EditBook {
 
-    public TextField ISBN;
-    public TextField author;
-    public TextField genre;
-    public TextField publisher;
-    public TextField imageUrl;
-    public TextField publicationDate;
-    public TextArea description;
-    public TextField pageNumber;
-    public TextField language;
-    public TextField quantity;
-    public TextField title;
+    @FXML
+    private TextField ISBN;
+    @FXML
+    private TextField author;
+    @FXML
+    private TextField genre;
+    @FXML
+    private TextField publisher;
+    @FXML
+    private TextField imageUrl;
+    @FXML
+    private TextField publicationDate;
+    @FXML
+    private TextArea description;
+    @FXML
+    private TextField pageNumber;
+    @FXML
+    private TextField language;
+    @FXML
+    private TextField quantity;
+    @FXML
+    private TextField title;
     private BookController bookController;
 
     public void setBookController(BookController bookController) {
@@ -76,13 +88,18 @@ public class EditBook {
                 stmt.setInt(10, Integer.parseInt(quantity.getText()));
                 stmt.setString(11, ISBN.getText());
                 stmt.executeUpdate();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Book Edited");
+                alert.setHeaderText(null);
+                alert.setContentText("Book edited successfully");
+                alert.showAndWait();
                 System.out.println("Book edited successfully");
             }
         } catch (SQLException e) {
             System.out.println("Can't edit this book");
             e.printStackTrace();
         }
-        bookController.initialize(null, null);
+        bookController.refreshList();
         cancelButtonOnAction(event);
     }
 

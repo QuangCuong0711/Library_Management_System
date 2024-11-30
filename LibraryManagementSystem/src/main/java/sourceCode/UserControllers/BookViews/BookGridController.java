@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
@@ -22,7 +21,7 @@ public class BookGridController {
     @FXML
     private ImageView bookCover;
     @FXML
-    public TextArea bookTitle;
+    private TextArea bookTitle;
     private Book book;
 
     public void setBook(Book book) {

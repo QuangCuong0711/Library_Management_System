@@ -18,7 +18,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.AdminControllers.Function.ShowBook;
+import sourceCode.Models.Ticket;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -30,35 +32,25 @@ import java.util.ResourceBundle;
 
 public class TicketController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = """
-            SELECT *,CASE\
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'Trả đúng hạn'
-                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Trả muộn'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Đang mượn'
-                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Quá hạn'
-                    ELSE 'Không xác định'
-                END AS status FROM library.Ticket""";
     private static final ObservableList<sourceCode.Models.Ticket> ticketList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã sách", "Ngày mượn",
-            "Ngày trả", "Trạng thái"};
-    @FXML
-    private TableColumn<sourceCode.Models.Ticket, LocalDate> borrowedDateColumn;
-    @FXML
-    private TableColumn<sourceCode.Models.Ticket, LocalDate> returnedDateColumn;
-    @FXML
-    private TableColumn<sourceCode.Models.Ticket, String> statusColumn;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
     private TextField searchBar;
     @FXML
-    private TableView<sourceCode.Models.Ticket> ticketTableView;
+    private TableView<Ticket> ticketTableView;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, Integer> ticketIDColumn;
+    private TableColumn<Ticket, Integer> ticketIDColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, String> isbnColumn;
+    private TableColumn<Ticket, String> isbnColumn;
     @FXML
-    private TableColumn<sourceCode.Models.Ticket, Integer> quantityColumn;
+    private TableColumn<Ticket, Integer> quantityColumn;
+    @FXML
+    private TableColumn<Ticket, LocalDate> borrowedDateColumn;
+    @FXML
+    private TableColumn<Ticket, LocalDate> returnedDateColumn;
+    @FXML
+    private TableColumn<Ticket, String> statusColumn;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         searchBar.setOnKeyPressed(keyEvent -> {
@@ -66,8 +58,10 @@ public class TicketController extends SwitchScene implements Initializable {
                 searchTicket();
             }
         });
+        String[] searchBy = {"All", "ISBN", "Borrowed Date", "Returned Date",
+                "Status"};
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tìm kiếm theo");
+        choiceBox.setValue(searchBy[0]);
         ticketTableView.setItems(ticketList);
         ticketIDColumn.setCellValueFactory(new PropertyValueFactory<>("ticketID"));
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
@@ -84,7 +78,7 @@ public class TicketController extends SwitchScene implements Initializable {
                         } else if (item == null && ticket.getTicketID() != 0) {
                             setText("-");
                         } else if (item != null) {
-                            setText(item.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                            setText(item.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
                         } else {
                             setText(null);
                         }
@@ -92,59 +86,60 @@ public class TicketController extends SwitchScene implements Initializable {
                 });
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        selectTicket(selectAllQuery + " WHERE userId = '" + sourceCode.LoginController.currentUserId
-                + "'");
+        refreshList();
     }
 
-    public void selectTicket(String query) {
-        ticketList.clear();
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    sourceCode.Models.Ticket ticket = new sourceCode.Models.Ticket(
-                            rs.getInt("ticketId"),
-                            rs.getString("ISBN"),
-                            rs.getString("userId"),
-                            rs.getDate("borrowedDate") != null ? rs.getDate("borrowedDate")
-                                    .toLocalDate() : null,
-                            rs.getDate("returnedDate") != null ? rs.getDate("returnedDate")
-                                    .toLocalDate() : null,
-                            rs.getInt("quantity"),
-                            rs.getString("status")
-                    );
-                    ticketList.add(ticket);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void refreshList() {
+        String query = """
+                SELECT *,
+                CASE
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                    ELSE 'Không xác định'
+                END AS status FROM library.Ticket WHERE userId = '"""
+                + sourceCode.LoginController.currentUserId + "'";
+        DatabaseOperation.loadTicketfromDatabase(query, ticketList);
     }
 
     public void searchTicket() {
-        ticketList.clear();
-        if (choiceBox.getValue().equals("Tất cả")) {
-            selectTicket(selectAllQuery);
-        } else if (choiceBox.getValue().equals("Mã sách")) {
-            selectTicket(selectAllQuery + " WHERE ISBN LIKE '%" + searchBar.getText() + "%'"
-                    + "AND userId = '"
-                    + sourceCode.LoginController.currentUserId + "'");
-        } else if (choiceBox.getValue().equals("Ngày trả")) {
-            selectTicket(
-                    selectAllQuery + " WHERE returnedDate LIKE '%" + searchBar.getText() + "%'"
-                            + "AND userId = '"
-                            + sourceCode.LoginController.currentUserId + "'");
-        } else if (choiceBox.getValue().equals("Ngày mượn")) {
-            selectTicket(
-                    selectAllQuery + " WHERE borrowedDate LIKE '%" + searchBar.getText() + "%'"
-                            + "AND userId = '"
-                            + sourceCode.LoginController.currentUserId + "'");
-        } else if (choiceBox.getValue().equals("Trạng thái")) {
-            selectTicket(selectAllQuery + " HAVING status LIKE '%" + searchBar.getText() + "%'"
-                    + "AND userId = '"
-                    + sourceCode.LoginController.currentUserId + "'");
+        if (searchBar.getText().isEmpty()) {
+            refreshList();
+            return;
         }
+        String query = "SELECT *, CASE ";
+        switch (choiceBox.getValue()) {
+            case "ISBN":
+                query += "WHEN ISBN LIKE '%" + searchBar.getText() + "%' THEN ";
+                break;
+            case "Borrowed Date":
+                query += "WHEN borrowedDate LIKE '%" + searchBar.getText() + "%' THEN ";
+                break;
+            case "Returned Date":
+                query += "WHEN returnedDate LIKE '%" + searchBar.getText() + "%' THEN ";
+                break;
+            case "Status":
+                query += "WHEN status LIKE '%" + searchBar.getText() + "%' THEN ";
+                break;
+            default:
+                query += "WHEN ISBN LIKE '%" + searchBar.getText() + "%' OR "
+                        + "borrowedDate LIKE '%" + searchBar.getText() + "%' OR "
+                        + "returnedDate LIKE '%" + searchBar.getText() + "%' OR "
+                        + "status LIKE '%" + searchBar.getText() + "%' THEN ";
+                break;
+        }
+        query += """
+                CASE
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) <= 30 THEN 'On time'
+                    WHEN returnedDate IS NOT NULL AND DATEDIFF(returnedDate, borrowedDate) > 30 THEN 'Late'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) <= 30 THEN 'Borrowing'
+                    WHEN returnedDate IS NULL AND DATEDIFF(CURDATE(), borrowedDate) > 30 THEN 'Overdue'
+                    ELSE 'Không xác định'
+                END AS status
+                FROM library.Ticket WHERE userId = '"""
+                + sourceCode.LoginController.currentUserId + "'";
+        DatabaseOperation.loadTicketfromDatabase(query, ticketList);
     }
 
     public void showBook() throws IOException {
@@ -152,7 +147,7 @@ public class TicketController extends SwitchScene implements Initializable {
                 getClass().getResource("/sourceCode/AdminFXML/ShowBook.fxml"));
         Parent root = loader.load();
         ShowBook showBook = loader.getController();
-        sourceCode.Models.Ticket selectedTicket = ticketTableView.getSelectionModel()
+        Ticket selectedTicket = ticketTableView.getSelectionModel()
                 .getSelectedItem();
         if (selectedTicket == null) {
             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(

@@ -21,6 +21,7 @@ import javafx.stage.StageStyle;
 import sourceCode.AdminControllers.Function.ShowBook;
 import sourceCode.Models.Feedback;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -33,12 +34,7 @@ import sourceCode.UserControllers.Function.UpdateFeedback;
 
 public class FeedbackController extends SwitchScene implements Initializable {
 
-    private static String selectAllQuery =
-            "SELECT * FROM library.Feedback WHERE userId = " + "'"
-                    + sourceCode.LoginController.currentUserId + "'";
-    private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "Mã sách", "Điểm đánh giá",
-            "Ngày đánh giá"};
+    private static final ObservableList<Feedback> feedbackList = FXCollections.observableArrayList();
     @FXML
     private TableColumn<FeedbackController, Integer> feedbackidColumn;
     @FXML
@@ -63,66 +59,49 @@ public class FeedbackController extends SwitchScene implements Initializable {
                 searchFeedback();
             }
         });
+        String[] searchBy = {"All", "ISBN", "Rating", "Date", "Comment"};
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tìm kiếm theo");
-        feedbackTableView.setItems(feedBackList);
+        choiceBox.setValue(searchBy[0]);
+        feedbackTableView.setItems(feedbackList);
         feedbackidColumn.setCellValueFactory(new PropertyValueFactory<>("feedbackID"));
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        selectAllQuery = "SELECT * FROM library.Feedback WHERE userId = " + "'" + sourceCode.LoginController.currentUserId + "'";
-        selectFeedback(selectAllQuery);
+        refreshList();
     }
 
-    public void selectFeedback(String query) {
-        feedBackList.clear();
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    sourceCode.Models.Feedback feedback = new sourceCode.Models.Feedback(
-                            rs.getInt("feedbackId"),
-                            rs.getString("userId"),
-                            rs.getString("ISBN"),
-                            rs.getString("comment"),
-                            rs.getInt("rating"),
-                            rs.getDate("date").toLocalDate()
-                    );
-                    feedBackList.add(feedback);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void refreshList() {
+        String query = "SELECT * FROM library.Feedback WHERE userId = " + "'"
+                + sourceCode.LoginController.currentUserId + "'";
+        DatabaseOperation.loadFeedbackfromDatabase(query, feedbackList);
     }
 
     public void searchFeedback() {
-        feedBackList.clear();
-        if (searchBar.getText().isEmpty() || choiceBox.getValue().equals("Tất cả")) {
-            selectFeedback(selectAllQuery);
-        } else {
-            String keyword = searchBar.getText();
-            String filter = choiceBox.getValue();
-            String query = null;
-            switch (filter) {
-                case "Mã sách":
-                    query = "SELECT * FROM library.Feedback WHERE ISBN = '" + keyword + "'";
-                    break;
-                case "Điểm đánh giá":
-                    query = "SELECT * FROM library.Feedback WHERE rating = " + keyword;
-                    break;
-                case "Ngày đánh giá":
-                    query = "SELECT * FROM library.Feedback WHERE date = '" + keyword + "'";
-                    break;
-                default:
-                    break;
-            }
-            if (query != null) {
-                selectFeedback(query);
-            }
+        if (searchBar.getText().isEmpty()) {
+            refreshList();
+            return;
         }
+        String query = "SELECT * FROM library.Feedback WHERE userId = " + "'"
+                + sourceCode.LoginController.currentUserId + "' AND ";
+        switch (choiceBox.getValue()) {
+            case "ISBN":
+                query += "ISBN = '" + searchBar.getText() + "'";
+                break;
+            case "Rating":
+                query += "rating = " + searchBar.getText();
+                break;
+            case "Date":
+                query += "date = '" + searchBar.getText() + "'";
+                break;
+            case "Comment":
+                query += "comment LIKE '%" + searchBar.getText() + "%'";
+                break;
+            default:
+                query = "SELECT * FROM library.Feedback WHERE userId = " + "'"
+                        + sourceCode.LoginController.currentUserId + "'";
+        }
+        DatabaseOperation.loadFeedbackfromDatabase(query, feedbackList);
     }
 
     public void showBook() throws IOException {
@@ -178,6 +157,11 @@ public class FeedbackController extends SwitchScene implements Initializable {
         try {
             Feedback feedback = feedbackTableView.getSelectionModel().getSelectedItem();
             if (feedback == null) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No Feedback Selected");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a feedback to update.");
+                alert.showAndWait();
                 System.out.println("No feedback selected");
                 return;
             }
@@ -201,6 +185,16 @@ public class FeedbackController extends SwitchScene implements Initializable {
     }
 
     public void removeFeedback() {
+        Feedback feedback = feedbackTableView.getSelectionModel()
+                .getSelectedItem();
+        if (feedback == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Feedback Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a feedback to remove.");
+            alert.showAndWait();
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Remove Feedback");
         alert.setHeaderText("Can't restore your feedback after removing");
@@ -209,19 +203,18 @@ public class FeedbackController extends SwitchScene implements Initializable {
         if (a.isEmpty() || a.get() != ButtonType.OK) {
             return;
         }
-        sourceCode.Models.Feedback feedback = feedbackTableView.getSelectionModel()
-                .getSelectedItem();
-        if (feedback == null) {
-            System.out.println("No feedback selected");
-            return;
-        }
         String query = "DELETE FROM library.Feedback WHERE feedbackId = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection()) {
             assert connection != null;
             try (PreparedStatement stmt = connection.prepareStatement(query)) {
                 stmt.setInt(1, feedback.getFeedbackID());
                 stmt.executeUpdate();
-                feedBackList.remove(feedback);
+                feedbackList.remove(feedback);
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
+                alert1.setTitle("Feedback Removed");
+                alert1.setHeaderText(null);
+                alert1.setContentText("Feedback removed successfully");
+                alert1.showAndWait();
                 System.out.println("Feedback removed successfully");
             }
         } catch (SQLException e) {

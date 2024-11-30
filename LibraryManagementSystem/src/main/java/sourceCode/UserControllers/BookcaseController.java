@@ -36,18 +36,17 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.Models.Book;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 import sourceCode.UserControllers.BookViews.BookCellController;
 import sourceCode.UserControllers.Function.AddFeedback;
 
 public class BookcaseController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery
-            = "SELECT * FROM library.ticket t JOIN library.book b ON t.ISBN = b.ISBN "
-            + "WHERE t.returnedDate IS NULL AND t.userID = ?";
+    private static final String defaultQuery =
+            "SELECT * FROM library.ticket t JOIN library.book b ON t.ISBN = b.ISBN "
+                    + "WHERE t.returnedDate IS NULL AND t.userID = '" + sourceCode.LoginController.currentUserId + "'";
     private static final ObservableList<Book> bookList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"Tất cả", "ISBN", "Tiêu đề", "Tác giả",
-            "Thể loại"};
     private final ExecutorService executor = Executors.newFixedThreadPool(3);
     @FXML
     public AnchorPane bookDetail;
@@ -90,8 +89,9 @@ public class BookcaseController extends SwitchScene implements Initializable {
             }
         });
         splitPane.setDividerPositions(1);
-        choiceBox.setValue("Tìm kiếm theo");
+        String[] searchBy = {"All", "ISBN", "Title", "Author", "Genre"};
         choiceBox.getItems().addAll(searchBy);
+        choiceBox.setValue(searchBy[0]);
         bookListView.setItems(bookList);
         bookListView.setCellFactory(lv -> new ListCell<>() {
             @Override
@@ -136,21 +136,125 @@ public class BookcaseController extends SwitchScene implements Initializable {
                         }
                         bookTitle.setText(newValue.getTitle());
                         bookISBN.setText("ISBN: " + newValue.getISBN());
-                        bookAuthor.setText("Tác giả: " + newValue.getAuthor());
-                        bookPublisher.setText("Nhà xuất bản: " + newValue.getPublisher());
+                        bookAuthor.setText("Title: " + newValue.getAuthor());
+                        bookPublisher.setText("Publisher: " + newValue.getPublisher());
                         bookPublicationDate.setText(
-                                "Ngày xuất bản: " + newValue.getPublicationDate());
-                        bookGenre.setText("Thể loại: " + newValue.getGenre());
-                        bookLanguage.setText("Ngôn ngữ: " + newValue.getLanguage());
-                        bookPageNumber.setText("Số trang: " + newValue.getPageNumber());
-                        bookDescription.setText("Mô tả" + '\n' + newValue.getDescription());
+                                "Date: " + newValue.getPublicationDate());
+                        bookGenre.setText("Genre: " + newValue.getGenre());
+                        bookLanguage.setText("Language: " + newValue.getLanguage());
+                        bookPageNumber.setText("Page number: " + newValue.getPageNumber());
+                        bookDescription.setText("Description: " + newValue.getDescription());
                         splitPane.setDividerPositions(0.6);
                     }
                 });
-        loadBooksFromDatabase(selectAllQuery);
+        DatabaseOperation.loadBookfromDatabase(defaultQuery, bookList);
     }
 
-    private void loadBooksFromDatabase(String query) {
+    public void searchBook() {
+        String query = defaultQuery;
+        if (!searchBar.getText().isEmpty()) {
+            switch (choiceBox.getValue()) {
+                case "ISBN":
+                    query += " AND b.ISBN LIKE ?";
+                    break;
+                case "Title":
+                    query += " AND b.title LIKE ?";
+                    break;
+                case "Author":
+                    query += " AND b.author LIKE ?";
+                    break;
+                case "Genre":
+                    query += " AND b.genre LIKE ?";
+                    break;
+                default:
+                    query += " AND b.ISBN LIKE ? OR b.title LIKE ? OR b.author LIKE ? OR b.genre LIKE ?";
+                    break;
+            }
+        }
+        load(query);
+    }
+
+    public void returnBook() {
+
+        sourceCode.Models.Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
+        if (selectedBook == null) {
+            System.out.println("Please select a book to return.");
+            return;
+        }
+        Alert alert = new Alert(AlertType.CONFIRMATION,
+                "Are you sure you want to return this book?",
+                ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Confirm Book Return");
+        alert.setHeaderText(null);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                String currentUserID = sourceCode.LoginController.currentUserId;
+                String returnticketQuery = """
+                            UPDATE library.ticket
+                            SET returnedDate = CURRENT_DATE
+                            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
+                            LIMIT 1;
+                        """;
+                String updatequantityQuery = """
+                            UPDATE library.book
+                            SET quantity = quantity + 1
+                            WHERE ISBN = ?;
+                        """;
+
+                try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
+                    try (PreparedStatement pstmt = conn.prepareStatement(returnticketQuery)) {
+                        pstmt.setString(1, currentUserID);
+                        pstmt.setString(2, selectedBook.getISBN());
+                        int rowsAffected = pstmt.executeUpdate();
+                        if (rowsAffected > 0) {
+                            try (PreparedStatement pstmt1 = conn.prepareStatement(
+                                    updatequantityQuery)) {
+                                pstmt1.setString(1, selectedBook.getISBN());
+                                rowsAffected = pstmt1.executeUpdate();
+                                if (rowsAffected > 0) {
+                                    DatabaseOperation.loadBookfromDatabase(defaultQuery, bookList);
+                                    System.out.println(
+                                            "Return book successfully" + selectedBook.getTitle());
+                                } else {
+                                    System.out.println("");
+                                }
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                System.out.println("Database connection error.");
+                            }
+                        } else {
+                            System.out.println("Can't return book, please try again.");
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    System.out.println("Database connection error.");
+                }
+                initialize(null, null);
+            }
+        });
+    }
+
+    public void sendFeedback() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/sourceCode/UserFXML/AddFeedback.fxml"));
+            Parent root = loader.load();
+            AddFeedback controller = loader.getController();
+            controller.setISBN(bookISBN.getText());
+            System.out.println(controller.getISBN());
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add Feedback");
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void load(String query) {
         Task<ObservableList<Book>> loadBooksTask = new Task<>() {
             @Override
             protected ObservableList<Book> call() throws Exception {
@@ -189,99 +293,5 @@ public class BookcaseController extends SwitchScene implements Initializable {
             System.err.println("Lỗi khi tải dữ liệu từ database: " + loadBooksTask.getException());
         });
         executor.submit(loadBooksTask);
-    }
-
-    public void searchBook() {
-        String query = selectAllQuery;
-        if (choiceBox.getValue().equals("ISBN")) {
-            query += " AND b.ISBN LIKE '%" + searchBar.getText() + "%'";
-        } else if (choiceBox.getValue().equals("Tiêu đề")) {
-            query += " AND b.title LIKE '%" + searchBar.getText() + "%'";
-        } else if (choiceBox.getValue().equals("Tác giả")) {
-            query += " AND b.author LIKE '%" + searchBar.getText() + "%'";
-        } else if (choiceBox.getValue().equals("Thể loại")) {
-            query += " AND b.genre LIKE '%" + searchBar.getText() + "%'";
-        }
-        loadBooksFromDatabase(query); // Gọi lại hàm để tải dữ liệu mới
-    }
-
-    public void returnBook() {
-
-        sourceCode.Models.Book selectedBook = bookListView.getSelectionModel().getSelectedItem();
-        if (selectedBook == null) {
-            System.out.println("Vui lòng chọn sách để trả!");
-            return;
-        }
-        Alert alert = new Alert(AlertType.CONFIRMATION,
-                "Bạn có chắc chắn muốn trả sách \"" + selectedBook.getTitle() + "\"?",
-                ButtonType.YES, ButtonType.NO);
-        alert.setTitle("Xác nhận trả sách");
-        alert.setHeaderText(null);
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                String currentUserID = sourceCode.LoginController.currentUserId;
-                String returnticketQuery = """
-                            UPDATE library.ticket
-                            SET returnedDate = CURRENT_DATE
-                            WHERE userId = ? AND ISBN = ? AND returnedDate IS NULL
-                            LIMIT 1;
-                        """;
-                String updatequantityQuery = """
-                            UPDATE library.book
-                            SET quantity = quantity + 1
-                            WHERE ISBN = ?;
-                        """;
-
-                try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-                    try (PreparedStatement pstmt = conn.prepareStatement(returnticketQuery)) {
-                        pstmt.setString(1, currentUserID);
-                        pstmt.setString(2, selectedBook.getISBN());
-                        int rowsAffected = pstmt.executeUpdate();
-                        if (rowsAffected > 0) {
-                            try (PreparedStatement pstmt1 = conn.prepareStatement(
-                                    updatequantityQuery)) {
-                                pstmt1.setString(1, selectedBook.getISBN());
-                                rowsAffected = pstmt1.executeUpdate();
-                                if (rowsAffected > 0) {
-                                    System.out.println(
-                                            "Trả sách thành công: " + selectedBook.getTitle());
-                                    loadBooksFromDatabase(selectAllQuery);
-                                } else {
-                                    System.out.println("Không thể trả sách, vui lòng thử lại.");
-                                }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                                System.out.println("Lỗi kết nối cơ sở dữ liệu.");
-                            }
-                        } else {
-                            System.out.println("Không thể trả sách, vui lòng thử lại.");
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    System.out.println("Lỗi kết nối cơ sở dữ liệu.");
-                }
-                initialize(null, null);
-            }
-        });
-    }
-
-    public void sendFeedback() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                    "/sourceCode/UserFXML/AddFeedback.fxml"));
-            Parent root = loader.load();
-            AddFeedback controller = loader.getController();
-            controller.setISBN(bookISBN.getText());
-            System.out.println(controller.getISBN());
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Add Feedback");
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

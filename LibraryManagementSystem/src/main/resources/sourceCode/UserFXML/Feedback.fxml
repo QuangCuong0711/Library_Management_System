@@ -31,7 +31,7 @@
     <Button alignment="BASELINE_LEFT" layoutX="716.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchToBookcase" prefHeight="58.0" prefWidth="163.0" text="BOOKCASE">
     </Button>
   </Pane>
-  <TableView fx:id="feedbackTableView" layoutX="124.0" layoutY="189.0" prefHeight="513.0" prefWidth="952.0">
+  <TableView fx:id="feedbackTableView" layoutX="124.0" layoutY="189.0" prefHeight="519.0" prefWidth="952.0">
     <columns>
       <TableColumn id="feedbackidColumn" fx:id="feedbackidColumn" editable="false" prefWidth="144.0" sortable="false" text="FeedbackID" />
       <TableColumn id="isbnColumn" fx:id="isbnColumn" editable="false" prefWidth="152.0" sortable="false" text="ISBN" />
@@ -43,20 +43,15 @@
       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
     </columnResizePolicy>
   </TableView>
-  <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Nhập mã sách, ngày đánh giá, điểm đánh giá..." />
+  <TextField id="searchBar" fx:id="searchBar" layoutX="149.0" layoutY="117.0" prefHeight="43.0" prefWidth="741.0" promptText="Type ISBN, rating, comment..." />
   <ChoiceBox id="choiceBox" fx:id="choiceBox" layoutX="898.0" layoutY="117.0" prefHeight="43.0" prefWidth="154.0" />
-  <Button id="removeButton" layoutX="731.0" layoutY="719.0" mnemonicParsing="false" onAction="#removeFeedback" prefHeight="33.0" prefWidth="200.0" text="Remove Feedback" />
-  <Button id="showButton" layoutX="273.0" layoutY="719.0" mnemonicParsing="false" onAction="#showBook" prefHeight="27.0" prefWidth="200.0" text="About Book" />
-  <Button id="editButton" layoutX="495.0" layoutY="719.0" mnemonicParsing="false" onAction="#updateFeedback" prefHeight="25.0" prefWidth="211.0" text="Update Feedback" />
+  <Button id="removeButton" layoutX="712.0" layoutY="732.0" mnemonicParsing="false" onAction="#removeFeedback" prefHeight="40.0" prefWidth="160.0" text="Remove Feedback" />
+  <Button id="showButton" layoutX="328.0" layoutY="732.0" mnemonicParsing="false" onAction="#showBook" prefHeight="40.0" prefWidth="160.0" text="About Book" />
+  <Button id="editButton" layoutX="523.0" layoutY="732.0" mnemonicParsing="false" onAction="#updateFeedback" prefHeight="40.0" prefWidth="160.0" text="Update Feedback" />
    <ImageView fitHeight="46.0" fitWidth="46.0" layoutX="844.0" layoutY="116.0" onMouseClicked="#searchFeedback" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../Image/searchIcon.png" />
       </image>
    </ImageView>
   <Button id="logout" layoutX="1120.0" layoutY="694.0" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="58.0" prefWidth="43.0" />
-<ImageView fitHeight="50.0" fitWidth="50.0" layoutX="1110.0" layoutY="727.0" pickOnBounds="true" preserveRatio="true">
-  <image>
-    <Image url="@../Image/logOut.png" />
-  </image>
-</ImageView>
 </AnchorPane>

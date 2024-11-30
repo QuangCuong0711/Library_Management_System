@@ -17,7 +17,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sourceCode.AdminControllers.Function.ShowBook;
 import sourceCode.AdminControllers.Function.ShowUser;
+import sourceCode.Models.Feedback;
 import sourceCode.Services.DatabaseConnection;
+import sourceCode.Services.DatabaseOperation;
 import sourceCode.Services.SwitchScene;
 import java.io.IOException;
 import java.net.URL;
@@ -29,27 +31,25 @@ import java.util.ResourceBundle;
 
 public class FeedbackController extends SwitchScene implements Initializable {
 
-    private static final String selectAllQuery = "SELECT * FROM library.Feedback";
-    private static final ObservableList<sourceCode.Models.Feedback> feedBackList = FXCollections.observableArrayList();
-    private static final String[] searchBy = {"All", "User ID", "Book ID", "Rating", "Date"};
-    @FXML
-    private TableColumn<FeedbackController, Integer> feedbackidColumn;
-    @FXML
-    private TableColumn<FeedbackController, String> uidColumn;
-    @FXML
-    private TableColumn<FeedbackController, String> isbnColumn;
-    @FXML
-    private TableColumn<FeedbackController, Integer> ratingColumn;
-    @FXML
-    private TableColumn<FeedbackController, String> dateColumn;
-    @FXML
-    private TableColumn<FeedbackController, String> commentColumn;
-    @FXML
-    private TableView<sourceCode.Models.Feedback> feedbackTableView;
+    private static final ObservableList<Feedback> feedbackList = FXCollections.observableArrayList();
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML
     private TextField searchBar;
+    @FXML
+    private TableView<Feedback> feedbackTableView;
+    @FXML
+    private TableColumn<Feedback, Integer> feedbackidColumn;
+    @FXML
+    private TableColumn<Feedback, String> uidColumn;
+    @FXML
+    private TableColumn<Feedback, String> isbnColumn;
+    @FXML
+    private TableColumn<Feedback, Integer> ratingColumn;
+    @FXML
+    private TableColumn<Feedback, String> dateColumn;
+    @FXML
+    private TableColumn<Feedback, String> commentColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,66 +58,56 @@ public class FeedbackController extends SwitchScene implements Initializable {
                 searchFeedback();
             }
         });
+        String[] searchBy = {"All", "User ID", "ISBN", "Rating", "Date"};
         choiceBox.getItems().addAll(searchBy);
-        choiceBox.setValue("Tìm kiếm theo");
-        feedbackTableView.setItems(feedBackList);
+        choiceBox.setValue(searchBy[0]);
+        feedbackTableView.setItems(feedbackList);
         feedbackidColumn.setCellValueFactory(new PropertyValueFactory<>("feedbackID"));
         uidColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
         isbnColumn.setCellValueFactory(new PropertyValueFactory<>("ISBN"));
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
         commentColumn.setCellValueFactory(new PropertyValueFactory<>("comment"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        selectFeedback(selectAllQuery);
+        refreshList();
     }
 
-    public void selectFeedback(String query) {
-        feedBackList.clear();
-        try (Connection conn = DatabaseConnection.getInstance().getConnection()) {
-            assert conn != null;
-            try (Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query)) {
-                while (rs.next()) {
-                    sourceCode.Models.Feedback feedback = new sourceCode.Models.Feedback(
-                            rs.getInt("feedbackId"),
-                            rs.getString("userId"),
-                            rs.getString("ISBN"),
-                            rs.getString("comment"),
-                            rs.getInt("rating"),
-                            rs.getDate("date").toLocalDate()
-                    );
-                    feedBackList.add(feedback);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void refreshList() {
+        String query = "Select * from library.Feedback";
+        DatabaseOperation.loadFeedbackfromDatabase(query, feedbackList);
     }
 
     public void searchFeedback() {
-        feedBackList.clear();
-        if (searchBar.getText().isEmpty() || choiceBox.getValue().equals("All")) {
-            selectFeedback(selectAllQuery);
-        } else {
-            String keyword = searchBar.getText();
+        String search = searchBar.getText();
+        if (!search.isEmpty()) {
+            String query;
             String filter = choiceBox.getValue();
-            String query = "SELECT * FROM library.Feedback WHERE ";
             switch (filter) {
+                case "All":
+                    query = "Select * from library.Feedback WHERE feedbackId LIKE '%" + search
+                            + "%' OR userId LIKE '%" + search + "%' OR ISBN LIKE '%" + search
+                            + "%' OR rating LIKE '%" + search + "%' OR date LIKE '%" + search
+                            + "%' OR comment LIKE '%" + search + "%'";
+                    break;
                 case "User ID":
-                    query += "userId = '" + keyword + "'";
+                    query = "Select * from library.Feedback WHERE userId LIKE '%" + search + "%'";
                     break;
                 case "ISBN":
-                    query += "ISBN = '" + keyword + "'";
+                    query = "Select * from library.Feedback WHERE ISBN LIKE '%" + search + "%'";
                     break;
                 case "Rating":
-                    query += "rating = '" + keyword + "'";
-                    break;
-                case "Date":
-                    query += "date = '" + keyword + "'";
+                    query = "Select * from library.Feedback WHERE rating LIKE '%" + search + "%'";
                     break;
                 default:
+                    query = "Select * from library.Feedback WHERE date LIKE '%" + search + "%'";
                     break;
             }
-            selectFeedback(query);
+            DatabaseOperation.loadFeedbackfromDatabase(query, feedbackList);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Input");
+            alert.setHeaderText(null);
+            alert.setContentText("Please input something to search.");
+            alert.showAndWait();
         }
     }
 
@@ -152,7 +142,8 @@ public class FeedbackController extends SwitchScene implements Initializable {
                             rs.getString("phoneNumber"),
                             rs.getString("email"),
                             rs.getString("address"),
-                            rs.getString("password")
+                            rs.getString("password"),
+                            rs.getString("role")
                     );
                     showUser.setUser(user);
                 }

@@ -24,19 +24,8 @@ CREATE TABLE IF NOT EXISTS USER
     phoneNumber    VARCHAR(20),
     email          VARCHAR(50),
     address        VARCHAR(255),
-    password       VARCHAR(50)
-);
-CREATE TABLE IF NOT EXISTS ADMIN
-(
-    adminId        VARCHAR(10) PRIMARY KEY,
-    name           VARCHAR(50),
-    identityNumber VARCHAR(20),
-    birth          DATE,
-    gender         VARCHAR(6),
-    phoneNumber    VARCHAR(20),
-    email          VARCHAR(50),
-    address        VARCHAR(255),
-    password       VARCHAR(50)
+    password       VARCHAR(50),
+    role           VARCHAR(10)
 );
 CREATE TABLE IF NOT EXISTS TICKET
 (

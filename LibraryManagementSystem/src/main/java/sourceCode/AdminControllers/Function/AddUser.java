@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,15 +24,24 @@ import sourceCode.Services.DatabaseConnection;
 
 public class AddUser implements Initializable {
 
-    public TextField address;
-    public TextField phoneNumber;
-    public ChoiceBox<String> gender;
-    public TextField identityNumber;
-    public TextField name;
-    public TextField userID;
-    public TextField mail;
-    public DatePicker birth;
-    public PasswordField password;
+    @FXML
+    private TextField address;
+    @FXML
+    private TextField phoneNumber;
+    @FXML
+    private ChoiceBox<String> gender;
+    @FXML
+    private TextField identityNumber;
+    @FXML
+    private TextField name;
+    @FXML
+    private TextField userID;
+    @FXML
+    private TextField mail;
+    @FXML
+    private DatePicker birth;
+    @FXML
+    private PasswordField password;
     private UserController userController;
 
     public void setUserController(UserController userController) {
@@ -72,7 +82,7 @@ public class AddUser implements Initializable {
             System.out.println("User adding failed");
             e.printStackTrace();
         }
-        userController.initialize(null, null);
+        userController.refreshList();
         cancelButtonOnAction(event);
     }
 

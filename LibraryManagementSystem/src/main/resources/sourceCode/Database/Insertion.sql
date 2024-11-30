@@ -1,53 +1,10 @@
 USE LIBRARY;
-INSERT INTO ADMIN (adminId, name, identityNumber, birth, gender, phoneNumber, email, address, password)
-VALUES
-    ('admin', 'Admin One', 'ID111111', '1980-02-02', 'Male', '1112223333', 'admin1@example.com', '789 Oak St', 'admin');
-INSERT INTO USER (userId, name, identityNumber, birth, gender, phoneNumber, email, address, password)
+INSERT INTO USER (userId, name, identityNumber, birth, gender, phoneNumber, email, address, password, role)
 VALUES ('U001', 'Nguyễn Văn An', '123456789', '1990-05-15', 'Nam', '0912345678',
-        'nguyenvanan@gmail.com', 'Số 123 Đường Lê Lợi, Quận 1, TP.HCM', '123456'),
-
-       ('U002', 'Trần Thị Bình', '987654321', '1995-08-22', 'Nữ', '0823456789',
-        'tranbinhb@gmail.com', '45 Nguyễn Huệ, Quận Hoàn Kiếm, Hà Nội', '123456'),
-
-       ('U003', 'Lê Hoàng Cường', '456789123', '1988-12-03', 'Nam', '0934567890',
-        'lecuong88@gmail.com', '78 Trần Phú, TP Huế', '123456'),
-
-       ('U004', 'Phạm Thị Dung', '789123456', '1992-03-30', 'Nữ', '0845678912',
-        'phamdung92@gmail.com', '256 Nguyễn Trãi, Thanh Xuân, Hà Nội', '123456'),
-
-       ('U005', 'Hoàng Văn Em', '321654987', '1985-11-18', 'Nam', '0956789123',
-        'hoangemp@gmail.com', '89 Lê Duẩn, Đà Nẵng', '123456'),
-
-       ('U006', 'Mai Thị Phương', '654987321', '1998-07-25', 'Nữ', '0867891234',
-        'maiphuong98@gmail.com', '147 Võ Văn Tần, Quận 3, TP.HCM', '123456'),
-
-       ('U007', 'Đỗ Văn Giang', '147258369', '1993-09-08', 'Nam', '0978912345',
-        'dovangiang@gmail.com', '63 Trần Hưng Đạo, Quy Nhơn', '123456'),
-
-       ('U008', 'Ngô Thị Hoa', '369258147', '1997-04-12', 'Nữ', '0889123456', 'ngohoa97@gmail.com',
-        '951 Cách Mạng Tháng 8, Quận 10, TP.HCM', '123456'),
-
-       ('U009', 'Vũ Đình Lan', '258369147', '1991-01-28', 'Nam', '0890123456', 'vuian91@gmail.com',
-        '357 Điện Biên Phủ, Bình Thạnh, TP.HCM', '123456'),
-
-       ('U010', 'Lý Thị Kim', '741852963', '1994-06-17', 'Nữ', '0901234567', 'lykim94@gmail.com',
-        '159 Phan Chu Trinh, Hội An', '123456'),
-
-       ('U011', 'Trần Minh Khoa', '963852741', '2000-02-14', 'Nam', '0912345987',
-        'minhkhoa00@gmail.com', 'KTX Đại học Quốc gia, TP.HCM', '123456'),
-
-       ('U012', 'Lê Thị Lan', '852963741', '2001-09-30', 'Nữ', '0923456789', 'lelan01@gmail.com',
-        '42 Sư Vạn Hạnh, Quận 10, TP.HCM', '123456'),
-
-       ('U013', 'Phạm Văn Minh', '741963852', '2002-05-20', 'Nam', '0934567891',
-        'pminh02@gmail.com', 'KTX Khu B, Đại học Cần Thơ', '123456'),
-
-       ('U014', 'Nguyễn Văn Nam', '159753468', '1965-12-25', 'Nam', '0945678912',
-        'nvnam65@gmail.com', '753 Nguyễn Văn Linh, Quận 7, TP.HCM', '123456'),
+        'nguyenvanan@gmail.com', 'Số 123 Đường Lê Lợi, Quận 1, TP.HCM', '123456', null),
 
        ('U015', 'Trần Thị Oanh', '357159468', '1970-08-05', 'Nữ', '0956789123',
-        'ttoanh70@gmail.com', '159 Lý Thường Kiệt, Hà Nội', '123456');
-
+        'ttoanh70@gmail.com', '159 Lý Thường Kiệt, Hà Nội', '123456', 'admin');
 INSERT INTO library.book (ISBN, title, author, genre, publisher, publicationDate, language, pageNumber, imageUrl, description, quantity)
 VALUES  ('_1iFoAEACAAJ', 'Văn hóa ẩm thực Việt Nam', 'Nguyễn Thị Huệ', 'Food habits', null, '2012', 'vi', 860, null, null, 1),
         ('_H529sSjLpgC', 'Deductive Databases and Their Applications', 'Robert Colomb', 'Computers', 'CRC Press', '2003-09-02', 'en', 188, 'http://books.google.com/books/content?id=_H529sSjLpgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 'Deductive Databases and their Applications is an introductory text aimed at undergraduate students with some knowledge of database and information systems. The text comes complete with exercises and solutions to encourage students to tackle problems practically as well as theoretically. The author presents the origins of deductive databases in Prologue before proceeding to analyse the main deductive database paradigm - the data-log model. The final chapters are dedicated to closely related topics such as prepositional expert systems, integrity constraint specification and evaluation, and update propagation. Particular attention is paid to CASE tool repositories.', 1),
@@ -250,31 +207,3 @@ lover, Daisy Buchanan.', 5),
         ('ZpYhtwAACAAJ', 'Độc đáo ẩm thực Thăng Long - Hà Nội', '', 'Food habits', null, '2010', 'vi', 188, null, null, 1),
         ('ZWXxBwAAQBAJ', 'Japan Pop: Inside the World of Japanese Popular Culture', 'Timothy J. Craig', 'Social Science', 'Routledge', '2015-04-08', 'en', 496, 'http://books.google.com/books/content?id=ZWXxBwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 'A fascinating illustrated look at various forms of Japanese popular culture: pop song, jazz, enka (a popular ballad genre of music), karaoke, comics, animated cartoons, video games, television dramas, films and "idols" -- teenage singers and actors. As pop culture not only entertains but is also a reflection of society, the book is also about Japan itself -- its similarities and differences with the rest of the world, and how Japan is changing. The book features 32 pages of manga plus 50 additional photos, illustrations, and shorter comic samples.', 1),
         ('zYCGDwAAQBAJ', 'một bộ phim buồn', 'trắng Thiên Chúa', 'Poetry', 'trắng Thiên Chúa', '2019-02-06', 'vi', 32, 'http://books.google.com/books/content?id=zYCGDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api', 'trắng Thiên Chúa', 1);
-INSERT INTO Feedback (userID, ISBN, comment, rating, date)
-VALUES
-    ('U001', 'WksfAQAAMAAJ', 'A bit boring', 3, '2024-11-13'),
-    ('U001', 'qHMIEQAAQBAJ', 'Great book, very informative!', 5, '2024-11-13'),
-    ('U002', 'CxiEQ6FxtvQC', 'Not what I expected.', 2, '2024-11-20'),
-    ('U003', 'DOjo0AEACAAJ', 'Good read, but a bit lengthy.', 4, '2024-11-15'),
-    ('U004', 'Bl6FHAAACAAJ', 'Excellent book, highly recommend!', 5, '2024-11-19'),
-    ('U005', 'bDBiDwAAQBAJ', 'Interesting perspective.', 3, '2024-11-26'),
-    ('U006', 'HbAhv1zAIQ8C', 'Insightful and well-written.', 5, '2024-11-23'),
-    ('U007', 'WksfAQAAMAAJ', 'Enjoyed the book a lot.', 4, '2024-11-27'),
-    ('U008', 'qHMIEQAAQBAJ', 'Engaging story, loved it.', 4, '2024-11-28'),
-    ('U011', 'ZWXxBwAAQBAJ', 'Classic masterpiece!', 5, '2024-11-28');
-
-INSERT INTO TICKET (userId, ISBN, borrowedDate, returnedDate, quantity)
-VALUES
-    ('U001', 'WksfAQAAMAAJ', '2024-11-10', '2024-11-12', 1),
-    ('U001', 'qHMIEQAAQBAJ', '2024-11-11', '2024-11-13', 1),
-    ('U002', 'CxiEQ6FxtvQC', '2024-11-12', '2024-11-20', 1),
-    ('U003', 'DOjo0AEACAAJ', '2024-11-13', '2024-12-15', 1),
-    ('U004', 'Bl6FHAAACAAJ', '2024-11-14', '2024-12-18', 1),
-    ('U005', 'bDBiDwAAQBAJ', '2024-11-17', '2024-12-26', 1),
-    ('U006', 'HbAhv1zAIQ8C', '2024-11-20', '2024-11-23', 1),
-    ('U001', 'y62YEAAAQBAJ', '2024-11-21', null, 1),
-    ('U007', 'WksfAQAAMAAJ', '2024-11-23', '2024-11-27', 1),
-    ('U008', 'qHMIEQAAQBAJ', '2024-11-25', '2024-11-28', 1),
-    ('U010', 'bDBiDwAAQBAJ', '2024-11-26', null, 1),
-    ('U011', 'ZWXxBwAAQBAJ', '2024-11-26', '2024-11-28', 1),
-    ('U012', 'HbAhv1zAIQ8C', '2024-11-27', null, 1);
