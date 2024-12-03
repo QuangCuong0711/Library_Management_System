@@ -3,7 +3,7 @@
 # Đại học Công Nghệ - ĐHQGHN
 - Dự án được hoàn thiện và phát triển bởi 3 sinh viên :
   + Đỗ Quang Cường - 23021484
-  + Nguyễn Thanh Hải - 230210057
+  + Nguyễn Thanh Hải - 23020057
   + Nguyễn Công Mạnh Hùng - 23021567
 
 # Giới thiệu :
